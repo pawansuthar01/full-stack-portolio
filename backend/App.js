@@ -6,11 +6,12 @@ import { connectDB } from "./Config/DBConfig.js";
 import ErrorMiddleware from "./Middlewares/ErrorMiddleware.js";
 import MainSectionRouter from "./Routers/MainSectionDataRouter.js";
 import SkillRouter from "./Routers/skillsRouter.js";
-import ProjectRouter from "./Routers/projectRoter.js";
+import ProjectRouter from "./Routers/projectRouter.js";
 import EducationRouter from "./Routers/EdutcationRouter.js";
 import MessageRouter from "./Routers/MessageRouter.js";
 import DetailsRouter from "./Routers/DetailsRouter.js";
 import feedbackRouter from "./Routers/FeedbackRouter.js";
+import NotificationRouter from "./Routers/NotificationRouter.js";
 const app = express();
 //Db connection Call//
 connectDB();
@@ -29,6 +30,7 @@ app.use("/app/admin/v3/Education", EducationRouter);
 app.use("/app/admin/v3/Message", MessageRouter);
 app.use("/app/admin/v3/Detail", DetailsRouter);
 app.use("/app/admin/v3/Feedback", feedbackRouter);
+app.use("/app/admin/v3/UserNotices", NotificationRouter);
 
 //handel 404 not found page //
 app.use("*", (req, res, next) => {

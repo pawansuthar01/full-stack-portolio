@@ -14,7 +14,7 @@ export const isLoggedIn = async (req, res, next) => {
 
     req.user = {
       fullName: decodedToken.fullName,
-      id: decodedToken.userId,
+      userId: decodedToken.userId,
       email: decodedToken.email,
       role: decodedToken.role,
       exp: decodedToken.exp,
