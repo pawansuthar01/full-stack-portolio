@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { isLoggedIn } from "../Middlewares/authMiddlware.js";
+import { authorizeRoles, isLoggedIn } from "../Middlewares/authMiddlware.js";
 import { Upload } from "../Middlewares/multerMiddleware.js";
 import {
   AddEductionCart,
@@ -9,10 +9,20 @@ import {
 } from "../Controllers/EducationController.js";
 const EducationRouter = Router();
 EducationRouter.route("/education")
-  .post(isLoggedIn, Upload.single("image"), AddEductionCart)
+  .post(
+    isLoggedIn,
+    authorizeRoles("ADMIN"),
+    Upload.single("image"),
+    AddEductionCart
+  )
   .get(AllEductionCart);
 EducationRouter.route("/education:id")
-  .put(isLoggedIn, Upload.single("image"), updatedEductionCartById)
-  .delete(isLoggedIn, DeleteEducationCartById);
+  .put(
+    isLoggedIn,
+    authorizeRoles("ADMIN"),
+    Upload.single("image"),
+    updatedEductionCartById
+  )
+  .delete(isLoggedIn, authorizeRoles("ADMIN"), DeleteEducationCartById);
 
 export default EducationRouter;

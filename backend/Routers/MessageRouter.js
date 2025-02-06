@@ -4,8 +4,14 @@ import {
   markToReadMessage,
   submitMessage,
 } from "../Controllers/MessageController.js";
-import { isLoggedIn } from "../Middlewares/authMiddlware.js";
+import { authorizeRoles, isLoggedIn } from "../Middlewares/authMiddlware.js";
 const MessageRouter = Router();
-MessageRouter.route("/message").post(submitMessage).get(getAllMessage);
-MessageRouter.route("/message:id").put(isLoggedIn, markToReadMessage);
+MessageRouter.route("/message")
+  .post(isLoggedIn, authorizeRoles("ADMIN"), submitMessage)
+  .get(getAllMessage);
+MessageRouter.route("/message:id").put(
+  isLoggedIn,
+  authorizeRoles("ADMIN"),
+  markToReadMessage
+);
 export default MessageRouter;
