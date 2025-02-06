@@ -13,7 +13,12 @@ export const RegisterUser = async (req, res, next) => {
     let user = await User.findOne({ firebaseUID: uid });
     if (user) {
       const authToken = jwt.sign(
-        { userId: user._id, email: user.email, role: user.role },
+        {
+          userId: user._id,
+          email: user.email,
+          role: user.role,
+          fullName: user.fullName,
+        },
         process.env.JWT_SECRET,
         {
           expiresIn: process.env.EXPIRES_IN,
@@ -36,7 +41,12 @@ export const RegisterUser = async (req, res, next) => {
     await user.save();
 
     const authToken = jwt.sign(
-      { userId: user._id, email: user.email, role: user.role },
+      {
+        userId: user._id,
+        email: user.email,
+        role: user.role,
+        fullName: user.fullName,
+      },
       process.env.JWT_SECRET,
       {
         expiresIn: process.env.EXPIRES_IN,
@@ -66,7 +76,12 @@ export const Login = async (req, res, next) => {
       return next(new AppError("User not found", 404));
     }
     const authToken = jwt.sign(
-      { userId: user._id, email: user.email, role: user.role },
+      {
+        userId: user._id,
+        email: user.email,
+        role: user.role,
+        fullName: user.fullName,
+      },
       process.env.JWT_SECRET,
       {
         expiresIn: process.env.EXPIRES_IN,

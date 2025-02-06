@@ -11,7 +11,9 @@ export const isLoggedIn = async (req, res, next) => {
       return next(new AppError("token is required to authentication", 400));
     }
     const decodedToken = await jwt.verify(token, process.env.JWT_SECRET);
+
     req.user = {
+      fullName: decodedToken.fullName,
       id: decodedToken.userId,
       email: decodedToken.email,
       role: decodedToken.role,
