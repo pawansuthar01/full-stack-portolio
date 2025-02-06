@@ -8,6 +8,7 @@ import MainSectionRouter from "./Routers/MainSectionDataRouter.js";
 import SkillRouter from "./Routers/skillsRouter.js";
 import ProjectRouter from "./Routers/projectRoter.js";
 import EducationRouter from "./Routers/EdutcationRouter.js";
+import MessageRouter from "./Routers/MessageRouter.js";
 const app = express();
 //Db connection Call//
 connectDB();
@@ -23,6 +24,7 @@ app.use("/app/admin/v3/mainSection", MainSectionRouter);
 app.use("/app/admin/v3/skillCart", SkillRouter);
 app.use("/app/admin/v3/projectCart", ProjectRouter);
 app.use("/app/admin/v3/Education", EducationRouter);
+app.use("/app/admin/v3/Message", MessageRouter);
 
 //handel 404 not found page //
 app.use("*", (req, res, next) => {
