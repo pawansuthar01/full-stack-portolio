@@ -194,14 +194,14 @@ export default function FeedbackCarousel() {
           transition={{
             ease: "linear",
 
-            duration: 8,
+            duration: 12,
             repeat: Infinity,
           }}
         >
           {[...feedbacks, ...feedbacks].map((feedback, index) => (
             <div
               key={index}
-              className="min-w-[300px] p-4 items-stretch h-full bg-[#242424]/90 border-1 border-[#00f7ff]/50  rounded-lg shadow-lg"
+              className="min-w-[300px] bg-opacity-40  p-4 items-stretch h-full border-cyan-400 backdrop-blur-lg border-1   rounded-lg shadow-lg"
             >
               <h3 className="text-lg font-bold text-cyan-400">
                 {feedback.name}

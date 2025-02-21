@@ -1,11 +1,16 @@
 import Image from "../src/assets/298.kb.jpg";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { FaTrash, FaUpload, FaEdit } from "react-icons/fa";
+import Photo from "../src/assets/298.kb.jpg";
+
 import {
   FaFacebookF,
   FaInstagram,
   FaXTwitter,
   FaLinkedinIn,
 } from "react-icons/fa6";
-import { motion } from "framer-motion";
+
 const textVariants = {
   hidden: { opacity: 0, y: 50 },
   visible: {
@@ -20,7 +25,7 @@ const letterVariant = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
 };
-export default function About() {
+function About() {
   const title = "Why Hire Me For Your Next Project?".split("");
   return (
     <section className="w-full mt-10 lg:mt-0 mb-22 max-sm:mb-2 flex max-[900px]:flex-col justify-center items-center  ">
@@ -111,3 +116,5 @@ export default function About() {
     </section>
   );
 }
+
+export { About };

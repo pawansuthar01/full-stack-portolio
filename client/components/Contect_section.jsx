@@ -8,15 +8,6 @@ import {
 } from "react-icons/fa6";
 import ContactImage from "../src/assets/Contect_logo.png"; // Replace with actual image
 
-const formVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.8, ease: "easeOut" },
-  },
-};
-
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
@@ -32,7 +23,6 @@ export default function Contact() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Simple Validation
     if (
       !formData.name ||
       !formData.email ||
@@ -54,7 +44,7 @@ export default function Contact() {
       <div className="flex justify-center">
         <motion.h1
           initial={{ opacity: 0, y: -50 }}
-          whileInView={{ opacity: 1, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
           className="text-[#00f7ff]   gap-1 flex text-xl justify-center  items-center font-bold w-42 text-center px-2"
@@ -67,13 +57,14 @@ export default function Contact() {
         <motion.div
           className="w-full md:w-1/2 flex justify-center items-center"
           initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 1 }}
         >
           <img
             src={ContactImage}
             alt="Contact"
-            className="min-w-[100%] hidden md:flex  object-cover object-center rounded-xl shadow-2xl"
+            className="w-[90%] hidden md:flex  h-[460px]  object-contain object-center "
           />
         </motion.div>
 

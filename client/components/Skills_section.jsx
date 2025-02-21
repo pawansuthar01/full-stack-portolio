@@ -44,19 +44,17 @@ const SkillsChart = () => {
   return (
     <div
       ref={ref}
-      className=" text-white max-sm:text-center max-sm:mb-2  mb-20 rounded-lg mx-auto p-6"
+      className=" text-white max-sm:text-cente  mb-20 rounded-lg mx-auto p-6"
     >
-      <div className="flex justify-center">
-        <motion.h1
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, delay: 0.5, ease: "easeIn" }}
-          className="text-[#00f7ff]   gap-1 flex text-xl justify-center items-center font-bold mb-4  w-42 text-center px-2"
-        >
-          My Skills
-          <samp className="bg-[#00f7ff] mt-2 w-6 h-[2px]  rounded"></samp>
-        </motion.h1>
-      </div>
+      <motion.h1
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1, delay: 0.3, ease: "easeIn" }}
+        className="text-[#00f7ff] r  gap-1 flex text-xl justify-center items-center font-bold mb-4  w-42 text-center px-2"
+      >
+        My Skills
+        <samp className="bg-[#00f7ff] mt-2 w-6 h-[2px]  rounded"></samp>
+      </motion.h1>
       <div className="grid grid-cols-2 gap-6 max-[800px]:grid-cols-1">
         {skills.map((group, index) => (
           <div
@@ -70,13 +68,14 @@ const SkillsChart = () => {
                   <span>{skill.name}</span>
                 </div>
                 <div className="w-full bg-gray-700 h-3 rounded relative">
+                  {/* Skill Bar */}
                   <motion.div
                     className="bg-[#00f7ff] h-3 rounded"
                     initial={{ width: 0 }}
                     animate={{ width: isVisible ? `${skill.level}%` : "0%" }}
                     transition={{ duration: 1.5, ease: "easeInOut" }}
                   />
-
+                  {/* Skill Percentage Box */}
                   <motion.span
                     className="absolute -top-8 text-sm font-serif text-gray-900 bg-[#00f7ff] px-2 py-1 rounded-md shadow-md"
                     initial={{ left: "0%" }}
