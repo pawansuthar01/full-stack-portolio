@@ -3,15 +3,12 @@ import AppError from "../Utils/AppErrors.js";
 
 export const addFeedback = async (req, res, next) => {
   try {
-    const { fullName } = req.user;
-
-    const { rating, comment, avatar } = req.body;
-    if (!rating || !comment) {
+    const { rating, comment, fullName } = req.body;
+    if (!rating || !comment || !fullName) {
       return next(new AppError("please give ratting and comment...", 400));
     }
     const feedback = new Feedback({
       fullName,
-      avatar,
       comment,
       rating,
     });
@@ -31,14 +28,14 @@ export const addFeedback = async (req, res, next) => {
 export const updateFeedback = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { comment, avatar, fullName } = req.body;
+    const { comment, fullName } = req.body;
 
     if (!id) {
       return next(new AppError("please give id for update feedback...", 400));
     }
     const updateData = {
       ...(comment && { comment }),
-      ...(avatar && { avatar }),
+
       ...(fullName && { fullName }),
     };
     const feedback = await Feedback.findByIdAndUpdate(id, updateData, {

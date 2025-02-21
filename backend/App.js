@@ -1,8 +1,6 @@
-import AuthRouter from "./Routers/AuthRouter.js";
 import express from "express";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
-import { connectDB } from "./Config/DBConfig.js";
 import ErrorMiddleware from "./Middlewares/ErrorMiddleware.js";
 import MainSectionRouter from "./Routers/MainSectionDataRouter.js";
 import SkillRouter from "./Routers/skillsRouter.js";
@@ -11,7 +9,7 @@ import EducationRouter from "./Routers/EdutcationRouter.js";
 import MessageRouter from "./Routers/MessageRouter.js";
 import DetailsRouter from "./Routers/DetailsRouter.js";
 import feedbackRouter from "./Routers/FeedbackRouter.js";
-import NotificationRouter from "./Routers/NotificationRouter.js";
+import { connectDB } from "./Config/DbConfig.js";
 const app = express();
 //Db connection Call//
 connectDB();
@@ -22,7 +20,6 @@ app.use(morgan("dev"));
 
 /// routed handel///
 
-app.use("/app/auth", AuthRouter);
 app.use("/app/admin/v3/mainSection", MainSectionRouter);
 app.use("/app/admin/v3/skillCart", SkillRouter);
 app.use("/app/admin/v3/projectCart", ProjectRouter);
@@ -30,7 +27,6 @@ app.use("/app/admin/v3/Education", EducationRouter);
 app.use("/app/admin/v3/Message", MessageRouter);
 app.use("/app/admin/v3/Detail", DetailsRouter);
 app.use("/app/admin/v3/Feedback", feedbackRouter);
-app.use("/app/admin/v3/UserNotices", NotificationRouter);
 
 //handel 404 not found page //
 app.use("*", (req, res, next) => {
