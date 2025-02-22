@@ -5,6 +5,6 @@ import {
   submitMessage,
 } from "../Controllers/MessageController.js";
 const MessageRouter = Router();
-MessageRouter.route("/message").post(submitMessage).get(getAllMessage);
+MessageRouter.route("/").post(submitMessage).get(getAllMessage);
 MessageRouter.route("/message:id").put(markToReadMessage);
 export default MessageRouter;

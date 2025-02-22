@@ -1,4 +1,4 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../../../Helper/axiosInstance";
 const initialState = {
   Message:
@@ -9,6 +9,7 @@ const initialState = {
     localStorage.getItem("Feedback") == undefined
       ? JSON.parse(localStorage.getItem("Feedback"))
       : {},
+  password: localStorage.getItem("password") || null,
 };
 export const updateBanner = createAsyncThunk("/update/banner", async () => {
   try {
@@ -120,7 +121,7 @@ export const DeleteEductionCart = createAsyncThunk(
 );
 export const GetAllMessage = createAsyncThunk("/get/message", async () => {
   try {
-    const response = await axiosInstance.get("/");
+    const response = await axiosInstance.get("/app/admin/v3/Message");
     return response?.data;
   } catch (error) {
     return error?.response?.data || error?.message || "Something went wrong...";
@@ -134,7 +135,7 @@ export const GetAllFeedback = createAsyncThunk("/get/feedback", async () => {
     return error?.response?.data || error?.message || "Something went wrong...";
   }
 });
-export const getPassword = createAsyncThunk("/get/feedback", async () => {
+export const getPassword = createAsyncThunk("/get/password", async () => {
   try {
     const response = await axiosInstance.get("/");
     return response?.data;
@@ -142,3 +143,32 @@ export const getPassword = createAsyncThunk("/get/feedback", async () => {
     return error?.response?.data || error?.message || "Something went wrong...";
   }
 });
+
+const AdminRedux = createSlice({
+  name: "AdminStore",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(GetAllMessage.fulfilled, (state, action) => {
+        if (action?.payload?.success) {
+          localStorage.setItem("Message", action?.payload?.data?.message);
+          state.Message = action?.payload?.data?.message;
+        }
+      })
+      .addCase(GetAllFeedback.fulfilled, (state, action) => {
+        if (action?.payload?.success) {
+          localStorage.setItem("feedback", action?.payload?.data?.feedback);
+          state.Feedback = action?.payload?.data?.Feedback;
+        }
+      })
+      .addCase(getPassword.fulfilled, (state, action) => {
+        if (action?.payload?.success) {
+          localStorage.setItem("password", action?.payload?.data?.password);
+          state.password = action?.payload?.data?.password;
+        }
+      });
+  },
+});
+export const {} = AdminRedux.actions;
+export default AdminRedux.reducer;

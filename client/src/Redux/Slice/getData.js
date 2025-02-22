@@ -1,4 +1,4 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../../../Helper/axiosInstance";
 const initialState = {
   SocialLinkData:
@@ -48,3 +48,48 @@ export const getAllData = createAsyncThunk("/Get/All/Data", async () => {
     return error?.response?.data || error?.message || "Something went wrong...";
   }
 });
+
+const DataRedux = createSlice({
+  name: "DataStore",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(getAllData.fulfilled, (state, action) => {
+      if (action?.payload?.success) {
+        localStorage.setItem(
+          "SocialLinkData",
+          JSON.stringify(action?.payload?.data?.linkData)
+        );
+        localStorage.setItem(
+          "bannerData",
+          JSON.stringify(action?.payload?.data?.bannerData)
+        );
+        localStorage.setItem(
+          "projectData",
+          JSON.stringify(action?.payload?.data?.projectData)
+        );
+        localStorage.setItem(
+          "feedbackData",
+          JSON.stringify(action?.payload?.data?.feedbackData)
+        );
+        localStorage.setItem(
+          "skillsData",
+          JSON.stringify(action?.payload?.data?.skillsData)
+        );
+        localStorage.setItem(
+          "aboutData",
+          JSON.stringify(action?.payload?.data?.aboutData)
+        );
+        state.SocialLinkData = action?.payload?.data?.linkData;
+        state.bannerData = action?.payload?.data?.bannerData;
+        state.feedbackData = action?.payload?.data?.feedbackData;
+        state.skillsData = action?.payload?.data?.skillsData;
+        state.aboutData = action?.payload?.data?.aboutData;
+        state.projectData = action?.payload?.data?.projectData;
+      }
+    });
+  },
+});
+
+export const {} = DataRedux.actions;
+export default DataRedux.reducer;

@@ -27,28 +27,24 @@ export default function Footer() {
         <a
           href="#"
           className="text-blue-600 dark:text-blue-400 hover:text-blue-800"
-          whileHover={{ scale: 1.2 }}
         >
           <FaFacebookF size={24} />
         </a>
         <a
           href="#"
           className="text-red-500 dark:text-red-400 hover:text-red-700"
-          whileHover={{ scale: 1.2 }}
         >
           <FaInstagram size={24} />
         </a>
         <a
           href="#"
           className="text-gray-800 dark:text-gray-300 hover:text-gray-600"
-          whileHover={{ scale: 1.2 }}
         >
           <FaXTwitter size={24} />
         </a>
         <a
           href="#"
           className="text-blue-500 dark:text-blue-300 hover:text-blue-700"
-          whileHover={{ scale: 1.2 }}
         >
           <FaLinkedinIn size={24} />
         </a>

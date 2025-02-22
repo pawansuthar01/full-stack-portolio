@@ -1,5 +1,6 @@
 import express from "express";
 import morgan from "morgan";
+import cors from "cors";
 import cookieParser from "cookie-parser";
 import ErrorMiddleware from "./Middlewares/ErrorMiddleware.js";
 import MainSectionRouter from "./Routers/MainSectionDataRouter.js";
@@ -17,7 +18,22 @@ connectDB();
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan("dev"));
-
+// cores//
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+  })
+);
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", process.env.FRONTEND_URL),
+    res.header("Access-Control-Allow-credentials", "true"),
+    res.header(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, DELETE, OPTIONS"
+    );
+  next();
+});
 /// routed handel///
 
 app.use("/app/admin/v3/mainSection", MainSectionRouter);
