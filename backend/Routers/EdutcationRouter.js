@@ -7,11 +7,9 @@ import {
   updatedEductionCartById,
 } from "../Controllers/EducationController.js";
 const EducationRouter = Router();
-EducationRouter.route("/education")
-  .post(Upload.single("image"), AddEductionCart)
-  .get(AllEductionCart);
+EducationRouter.route("/education").post(AddEductionCart).get(AllEductionCart);
 EducationRouter.route("/education:id")
-  .put(Upload.single("image"), updatedEductionCartById)
+  .put(updatedEductionCartById)
   .delete(DeleteEducationCartById);
 
 export default EducationRouter;

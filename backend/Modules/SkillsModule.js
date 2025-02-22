@@ -2,10 +2,10 @@ import { model, Schema } from "mongoose";
 
 const SkillsModule = new Schema({
   title: { type: String, required: true },
-  skill: [
+  skills: [
     {
-      image: { type: String, required: true },
       name: { type: String, required: true },
+      level: { type: Number, required: true },
     },
   ],
 });

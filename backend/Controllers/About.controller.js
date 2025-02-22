@@ -1,13 +1,12 @@
 import AppError from "../Utils/AppErrors.js";
 import cloudinary from "cloudinary";
 import fs from "fs/promises";
-import path from "path";
-import Main from "../Modules/mainModule.js";
+import About_section from "../Modules/AboutModule.js";
 
-//* uploadMainSectionDetails//*
-export const MainDetailsCreate = async (req, res, next) => {
-  const { title, smallDescription, description, name } = req.body;
-  if ((!title || !smallDescription || !description, name || !req.file)) {
+//* uploadAboutSectionDetails//*
+export const AboutSectionCreate = async (req, res, next) => {
+  const { title, description } = req.body;
+  if (!title || !description || !req.file) {
     return next(new AppError("please give All Data  ", 400));
   }
   let photo =
@@ -20,7 +19,7 @@ export const MainDetailsCreate = async (req, res, next) => {
         const uploadedPhoto = await cloudinary.v2.uploader.upload(
           req.file.path,
           {
-            folder: "mainPhoto",
+            folder: "AboutPhoto",
           }
         );
         if (uploadedPhoto) {
@@ -32,21 +31,21 @@ export const MainDetailsCreate = async (req, res, next) => {
         return next(new AppError(error.message, 400));
       }
     }
-    const CreateMain = new Main({
+    const CreateAbout = new About_section({
       title,
-      name,
+
       description,
-      smallDescription,
+
       photo,
     });
-    if (!CreateMain) {
+    if (!CreateAbout) {
       return next(new AppError("SomeThing Wont wrong...", 400));
     }
-    await CreateMain.save();
+    await CreateAbout.save();
     res.status(200).json({
       success: true,
       message: "Successfully upload data....",
-      data: CreateMain,
+      data: CreateAbout,
     });
   } catch (error) {
     if (req.file) {
@@ -57,8 +56,8 @@ export const MainDetailsCreate = async (req, res, next) => {
 };
 
 //*updated main section data//*
-export const UpdatedMainSectionData = async (req, res, next) => {
-  const { title, smallDescription, name, description } = req.body;
+export const AboutSectionUpdate = async (req, res, next) => {
+  const { title, description } = req.body;
 
   try {
     // *cloudinary setup //*
@@ -70,7 +69,7 @@ export const UpdatedMainSectionData = async (req, res, next) => {
         const uploadedPhoto = await cloudinary.v2.uploader.upload(
           req.file.path,
           {
-            folder: "mainPhoto",
+            folder: "AboutPhoto",
           }
         );
         if (uploadedPhoto) {
@@ -83,14 +82,13 @@ export const UpdatedMainSectionData = async (req, res, next) => {
       }
     }
     const updatedData = {
-      ...(name && { name }),
       ...(title && { title }),
-      ...(smallDescription && { smallDescription }),
+
       ...(description && { description }),
       ...(req.file && { photo }),
     };
-    const updatedMainSection = await Main.findOneAndUpdate(
-      { Key_id: "INFO_MAIN" },
+    const updatedAboutSection = await About_section.findOneAndUpdate(
+      { Key_id: "INFO_ABOUT" },
       updatedData,
       {
         new: true,
@@ -98,14 +96,14 @@ export const UpdatedMainSectionData = async (req, res, next) => {
       }
     );
 
-    if (!updatedMainSection) {
+    if (!updatedAboutSection) {
       return next(new AppError("SomeThing Wont wrong...", 400));
     }
 
     res.status(200).json({
       success: true,
       message: "Successfully update data....",
-      data: updatedMainSection,
+      data: updatedAboutSection,
     });
   } catch (error) {
     if (req.file) {

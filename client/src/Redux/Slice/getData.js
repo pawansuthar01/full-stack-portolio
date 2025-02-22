@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../../../Helper/axiosInstance";
 const initialState = {
   SocialLinkData:
-    localStorage.getItem("SocialLinkData") == undefined
+    localStorage.getItem("SocialLinkData") == null
       ? JSON.parse(localStorage.getItem("SocialLinkData"))
       : {},
   bannerData:
@@ -34,15 +34,18 @@ const initialState = {
 
 export const getAllData = createAsyncThunk("/Get/All/Data", async () => {
   try {
-    const response = await axiosInstance.get("/");
+    const response = await axiosInstance.get("/app/user/v3/data");
+
     return {
-      SocialLinkData: response.data.linkData,
-      bannerData: response.data.bannerData,
-      aboutData: response.data.aboutData,
-      projectData: response.data.aboutData,
-      eductionData: response.data.aboutData,
-      skillsData: response.data.aboutData,
-      feedbackData: response.data.aboutData,
+      SocialLinkData: response.data.data.SocialLinkData,
+      bannerData: response.data.data.bannerData,
+      aboutData: response.data.data.aboutData,
+      projectData: response.data.data.projectData,
+      eductionData: response.data.data.eductionData,
+      skillsData: response.data.data.skillsData,
+      feedbackData: response.data.data.feedbackData,
+      message: response.data.message,
+      success: response.data.success,
     };
   } catch (error) {
     return error?.response?.data || error?.message || "Something went wrong...";
@@ -58,34 +61,34 @@ const DataRedux = createSlice({
       if (action?.payload?.success) {
         localStorage.setItem(
           "SocialLinkData",
-          JSON.stringify(action?.payload?.data?.linkData)
+          JSON.stringify(action?.payload?.SocialLinkData)
         );
         localStorage.setItem(
           "bannerData",
-          JSON.stringify(action?.payload?.data?.bannerData)
+          JSON.stringify(action?.payload?.bannerData)
         );
         localStorage.setItem(
           "projectData",
-          JSON.stringify(action?.payload?.data?.projectData)
+          JSON.stringify(action?.payload?.projectData)
         );
         localStorage.setItem(
           "feedbackData",
-          JSON.stringify(action?.payload?.data?.feedbackData)
+          JSON.stringify(action?.payload?.feedbackData)
         );
         localStorage.setItem(
           "skillsData",
-          JSON.stringify(action?.payload?.data?.skillsData)
+          JSON.stringify(action?.payload?.skillsData)
         );
         localStorage.setItem(
           "aboutData",
-          JSON.stringify(action?.payload?.data?.aboutData)
+          JSON.stringify(action?.payload?.aboutData)
         );
-        state.SocialLinkData = action?.payload?.data?.linkData;
-        state.bannerData = action?.payload?.data?.bannerData;
-        state.feedbackData = action?.payload?.data?.feedbackData;
-        state.skillsData = action?.payload?.data?.skillsData;
-        state.aboutData = action?.payload?.data?.aboutData;
-        state.projectData = action?.payload?.data?.projectData;
+        state.SocialLinkData = action?.payload?.SocialLinkData;
+        state.bannerData = action?.payload?.bannerData;
+        state.feedbackData = action?.payload?.feedbackData;
+        state.skillsData = action?.payload?.skillsData;
+        state.aboutData = action?.payload?.aboutData;
+        state.projectData = action?.payload?.projectData;
       }
     });
   },

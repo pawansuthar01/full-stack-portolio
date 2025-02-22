@@ -5,36 +5,29 @@ import fs from "fs/promises";
 
 //*create new skills cart//*
 export const CreateNewSkillsCart = async (req, res, next) => {
-  const { title, name } = req.body;
+  let { title, skills } = req.body;
+
+  if (!title || !skills.length) {
+    return next(new AppError("All fields are required for skill cart", 400));
+  }
   try {
-    if (!title || !name || !req.file) {
+    if (typeof skills === "string") {
+      skills = JSON.parse(skills);
+    }
+
+    if (!Array.isArray(skills)) {
+      return next(new AppError("Skills should be an array", 400));
+    }
+
+    if (!title || !skills) {
       return next(
         new AppError(" please give All filed is required for skill cart", 400)
       );
     }
-    let image = "few time url";
-    if (req.file) {
-      try {
-        const uploadImage = await cloudinary.v2.uploader.upload(req.file.path, {
-          folder: "skillCartImage",
-        });
-        if (uploadImage) {
-          image = uploadImage.secure_url;
-        }
-        await fs.rm(req.file.path, { force: true });
-      } catch (error) {
-        await fs.rm(req.file.path, { force: true });
-        return next(new AppError(error.message, 400));
-      }
-    }
+
     const newSkillsCart = new Skills({
       title,
-      skill: [
-        {
-          image,
-          name,
-        },
-      ],
+      skills,
     });
     if (!newSkillsCart) {
       return next(
@@ -48,9 +41,6 @@ export const CreateNewSkillsCart = async (req, res, next) => {
       data: newSkillsCart,
     });
   } catch (error) {
-    if (req.file) {
-      await fs.rm(req.file.path, { force: true });
-    }
     return next(new AppError(error.message, 400));
   }
 };
@@ -86,8 +76,8 @@ export const newSkillAddToCart = async (req, res, next) => {
       }
     }
 
-    await FindSkillsCart.skill.push({
-      image,
+    await FindSkillsCart.skills.push({
+      level,
       name,
     });
 

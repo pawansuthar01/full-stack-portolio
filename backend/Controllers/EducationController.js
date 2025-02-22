@@ -4,36 +4,17 @@ import AppError from "../Utils/AppErrors.js";
 import Education from "../Modules/EducationModule.js";
 export const AddEductionCart = async (req, res, next) => {
   try {
-    const { name, DateOfComplete, NameOfBoard, totalPercent, description } =
-      req.body;
+    const { course, institute, year, description } = req.body;
 
-    if (
-      !name ||
-      !description ||
-      !DateOfComplete ||
-      !totalPercent ||
-      !NameOfBoard ||
-      !req.file
-    ) {
+    if (!course || !description || !year || !institute) {
       return next(new AppError("All filed is required to Add Education", 400));
     }
-    let image;
-    if (req.file) {
-      const uploadImage = await cloudinary.v2.uploader.upload(req.file.path, {
-        folder: "educationImage",
-      });
-      if (uploadImage) {
-        image = uploadImage.secure_url;
-      }
-      await fs.rm(req.file.path, { force: true });
-    }
+
     const NewEduction = new Education({
-      name,
+      course,
       description,
-      NameOfBoard,
-      DateOfComplete,
-      image,
-      totalPercent,
+      year,
+      institute,
     });
     if (!NewEduction) {
       return next(new AppError("error to upload education cart...", 400));
@@ -58,35 +39,9 @@ export const updatedEductionCartById = async (req, res, next) => {
       return next(new AppError("ID is required to update education", 400));
     }
 
-    const { name, DateOfComplete, NameOfBoard, totalPercent, description } =
-      req.body;
-
-    let image;
-    if (req.file) {
-      try {
-        const uploadImage = await cloudinary.v2.uploader.upload(req.file.path, {
-          folder: "educationImage",
-        });
-        image = uploadImage.secure_url;
-        await fs.rm(req.file.path, { force: true });
-      } catch (error) {
-        await fs.rm(req.file.path, { force: true });
-        return next(new AppError(error.message, 400));
-      }
-    }
-
-    const updatedData = {
-      ...(name && { name }),
-      ...(description && { description }),
-      ...(DateOfComplete && { DateOfComplete }),
-      ...(NameOfBoard && { NameOfBoard }),
-      ...(req.file && { image }),
-      ...(totalPercent && { totalPercent }),
-    };
-
     const updatedEducationCart = await Education.findByIdAndUpdate(
       id,
-      updatedData,
+      req.body,
       {
         new: true,
       }
