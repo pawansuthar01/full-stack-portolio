@@ -6,31 +6,6 @@ import image4 from "../src/assets/download.jpeg";
 import { motion } from "framer-motion";
 import { FaCalendarAlt } from "react-icons/fa";
 
-const ProjectList = [
-  {
-    _id: "1",
-    title: "New Project",
-    Image: image2,
-    description: "Task to add project",
-    tags: [{ tag: "React" }, { tag: "Tailwind" }, { tag: "MongoDB" }],
-  },
-  {
-    _id: "2",
-    title: "E-Commerce App",
-    Image: image3,
-    description: "Building an online store with payment integration",
-    tags: [{ tag: "Next.js" }, { tag: "Node.js" }, { tag: "Stripe" }],
-  },
-  {
-    _id: "3",
-    title: "Portfolio Website",
-    Image: image4,
-    description:
-      "A stunning portfolio with animations and dark mode A stunning portfolio with animations and dark mode A stunning portfolio with animations and dark modeA stunning portfolio with animations and dark modeA stunning portfolio with animations and dark modeA stunning portfolio with animations and dark modeA stunning portfolio with animations and dark modeA stunning portfolio with animations and dark mode ",
-    tags: [{ tag: "React" }, { tag: "Framer Motion" }, { tag: "Tailwind" }],
-  },
-];
-
 const formatMongoDateToIndian = (projectUploadDate) => {
   const date = new Date(projectUploadDate);
   return date.toLocaleDateString("en-IN", {

@@ -7,16 +7,7 @@ import {
 
 const MainSectionRouter = express.Router();
 
-MainSectionRouter.post(
-  "/create",
-
-  Upload.single("photo"),
-  MainDetailsCreate
-);
-MainSectionRouter.put(
-  "/updated",
-
-  Upload.single("photo"),
-  UpdatedMainSectionData
-);
+MainSectionRouter.route("/")
+  .post(Upload.single("photo"), MainDetailsCreate)
+  .put(Upload.single("photo"), UpdatedMainSectionData);
 export default MainSectionRouter;

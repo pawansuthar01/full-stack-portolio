@@ -49,7 +49,7 @@ export const AboutSectionCreate = async (req, res, next) => {
     });
   } catch (error) {
     if (req.file) {
-      await fs.rm(req.file, { force: true });
+      await fs.rm(req.file.path, { force: true });
     }
     return next(new AppError(error.message, 400));
   }

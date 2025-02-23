@@ -29,7 +29,7 @@ function ContactList() {
     },
   ]);
   return (
-    <div className="p-8">
+    <div className="p-8 max-sm:p-0 mt-20">
       <div className="max-w-4xl mx-auto">
         {/* Messages List */}
         <div className="bg-[#2a2a2a] p-8 rounded-lg mb-8">
@@ -51,7 +51,9 @@ function ContactList() {
                     </div>
                     <div className="flex items-center gap-3">
                       <Mail className="text-blue-400" size={20} />
-                      <span className="text-gray-400">{msg.email}</span>
+                      <span className="text-gray-400 max-sm:text-sm">
+                        {msg.email}
+                      </span>
                     </div>
                   </div>
                   <h3 className="text-xl font-semibold mb-2 text-blue-400">

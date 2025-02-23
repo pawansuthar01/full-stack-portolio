@@ -46,11 +46,10 @@ export default function Contact() {
       return;
     }
     const res = await dispatch(submitMessage(formData));
-    console.log(res);
-    if (res?.payload?.success) {
-      setMessage(res?.payload?.message);
-    }
-    setFormData({ name: "", email: "", subject: "", message: "" });
+
+    setMessage(res?.payload?.message);
+
+    setFormData({ fullName: "", email: "", subject: "", message: "" });
   };
 
   return (

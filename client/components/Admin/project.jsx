@@ -91,11 +91,11 @@ export default function ProjectManager() {
         className="w-full max-w-4xl p-6 rounded-xl text-center"
       >
         <h1 className="text-3xl font-bold">My Projects</h1>
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="mt-4 flex flex-wrap justify-evenly gap-4">
           {ProjectList.map((project) => (
             <motion.div
               key={project._id}
-              className="p-4 border border-cyan-400 rounded-lg shadow-lg relative"
+              className="p-4 border w-[350px] border-cyan-400 rounded-lg shadow-lg relative"
               whileHover={{ scale: 1.02 }}
             >
               <img
@@ -107,11 +107,11 @@ export default function ProjectManager() {
               <p className="text-gray-300 text-sm mt-1">
                 {project.description}
               </p>
-              <div className="flex gap-2 mt-2">
+              <div className="flex gap-2 flex-wrap mt-2">
                 {project.tags.map((tag, index) => (
                   <span
                     key={index}
-                    className="text-sm bg-cyan-500 px-2 py-1 rounded-full"
+                    className="text-sm bg-cyan-500   px-2 py-1 rounded-full"
                   >
                     {tag.tag}
                   </span>

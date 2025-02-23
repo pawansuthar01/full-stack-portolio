@@ -8,7 +8,7 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: "Uploads",
-    allowed_formats: ["jpg", "jpeg", "pdf", "svg", "webp", "mp4"],
+    allowed_formats: ["jpg", "jpeg", "png", "svg", "webp"],
   },
 });
 
@@ -22,9 +22,7 @@ export const Upload = multer({
       "image/jpg",
       "image/png",
       "image/webp",
-      "video/mp4",
       "image/svg+xml",
-      "application/pdf",
     ];
     if (!allowedExts.includes(file.mimetype)) {
       return cb(

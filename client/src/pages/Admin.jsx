@@ -1,74 +1,168 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AboutUpdater from "../../components/Admin/About";
 import BannerUpdater from "../../components/Admin/banner";
 import ContactList from "../../components/Admin/ContactList";
 import EducationManager from "../../components/Admin/eduction";
 import ProjectManager from "../../components/Admin/project";
-import { Layout } from "lucide-react";
+import { Layout, XCircleIcon } from "lucide-react";
+import { MdMenu, MdSettings } from "react-icons/md";
 import SkillsChart from "../../components/Admin/skills";
+import { FaBoxOpen } from "react-icons/fa6";
+import {
+  FaUser,
+  FaTools,
+  FaProjectDiagram,
+  FaEnvelope,
+  FaGraduationCap,
+  FaImage,
+} from "react-icons/fa";
+import { getAllData } from "../Redux/Slice/getData";
+import { useDispatch } from "react-redux";
+const navigation = [
+  {
+    id: 1,
+    label: "Banner Update",
+    icon: FaImage,
+    colors: "from-blue-500 to-purple-500",
+  },
+  {
+    id: 2,
+    label: "About Update",
+    icon: FaUser,
+    colors: "from-green-500 to-teal-500",
+  },
+  {
+    id: 3,
+    label: "Skills Update",
+    icon: FaTools,
+    colors: "from-yellow-500 to-orange-500",
+  },
+  {
+    id: 4,
+    label: "project update",
+    icon: FaProjectDiagram,
+    colors: "from-green-500 to-orange-500",
+  },
+  {
+    id: 5,
+    label: "Education Update",
+    icon: FaGraduationCap,
+    colors: "from-red-500 to-pink-500",
+  },
+  {
+    id: 6,
+    label: "Messages",
+    icon: FaEnvelope,
+    colors: "from-purple-500 to-indigo-500",
+  },
+  {
+    id: 7,
+    label: "SociolLink Update",
+    icon: MdSettings,
+    colors: "from-green-500 to-indigo-500",
+  },
+];
 export const Admin = () => {
-  const [Active, setActive] = useState(0);
+  const [activeSection, setActiveSection] = useState(1);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setLoading(true);
+        await dispatch(getAllData());
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    fetchData();
+  }, [dispatch]);
+
+  if (loading) {
+    return (
+      <div className="h-screen p-5 flex w-full justify-center items-center bg-[#242424]">
+        <div className="text-2xl font-bold w-24 h-24 border-2 rounded-full border-t-0 border-l-0 animate-spin transition-all duration-200 text-white"></div>
+      </div>
+    );
+  }
   return (
     <div className="overflow-hidden bg-[#242424] text-white">
-      <nav className="bg-[#2a2a2a] p-4">
-        <div className="max-w-4xl mx-auto flex items-center gap-6">
-          <Layout className="text-blue-500" size={24} />
-          <button
-            onClick={() => setActive(0)}
-            className={`${
-              Active == 0 ? "text-cyan-300" : "text-white"
-            } hover:text-cyan-400 transition-colors`}
-          >
-            Banner Updater
-          </button>
-          <button
-            onClick={() => setActive(1)}
-            className={`${
-              Active == 1 ? "text-cyan-300" : "text-white"
-            } hover:text-cyan-400 transition-colors`}
-          >
-            AboutUpdater
-          </button>
-          <button
-            onClick={() => setActive(2)}
-            className={`${
-              Active == 2 ? "text-cyan-300" : "text-white"
-            } hover:text-cyan-400 transition-colors`}
-          >
-            ProjectManager
-          </button>
-          <button
-            onClick={() => setActive(3)}
-            className={`${
-              Active == 3 ? "text-cyan-300" : "text-white"
-            } hover:text-cyan-400 transition-colors`}
-          >
-            EducationManager
-          </button>
-          <button
-            onClick={() => setActive(4)}
-            className={`${
-              Active == 4 ? "text-cyan-300" : "text-white"
-            } hover:text-cyan-400 transition-colors`}
-          >
-            SkillsChart
-          </button>
-          <button
-            onClick={() => setActive(5)}
-            className={`${
-              Active == 5 ? "text-cyan-300" : "text-white"
-            } hover:text-cyan-400 transition-colors`}
-          >
-            messages
-          </button>
+      {/* Button Section */}
+      <header className="bg-[#2a2a2a]  shadow-sm  z-40  w-full fixed ">
+        <div className="max-w-8xl mx-auto  sm:px-6 lg:px-8 ">
+          <div className="flex items-center justify-between h-20 ">
+            <h1 className="text-xl font-bold text-cyan-600">Admin Dashboard</h1>
+
+            {/* Mobile menu button */}
+            <button
+              className="lg:hidden p-2 rounded-md text-[#00f7ff]"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? (
+                <XCircleIcon className="h-8 w-8" />
+              ) : (
+                <MdMenu className="h-8 w-8" />
+              )}
+            </button>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex space-x-1">
+              {navigation.map((items) => (
+                <button
+                  key={items.id}
+                  onClick={() => (
+                    setActiveSection(items.id),
+                    setIsMobileMenuOpen(!isMobileMenuOpen)
+                  )}
+                  className={`px-3 py-2 rounded-md text-sm font-bold  transition-colors duration-150 ease-in-out flex items-center ${
+                    activeSection === items.id
+                      ? "bg-cyan-500  text-white "
+                      : "text-cyan-400 bg-gray-700"
+                  }`}
+                >
+                  <items.icon className="w-4 h-4 mr-2" />
+
+                  {items.label}
+                </button>
+              ))}
+            </nav>
+          </div>
         </div>
-      </nav>
-      {Active == 0 && <BannerUpdater />}
-      {Active == 1 && <AboutUpdater />}
-      {Active == 2 && <ProjectManager />}
-      {Active == 3 && <EducationManager />}
-      {Active == 4 && <SkillsChart />}
-      {Active == 5 && <ContactList />}
+
+        {/* Mobile Navigation */}
+        <div className={`lg:hidden ${isMobileMenuOpen ? "block" : "hidden"}`}>
+          <div className="px-2 pt-2 pb-3 space-y-1 bg-[#242424] shadow-lg absolute w-full z-50">
+            {navigation.map((items) => (
+              <button
+                key={items.id}
+                onClick={() => (
+                  setActiveSection(items.id),
+                  setIsMobileMenuOpen(!isMobileMenuOpen)
+                )}
+                className={`w-full px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150 ease-in-out flex items-center ${
+                  activeSection === items.id
+                    ? "bg-cyan-500  text-white "
+                    : "text-cyan-400 bg-gray-700"
+                }`}
+              >
+                <items.icon className="w-4 h-4 mr-2" />
+
+                {items.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </header>
+      {activeSection == 1 && <BannerUpdater />}
+      {activeSection == 2 && <AboutUpdater />}
+      {activeSection == 3 && <SkillsChart />}
+      {activeSection == 5 && <EducationManager />}
+      {activeSection == 4 && <ProjectManager />}
+      {activeSection == 6 && <ContactList />}
     </div>
   );
 };

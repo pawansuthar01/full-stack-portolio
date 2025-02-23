@@ -2,7 +2,13 @@ import { motion } from "framer-motion";
 import Photo from "../src/assets/298.kb.jpg";
 import { useSelector } from "react-redux";
 
-export default function Banner_section() {
+export default function Banner_section({
+  image,
+  name,
+  smallDescription,
+  description,
+  title,
+}) {
   const { bannerData } = useSelector((state) => state?.DataStore);
 
   return (
@@ -23,9 +29,9 @@ export default function Banner_section() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.5, ease: "easeIn" }}
-            className="text-3xl font-extrabold max-sm:text-2xl max-[400px]:text-xl"
+            className="text-6xl font-extrabold capitalize max-sm:text-2xl max-[400px]:text-xl"
           >
-            {Data?.title || "Hello, it's Me"}
+            {title || Data?.title || "Hello, it's Me"}
           </motion.h1>
 
           <motion.h2
@@ -34,7 +40,7 @@ export default function Banner_section() {
             transition={{ duration: 1, delay: 0.6, ease: "easeInOut" }}
             className="font-bold text-5xl py-2 capitalize max-[400px]:text-3xl"
           >
-            {Data?.name || "Pawan Kumar"}
+            {name || Data?.name || "Pawan Kumar"}
           </motion.h2>
 
           <motion.h3
@@ -45,7 +51,9 @@ export default function Banner_section() {
           >
             And I'm a{" "}
             <span className="text-[#00f7ff] cursor-pointer capitalize">
-              {Data?.smallDescription || "Full Stack Developer"}
+              {smallDescription ||
+                Data?.smallDescription ||
+                "Full Stack Developer"}
             </span>
           </motion.h3>
 
@@ -55,7 +63,8 @@ export default function Banner_section() {
             transition={{ duration: 1, delay: 0.8, ease: "easeInOut" }}
             className="text-[15px] pt-2 max-[550px]:text-[14px]"
           >
-            {Data?.description ||
+            {description ||
+              Data?.description ||
               `I am a motivated and versatile individual, always eager to take on 
             new challenges. With a passion for learning, I am dedicated to 
             delivering high-quality results.`}
@@ -92,7 +101,7 @@ export default function Banner_section() {
           >
             <img
               className="w-[300px] h-[300px] max-[400px]:h-[240px] max-[400px]:w-[240px] rounded-[50%] object-cover"
-              src={Data?.photo || Photo}
+              src={image || Data?.photo || Photo}
               alt="User_Banner_Photo"
             />
           </motion.div>

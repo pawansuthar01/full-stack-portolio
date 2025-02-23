@@ -5,94 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { isEmail } from "../Helper/Regex";
 import { submitFeedback } from "../src/Redux/Slice/UserSlice";
 
-const feedbacksData = [
-  {
-    id: "1",
-    name: "John Doe",
-    email: "john@example.com",
-    rating: 5,
-    message: "Great experience!",
-  },
-  {
-    id: "2",
-    name: "Jane Smith",
-    email: "jane@example.com",
-    rating: 4,
-    message: "Loved the design!",
-  },
-  {
-    id: "3",
-    name: "Mike Lee",
-    email: "mike@example.com",
-    rating: 5,
-    message: "Amazing work!",
-  },
-  {
-    id: "4",
-    name: "Emma Watson",
-    email: "emma@example.com",
-    rating: 3,
-    message:
-      "Nice website! Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!",
-  },
-  {
-    id: "4",
-    name: "Emma Watson",
-    email: "emma@example.com",
-    rating: 3,
-    message:
-      "Nice website! Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!",
-  },
-  {
-    id: "4",
-    name: "Emma Watson",
-    email: "emma@example.com",
-    rating: 3,
-    message:
-      "Nice website! Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!",
-  },
-  {
-    id: "4",
-    name: "Emma Watson",
-    email: "emma@example.com",
-    rating: 3,
-    message:
-      "Nice website! Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!",
-  },
-  {
-    id: "4",
-    name: "Emma Watson",
-    email: "emma@example.com",
-    rating: 3,
-    message:
-      "Nice website! Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!",
-  },
-  {
-    id: "4",
-    name: "Emma Watson",
-    email: "emma@example.com",
-    rating: 3,
-    message:
-      "Nice website! Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!",
-  },
-  {
-    id: "4",
-    name: "Emma Watson",
-    email: "emma@example.com",
-    rating: 3,
-    message:
-      "Nice website! Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!",
-  },
-  {
-    id: "4",
-    name: "Emma Watson",
-    email: "emma@example.com",
-    rating: 3,
-    message:
-      "Nice website! Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!Nice website!",
-  },
-];
-
 export default function FeedbackCarousel() {
   const { feedbackData } = useSelector((state) => state?.DataStore);
   const [message, setMessage] = useState(false);
@@ -149,7 +61,7 @@ export default function FeedbackCarousel() {
     }
     setFeedbacks([...feedbackData, { ...formData }]);
     const res = await dispatch(submitFeedback(formData));
-    console.log(res);
+
     setMessage(res?.payload?.message);
     setFormData({ name: "", email: "", rating: 0, message: "" });
   };
@@ -245,9 +157,8 @@ export default function FeedbackCarousel() {
           animate={{ x: ["0%", "-100%"] }}
           transition={{
             ease: "linear",
-            duration: 9,
+            duration: 20,
             repeat: Infinity,
-            repeatType: "mirror",
           }}
         >
           {feedbacks?.length > 0 &&

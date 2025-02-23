@@ -2,25 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 
-const skills = [
-  {
-    category: "Personal Skills",
-    skills: [
-      { name: "Communication", level: 100 },
-      { name: "Teamwork", level: 80 },
-      { name: "Self-Motivation", level: 75 },
-    ],
-  },
-  {
-    category: "Professional Skills",
-    skills: [
-      { name: "HTML5 & CSS3", level: 95 },
-      { name: "JavaScript", level: 100 },
-      { name: "C++", level: 50 },
-    ],
-  },
-];
-
 const SkillsChart = () => {
   const { skillsData } = useSelector(
     (state) => state?.DataStore ?? { skillsData: [] }
@@ -49,7 +30,7 @@ const SkillsChart = () => {
   return (
     <div
       ref={ref}
-      className=" text-white max-sm:text-cente  mb-20 rounded-lg mx-auto p-6"
+      className=" text-white max-sm:text-center  mb-20 rounded-lg mx-auto p-6"
     >
       <motion.h1
         initial={{ opacity: 0, x: 20 }}

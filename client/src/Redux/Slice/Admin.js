@@ -11,9 +11,9 @@ const initialState = {
       : {},
   password: localStorage.getItem("password") || null,
 };
-export const updateBanner = createAsyncThunk("/update/banner", async () => {
+export const updateBanner = createAsyncThunk("/update/banner", async (data) => {
   try {
-    const response = await axiosInstance.put("/", data);
+    const response = await axiosInstance.put("/app/admin/v3/mainSection", data);
     return response?.data;
   } catch (error) {
     return error?.response?.data || error?.message || "Something went wrong...";
@@ -27,9 +27,9 @@ export const updateSocialLink = createAsyncThunk("/update/banner", async () => {
     return error?.response?.data || error?.message || "Something went wrong...";
   }
 });
-export const AboutUpdate = createAsyncThunk("/update/About", async () => {
+export const AboutUpdate = createAsyncThunk("/update/About", async (data) => {
   try {
-    const response = await axiosInstance.get("/");
+    const response = await axiosInstance.put("/app/admin/v3/About", data);
     return response?.data;
   } catch (error) {
     return error?.response?.data || error?.message || "Something went wrong...";

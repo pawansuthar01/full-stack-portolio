@@ -63,9 +63,9 @@ function SkillsChart() {
   };
 
   return (
-    <div className="min-h-screen  text-white p-8">
+    <div className="min-h-screen mt-20  text-white p-8">
       <div className="max-w-4xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex justify-between max-[530px]:flex-col gap-2 items-center mb-8">
           <h1 className="text-3xl font-bold text-cyan-300">
             Skills Management
           </h1>
@@ -79,12 +79,12 @@ function SkillsChart() {
         </div>
 
         {/* Add New Category */}
-        <div className="bg-[#2a2a2a] p-6 rounded-lg mb-8">
+        <div className="bg-[#2a2a2a] shadow-[0_0_5px_0_cyan] p-6 rounded-lg mb-8">
           <h2 className="text-xl font-semibold mb-4 text-cyan-300">
             Add New Category
           </h2>
-          <div className="flex gap-4 items-end">
-            <div className="flex-1">
+          <div className="flex gap-4  max-[530px]:flex-col  max-[530px]:items-center items-end">
+            <div className="flex-1 ">
               <label className="block text-sm mb-2">Category Name</label>
               <input
                 type="text"
@@ -105,9 +105,9 @@ function SkillsChart() {
         </div>
 
         {/* Add New Skill Form */}
-        <div className="bg-[#2a2a2a] p-6 rounded-lg mb-8">
+        <div className="bg-[#2a2a2a] shadow-[0_0_5px_0_cyan] p-6 rounded-lg mb-8">
           <h2 className="text-xl font-semibold mb-4">Add New Skill</h2>
-          <div className="flex gap-4 items-end">
+          <div className="flex gap-4 max-[530px]:flex-col max-[530px]:items-center items-end">
             <div className="flex-1">
               <label className="block text-sm mb-2">Select Category</label>
               <select
@@ -130,7 +130,7 @@ function SkillsChart() {
                 onChange={(e) =>
                   setNewSkill({ ...newSkill, name: e.target.value })
                 }
-                className="w-full bg-[#333] border border-gray-600 rounded px-3 py-2 text-white"
+                className="w-full bg-[#333] border  border-gray-600 rounded px-3 py-2 text-white"
                 placeholder="Enter skill name"
               />
             </div>
@@ -157,7 +157,7 @@ function SkillsChart() {
             </div>
             <button
               onClick={handleAddSkill}
-              className="flex items-center gap-2 px-4 py-2 bg-green-600 rounded-lg hover:bg-green-700 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-cyan-600 rounded-lg hover:bg-cyan-700 transition-colors"
             >
               <PlusCircle size={20} />
               Add Skill
@@ -169,12 +169,15 @@ function SkillsChart() {
         {skillsData.map((category, categoryIndex) => (
           <div
             key={category.category}
-            className="bg-[#2a2a2a] p-6 rounded-lg mb-6"
+            className="bg-[#2a2a2a] shadow-[0_0_5px_0_cyan] p-6 rounded-lg mb-6"
           >
             <h2 className="text-xl font-semibold mb-4">{category.category}</h2>
             <div className="space-y-4">
               {category.skills.map((skill, skillIndex) => (
-                <div key={skill.name} className="flex items-center gap-4">
+                <div
+                  key={skill.name}
+                  className="flex max-[530px]:grid max-[350px]:grid-col-1 items-center gap-4"
+                >
                   <div className="flex-1">
                     {editMode ? (
                       <input
@@ -222,7 +225,7 @@ function SkillsChart() {
                         <div className="flex h-2 mb-4">
                           <div
                             style={{ width: `${skill.level}%` }}
-                            className="bg-blue-500 rounded-full"
+                            className="bg-cyan-500 rounded-full"
                           />
                         </div>
                       </div>
@@ -237,7 +240,7 @@ function SkillsChart() {
                         ].skills.filter((_, i) => i !== skillIndex);
                         setSkillsData(newData);
                       }}
-                      className="p-2 text-red-500 hover:text-red-600 transition-colors"
+                      className="p-2 max-[350px]:bg-cyan-500 w-20 rounded  flex justify-center  text-red-500 hover:text-red-600 transition-colors"
                     >
                       <X size={20} />
                     </button>

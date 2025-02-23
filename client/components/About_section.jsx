@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 
 import { useSelector } from "react-redux";
 import { LinkButton } from "./LinkButton";
+import { useEffect, useState } from "react";
 
 const textVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -18,7 +19,7 @@ const letterVariant = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
 };
-function About() {
+function About({ image, description, Title }) {
   const { aboutData } = useSelector((state) => state?.DataStore);
 
   return (
@@ -26,6 +27,8 @@ function About() {
     aboutData?.map((data) => {
       const title =
         data.title.split("") || "Why Hire Me For Your Next Project?".split("");
+
+      const { aboutData } = useSelector((state) => state?.DataStore);
       return (
         <section
           key={data._id}
@@ -47,7 +50,7 @@ function About() {
 
               <div className="relative bg-white p-2 border-4">
                 <img
-                  src={data.photo || Image}
+                  src={image || data.photo || Image}
                   alt="Profile"
                   className="w-72  h-auto object-cover"
                 />
@@ -75,14 +78,16 @@ function About() {
               className="text-4xl py-2 max-sm:text-2xl max-[400px]:text-lg"
               variants={textVariants}
             >
-              {title.map((letter, index) => (
-                <motion.span key={index} variants={letterVariant}>
-                  {letter}
-                </motion.span>
-              ))}
+              {!Title &&
+                title.map((letter, index) => (
+                  <motion.span key={index} variants={letterVariant}>
+                    {letter}
+                  </motion.span>
+                ))}
+              {Title && <motion.span>{Title}</motion.span>}
             </motion.h3>
             <motion.p className=" tracking-[1px]" variants={textVariants}>
-              {data.description}
+              {description || data.description}
             </motion.p>
             <LinkButton />
           </motion.div>

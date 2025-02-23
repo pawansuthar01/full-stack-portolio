@@ -8,16 +8,7 @@ import {
 
 const AboutRouter = express.Router();
 
-AboutRouter.post(
-  "/create",
-
-  Upload.single("photo"),
-  AboutSectionCreate
-);
-AboutRouter.put(
-  "/updated",
-
-  Upload.single("photo"),
-  AboutSectionUpdate
-);
+AboutRouter.route("/")
+  .post(Upload.single("photo"), AboutSectionCreate)
+  .put(Upload.single("photo"), AboutSectionUpdate);
 export default AboutRouter;

@@ -12,25 +12,21 @@ import { getAllData } from "../Redux/Slice/getData";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const { bannerData } = useSelector((state) => state?.DataStore);
 
-  const [loading, setLoading] = useState(true); // Default loading true rakhein
-  const [Data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
       try {
         setLoading(true);
-        const res = await dispatch(getAllData());
-        setData(res.payload); // Redux se aane wale payload ko set karna
+        await dispatch(getAllData());
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
       }
     }
     fetchData();
-  }, [dispatch]); // Dependency array me `dispatch` rakhein
+  }, [dispatch]);
 
   if (loading) {
     return (
