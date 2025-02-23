@@ -1,23 +1,24 @@
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
 
-const educationData = [
-  {
-    id: 1,
-    course: "Bachelor of Computer Applications",
-    institute: "XYZ University",
-    year: "2021 - 2024",
-    description:
-      "Focused on web development, programming languages, and software engineering.",
-  },
-  {
-    id: 2,
-    course: "Full Stack Web Development",
-    institute: "CCBP 4.0",
-    year: "2024 - Present",
-    description:
-      "Learning modern web technologies including React, Node.js, and MongoDB.",
-  },
-];
+// const educationData = [
+//   {
+//     id: 1,
+//     course: "Bachelor of Computer Applications",
+//     institute: "XYZ University",
+//     year: "2021 - 2024",
+//     description:
+//       "Focused on web development, programming languages, and software engineering.",
+//   },
+//   {
+//     id: 2,
+//     course: "Full Stack Web Development",
+//     institute: "CCBP 4.0",
+//     year: "2024 - Present",
+//     description:
+//       "Learning modern web technologies including React, Node.js, and MongoDB.",
+//   },
+// ];
 
 const cardVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -29,6 +30,8 @@ const cardVariants = {
 };
 
 export default function EducationCard() {
+  const { educationData } = useSelector((state) => state?.DataStore);
+
   return (
     <section className="p-6 text-white ">
       <div className="flex justify-center mb-6">
@@ -49,48 +52,51 @@ export default function EducationCard() {
         animate="visible"
         className="flex flex-wrap justify-center gap-6"
       >
-        {educationData.map((edu, index) => (
-          <div
-            key={edu.id}
-            className="flex w-full  relative items-center gap-6"
-          >
-            {/* Timeline Dot */}
-
-            <div className=" flex flex-col items-center order-2">
-              {/* Dot Animation */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.5, delay: 0.5, ease: "easeOut" }}
-                className="w-4 h-4 bg-[#00f7ff] rounded-full absolute top-10"
-              ></motion.div>
-
-              {/* Line Animation */}
-              <motion.div
-                initial={{ height: 0 }}
-                whileInView={{ height: "50%" }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.8, delay: 0.6, ease: "easeInOut" }}
-                className="w-1 bg-[#00f7ff] rounded-full absolute top-16"
-              ></motion.div>
-            </div>
-
-            <motion.div
-              variants={cardVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              custom={index}
-              className="bg-[#242424]/80 order-1 w-full p-5 rounded-xl border border-[#00f7ff]/80 shadow-lg transition-transform hover:scale-102 hover:shadow-[#00f7ff]/10"
+        {educationData?.length > 0 &&
+          educationData?.map((edu, index) => (
+            <div
+              key={edu._id}
+              className="flex w-full  relative items-center gap-6"
             >
-              <h2 className="text-lg font-semibold text-white">{edu.course}</h2>
-              <p className="text-gray-300">{edu.institute}</p>
-              <p className="text-gray-400 text-sm">{edu.year}</p>
-              <p className="text-gray-300 text-sm mt-2">{edu.description}</p>
-            </motion.div>
-          </div>
-        ))}
+              {/* Timeline Dot */}
+
+              <div className=" flex flex-col items-center order-2">
+                {/* Dot Animation */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.5, delay: 0.5, ease: "easeOut" }}
+                  className="w-4 h-4 bg-[#00f7ff] rounded-full absolute top-10"
+                ></motion.div>
+
+                {/* Line Animation */}
+                <motion.div
+                  initial={{ height: 0 }}
+                  whileInView={{ height: "50%" }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.8, delay: 0.6, ease: "easeInOut" }}
+                  className="w-1 bg-[#00f7ff] rounded-full absolute top-16"
+                ></motion.div>
+              </div>
+
+              <motion.div
+                variants={cardVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+                custom={index}
+                className="bg-[#242424]/80 order-1 w-full p-5 rounded-xl border border-[#00f7ff]/80 shadow-lg transition-transform hover:scale-102 hover:shadow-[#00f7ff]/10"
+              >
+                <h2 className="text-lg font-semibold text-white">
+                  {edu.course}
+                </h2>
+                <p className="text-gray-300">{edu.institute}</p>
+                <p className="text-gray-400 text-sm">{edu.year}</p>
+                <p className="text-gray-300 text-sm mt-2">{edu.description}</p>
+              </motion.div>
+            </div>
+          ))}
       </motion.div>
     </section>
   );

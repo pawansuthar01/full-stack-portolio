@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaStar } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { isEmail } from "../Helper/Regex";
+import { submitFeedback } from "../src/Redux/Slice/UserSlice";
 
 const feedbacksData = [
   {
@@ -91,7 +94,13 @@ const feedbacksData = [
 ];
 
 export default function FeedbackCarousel() {
-  const [feedbacks, setFeedbacks] = useState(feedbacksData);
+  const { feedbackData } = useSelector((state) => state?.DataStore);
+  const [message, setMessage] = useState(false);
+  const dispatch = useDispatch();
+  const [feedbacks, setFeedbacks] = useState(feedbackData);
+  useEffect(() => {
+    setFeedbacks(feedbackData);
+  }, []);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -100,12 +109,48 @@ export default function FeedbackCarousel() {
   });
 
   const handleChange = (e) => {
+    setMessage(false);
     setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    if (e.target.name == "email") {
+      document.getElementById("Email").style.borderColor = "";
+    }
+    if (e.target.name == "name") {
+      document.getElementById("name").style.borderColor = "";
+    }
+    if (e.target.name == "message") {
+      document.getElementById("Message").style.borderColor = "";
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setFeedbacks([...feedbacks, { id: Date.now().toString(), ...formData }]);
+    if (!formData.name) {
+      document.getElementById("name").style.borderColor = "red";
+
+      return;
+    }
+    if (!formData.rating) {
+      document.getElementById("rating").style.color = "red";
+      return;
+    }
+    if (!formData.email) {
+      document.getElementById("Email").style.borderColor = "red";
+      return;
+    }
+    if (!isEmail(formData.email)) {
+      document.getElementById("Email").style.borderColor = "red";
+      return;
+    }
+
+    if (!formData.message) {
+      document.getElementById("Message").style.borderColor = "red";
+      return;
+    }
+    setFeedbacks([...feedbackData, { ...formData }]);
+    const res = await dispatch(submitFeedback(formData));
+    console.log(res);
+    setMessage(res?.payload?.message);
     setFormData({ name: "", email: "", rating: 0, message: "" });
   };
 
@@ -125,36 +170,39 @@ export default function FeedbackCarousel() {
       </div>
       {/* Feedback Form */}
       <motion.form
+        noValidate
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
         onSubmit={handleSubmit}
-        className=" p-6 rounded-lg shadow-lg w-full max-w-lg"
+        className=" p-6 rounded-lg  shadow-lg w-full max-w-lg"
       >
         <div className="flex gap-4 mb-4">
           <input
             type="text"
             name="name"
+            id="name"
             value={formData.name}
             onChange={handleChange}
             placeholder="Your Name"
-            required
-            className="p-3 w-1/2 border-1 border-[#00f7ff] rounded-lg focus:outline-none"
+            className="p-3 w-1/2 border bg-transparent  border-[#00f7ff] rounded-lg outline-none"
           />
           <input
             type="email"
             name="email"
+            id="Email"
             value={formData.email}
             onChange={handleChange}
             placeholder="Your Email"
-            required
-            className="p-3 w-1/2 border-1 border-[#00f7ff] rounded-lg focus:outline-none"
+            className="p-3 w-1/2 border-1  bg-transparent border-[#00f7ff] rounded-lg focus:outline-none"
           />
         </div>
 
         <div className="mb-4">
-          <label className="block mb-2">Rating:</label>
+          <label id="rating" className="block mb-2">
+            Rating:
+          </label>
           <div className="flex gap-1">
             {[1, 2, 3, 4, 5].map((star) => (
               <FaStar
@@ -163,7 +211,10 @@ export default function FeedbackCarousel() {
                 className={`cursor-pointer ${
                   formData.rating >= star ? "text-yellow-400" : "text-gray-500"
                 }`}
-                onClick={() => setFormData({ ...formData, rating: star })}
+                onClick={() => {
+                  setFormData({ ...formData, rating: star });
+                  document.getElementById("rating").style.color = "";
+                }}
               />
             ))}
           </div>
@@ -171,19 +222,20 @@ export default function FeedbackCarousel() {
 
         <textarea
           name="message"
+          id="Message"
           value={formData.message}
           onChange={handleChange}
           placeholder="Your Message"
-          required
-          className="p-3 w-full border-1 border-[#00f7ff] rounded-lg focus:outline-none mb-4"
+          className="p-3 w-full bg-transparent border-1 border-[#00f7ff] rounded-lg focus:outline-none mb-4"
           rows="4"
         ></textarea>
 
         <button
           type="submit"
+          disabled={message}
           className="bg-cyan-500 hover:bg-cyan-600 px-5 py-2 rounded-lg w-full"
         >
-          Submit Feedback
+          {message ? message : "Submit Feedback"}
         </button>
       </motion.form>
 
@@ -193,34 +245,37 @@ export default function FeedbackCarousel() {
           animate={{ x: ["0%", "-100%"] }}
           transition={{
             ease: "linear",
-
-            duration: 12,
+            duration: 9,
             repeat: Infinity,
+            repeatType: "mirror",
           }}
         >
-          {[...feedbacks, ...feedbacks].map((feedback, index) => (
-            <div
-              key={index}
-              className="min-w-[300px] bg-opacity-40  p-4 items-stretch h-full border-cyan-400 backdrop-blur-lg border-1   rounded-lg shadow-lg"
-            >
-              <h3 className="text-lg font-bold text-cyan-400">
-                {feedback.name}
-              </h3>
-              <p className="text-sm text-gray-400">{feedback.email}</p>
-              <div className="flex gap-1 mt-2">
-                {[...Array(5)].map((_, i) => (
-                  <FaStar
-                    key={i}
-                    size={20}
-                    className={
-                      i < feedback.rating ? "text-yellow-400" : "text-gray-500"
-                    }
-                  />
-                ))}
+          {feedbacks?.length > 0 &&
+            [...feedbacks, ...feedbacks].map((feedback, index) => (
+              <div
+                key={index}
+                className="min-w-[300px] bg-opacity-40  p-4 items-stretch h-full border-cyan-400 backdrop-blur-lg border-1   rounded-lg shadow-lg"
+              >
+                <h3 className="text-lg font-bold text-cyan-400">
+                  {feedback.name}
+                </h3>
+                <p className="text-sm text-gray-400">{feedback.email}</p>
+                <div className="flex gap-1 mt-2">
+                  {[...Array(5)].map((_, i) => (
+                    <FaStar
+                      key={i}
+                      size={20}
+                      className={
+                        i < feedback.rating
+                          ? "text-yellow-400"
+                          : "text-gray-500"
+                      }
+                    />
+                  ))}
+                </div>
+                <p className="mt-3">{feedback.message}</p>
               </div>
-              <p className="mt-3">{feedback.message}</p>
-            </div>
-          ))}
+            ))}
         </motion.div>
       </div>
     </section>

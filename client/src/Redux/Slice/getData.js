@@ -18,9 +18,9 @@ const initialState = {
     localStorage.getItem("projectData") == undefined
       ? JSON.parse(localStorage.getItem("projectData"))
       : {},
-  eductionData:
-    localStorage.getItem("eductionData") == undefined
-      ? JSON.parse(localStorage.getItem("eductionData"))
+  educationData:
+    localStorage.getItem("educationData") == undefined
+      ? JSON.parse(localStorage.getItem("educationData"))
       : {},
   skillsData:
     localStorage.getItem("skillsData") == undefined
@@ -68,6 +68,10 @@ const DataRedux = createSlice({
           JSON.stringify(action?.payload?.bannerData)
         );
         localStorage.setItem(
+          "educationData",
+          JSON.stringify(action?.payload?.educationData)
+        );
+        localStorage.setItem(
           "projectData",
           JSON.stringify(action?.payload?.projectData)
         );
@@ -86,6 +90,7 @@ const DataRedux = createSlice({
         state.SocialLinkData = action?.payload?.SocialLinkData;
         state.bannerData = action?.payload?.bannerData;
         state.feedbackData = action?.payload?.feedbackData;
+        state.educationData = action?.payload?.eductionData;
         state.skillsData = action?.payload?.skillsData;
         state.aboutData = action?.payload?.aboutData;
         state.projectData = action?.payload?.projectData;

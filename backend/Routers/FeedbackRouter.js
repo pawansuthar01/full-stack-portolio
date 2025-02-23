@@ -7,9 +7,6 @@ import {
 } from "../Controllers/FeedbackController.js";
 
 const feedbackRouter = Router();
-feedbackRouter.route("/feedback").post(addFeedback).get(getAllFeedback);
-feedbackRouter
-  .route("/feedback:id")
-  .put(updateFeedback)
-  .delete(deleteFeedbackById);
+feedbackRouter.route("/").post(addFeedback).get(getAllFeedback);
+feedbackRouter.route("/:id").put(updateFeedback).delete(deleteFeedbackById);
 export default feedbackRouter;

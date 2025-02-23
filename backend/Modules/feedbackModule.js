@@ -1,8 +1,9 @@
 import { Schema, model } from "mongoose";
 const FeedbackModule = new Schema({
-  fullName: { type: String, required: true },
+  name: { type: String, required: true },
+  email: { type: String, required: true },
   rating: { type: String },
-  comment: { type: String, required: true },
+  message: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
 });
 

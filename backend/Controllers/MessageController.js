@@ -4,6 +4,7 @@ import AppError from "../Utils/AppErrors.js";
 export const submitMessage = async (req, res, next) => {
   try {
     const { fullName, subject, message, email } = req.body;
+    console.log(req.body);
     if (!fullName || !subject || !message || !email) {
       return next(
         new AppError("All filed is required to submitMessage...", 400)

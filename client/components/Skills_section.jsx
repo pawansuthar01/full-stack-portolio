@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
 
 const skills = [
   {
@@ -21,6 +22,10 @@ const skills = [
 ];
 
 const SkillsChart = () => {
+  const { skillsData } = useSelector(
+    (state) => state?.DataStore ?? { skillsData: [] }
+  );
+
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
 
@@ -56,41 +61,52 @@ const SkillsChart = () => {
         <samp className="bg-[#00f7ff] mt-2 w-6 h-[2px]  rounded"></samp>
       </motion.h1>
       <div className="grid grid-cols-2 gap-6 max-[800px]:grid-cols-1">
-        {skills.map((group, index) => (
-          <div
-            key={index}
-            className="flex flex-col   rounded-2xl    p-5 shadow-[0_0_5px_0px_#3C3D37] gap-2"
-          >
-            <h2 className="text-lg font-semibold  mb-4">{group.category}</h2>
-            {group.skills.map((skill, idx) => (
-              <div key={idx} className="mb-3 relative">
-                <div className="flex justify-between font-bold">
-                  <span>{skill.name}</span>
+        {skillsData?.length > 0 &&
+          skillsData.map((group, index) => (
+            <div
+              key={index}
+              className="flex flex-col   rounded-2xl    p-5 shadow-[0_0_5px_0px_#3C3D37] gap-2"
+            >
+              <h2 className="text-lg font-semibold  mb-4">{group.title}</h2>
+              {group.skills.map((skill, idx) => (
+                <div key={idx} className="mb-3 relative">
+                  <div className="flex justify-between font-bold">
+                    <span>{skill?.name}</span>
+                  </div>
+                  <div className="w-full bg-gray-700 h-3 rounded relative">
+                    {/* Skill Bar */}
+                    <motion.div
+                      className="bg-[#00f7ff] h-3 rounded"
+                      initial={{ width: 0 }}
+                      animate={{
+                        width: isVisible ? `${skill?.level}%` : "0%",
+                      }}
+                      transition={{ duration: 1.5, ease: "easeInOut" }}
+                    />
+                    {/* Skill Percentage Box */}
+                    <motion.span
+                      className="absolute -top-8 text-sm font-serif text-gray-900 bg-[#00f7ff] px-2 py-1 rounded-md shadow-md"
+                      initial={{ left: "0%" }}
+                      animate={{
+                        left: isVisible
+                          ? `${
+                              skill.level > 90
+                                ? skill.level - 9
+                                : skill.level < 40
+                                ? 90
+                                : skill.level
+                            }%`
+                          : "0%",
+                      }}
+                      transition={{ duration: 1.5, ease: "easeInOut" }}
+                    >
+                      {skill.level}%
+                    </motion.span>
+                  </div>
                 </div>
-                <div className="w-full bg-gray-700 h-3 rounded relative">
-                  {/* Skill Bar */}
-                  <motion.div
-                    className="bg-[#00f7ff] h-3 rounded"
-                    initial={{ width: 0 }}
-                    animate={{ width: isVisible ? `${skill.level}%` : "0%" }}
-                    transition={{ duration: 1.5, ease: "easeInOut" }}
-                  />
-                  {/* Skill Percentage Box */}
-                  <motion.span
-                    className="absolute -top-8 text-sm font-serif text-gray-900 bg-[#00f7ff] px-2 py-1 rounded-md shadow-md"
-                    initial={{ left: "0%" }}
-                    animate={{
-                      left: isVisible ? `${skill.level - 9}%` : "0%",
-                    }}
-                    transition={{ duration: 1.5, ease: "easeInOut" }}
-                  >
-                    {skill.level}%
-                  </motion.span>
-                </div>
-              </div>
-            ))}
-          </div>
-        ))}
+              ))}
+            </div>
+          ))}
       </div>
     </div>
   );
