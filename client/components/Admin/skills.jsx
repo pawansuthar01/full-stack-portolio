@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { PlusCircle, Edit2, Save } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { SkillAddCart } from "../../src/Redux/Slice/Admin";
+import {
+  AddSkillInCart,
+  editSkillCartTitle,
+  SkillAddCart,
+  UpdateSkillInCart,
+} from "../../src/Redux/Slice/Admin";
 
 function SkillsChart() {
   const { skillsData } = useSelector((state) => state?.DataStore);
@@ -12,8 +17,8 @@ function SkillsChart() {
     id: null,
     title: "",
   });
-  const [editEductionSkill, setEditEductionSkill] = useState({
-    educationId: null,
+  const [editSkillCart, setEditSkillCart] = useState({
+    cartId: null,
     skillId: null,
     skills: [
       {
@@ -43,7 +48,7 @@ function SkillsChart() {
 
   const handelSkillEdit = (e) => {
     const { name, value } = e.target;
-    setEditEductionSkill((prev) => {
+    setEditSkillCart((prev) => {
       let updatedSkills = [...prev.skills];
 
       updatedSkills[0] = {
@@ -98,20 +103,22 @@ function SkillsChart() {
   };
 
   const handelAddNewEducation = async () => {
-    console.log("handelAddNewEducation", newEducationData);
     const res = await dispatch(SkillAddCart(newEducationData));
     console.log(res);
   };
 
-  const handleAddSkill = () => {
-    console.log("handleAddSkill", newSkillData);
+  const handleAddSkill = async () => {
+    const res = await dispatch(AddSkillInCart(newSkillData));
+    console.log(res);
   };
 
-  const handelUpdateSkill = () => {
-    console.log("handelUpdateSkill", editEductionSkill);
+  const handelUpdateSkill = async () => {
+    const res = await dispatch(UpdateSkillInCart(editSkillCart));
+    console.log(res);
   };
-  const handelEditEducationTitle = () => {
-    console.log("handelEditEducationTitle", editEductionTitle);
+  const handelEditEducationTitle = async () => {
+    const res = await dispatch(editSkillCartTitle(editEductionTitle));
+    console.log(res);
   };
   const toggleEditSkill = (categoryIndex, skillIndex) => {
     setSkillsData((prev) =>
@@ -295,7 +302,7 @@ function SkillsChart() {
                     <input
                       type="text"
                       name="name"
-                      value={editEductionSkill.skills[0]?.name || skill?.name}
+                      value={editSkillCart.skills[0]?.name || skill?.name}
                       onChange={handelSkillEdit}
                       className="w-1/3 bg-[#333 ] max-[530px]:text-sm border border-gray-600 rounded px-3 py-2 text-white"
                     />
@@ -303,7 +310,7 @@ function SkillsChart() {
                       type="number"
                       name="level"
                       value={
-                        editEductionSkill.skills[0]?.level || skill?.level || ""
+                        editSkillCart.skills[0]?.level || skill?.level || ""
                       }
                       onChange={handelSkillEdit}
                       className="w-1/3 bg-[#333] max-[530px]:text-sm border border-gray-600 rounded px-3 py-2 text-white"
@@ -327,9 +334,9 @@ function SkillsChart() {
                     <button
                       onClick={() => (
                         toggleEditSkill(catIndex, skillIndex),
-                        setEditEductionSkill({
-                          ...editEductionSkill,
-                          educationId: category._id,
+                        setEditSkillCart({
+                          ...editSkillCart,
+                          cartId: category._id,
                           skillId: skill._id,
                         })
                       )}

@@ -67,19 +67,30 @@ export const SkillAddCart = createAsyncThunk("/new/skill", async (data) => {
     return error?.response?.data || error?.message || "Something went wrong...";
   }
 });
-export const AddSkillInCart = createAsyncThunk("/new/skill/skill", async () => {
-  try {
-    const response = await axiosInstance.get("/");
-    return response?.data;
-  } catch (error) {
-    return error?.response?.data || error?.message || "Something went wrong...";
+export const AddSkillInCart = createAsyncThunk(
+  "/new/skill/skill",
+  async (data) => {
+    try {
+      const response = await axiosInstance.put(
+        `/app/admin/v3/skill/${data.id}`,
+        data
+      );
+      return response?.data;
+    } catch (error) {
+      return (
+        error?.response?.data || error?.message || "Something went wrong..."
+      );
+    }
   }
-});
+);
 export const editSkillCartTitle = createAsyncThunk(
   "/update/SkillCart",
-  async () => {
+  async (data) => {
     try {
-      const response = await axiosInstance.get("/");
+      const response = await axiosInstance.put(
+        `/app/admin/v3/skill/updateTitle/${data.id}`,
+        data
+      );
       return response?.data;
     } catch (error) {
       return (
@@ -90,9 +101,11 @@ export const editSkillCartTitle = createAsyncThunk(
 );
 export const DeleteSkillInCart = createAsyncThunk(
   "/delete/skillCart",
-  async () => {
+  async (data) => {
     try {
-      const response = await axiosInstance.get("/");
+      const response = await axiosInstance.put(
+        `/app/admin/v3/skill/${data.cartId}/${data.skillId}`
+      );
       return response?.data;
     } catch (error) {
       return (
@@ -103,9 +116,12 @@ export const DeleteSkillInCart = createAsyncThunk(
 );
 export const UpdateSkillInCart = createAsyncThunk(
   "/update/skillInCart",
-  async () => {
+  async (data) => {
     try {
-      const response = await axiosInstance.get("/");
+      const response = await axiosInstance.put(
+        `/app/admin/v3/skill/${data.cartId}/${data.skillId}`,
+        data
+      );
       return response?.data;
     } catch (error) {
       return (
