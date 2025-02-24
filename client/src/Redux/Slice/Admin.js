@@ -130,11 +130,13 @@ export const UpdateSkillInCart = createAsyncThunk(
     }
   }
 );
-export const DeleteEductionCart = createAsyncThunk(
+export const DeleteCart = createAsyncThunk(
   "/delete/SkillInEducationCart",
-  async () => {
+  async (data) => {
     try {
-      const response = await axiosInstance.get("/");
+      const response = await axiosInstance.delete(
+        `/app/admin/v3/skill/${data}`
+      );
       return response?.data;
     } catch (error) {
       return (

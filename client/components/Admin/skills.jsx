@@ -1,8 +1,16 @@
 import React, { useState } from "react";
-import { PlusCircle, Edit2, Save } from "lucide-react";
+import {
+  PlusCircle,
+  Edit2,
+  Save,
+  Delete,
+  DeleteIcon,
+  Trash2,
+} from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   AddSkillInCart,
+  DeleteCart,
   editSkillCartTitle,
   SkillAddCart,
   UpdateSkillInCart,
@@ -17,6 +25,7 @@ function SkillsChart() {
     id: null,
     title: "",
   });
+
   const [editSkillCart, setEditSkillCart] = useState({
     cartId: null,
     skillId: null,
@@ -118,6 +127,12 @@ function SkillsChart() {
   };
   const handelEditEducationTitle = async () => {
     const res = await dispatch(editSkillCartTitle(editEductionTitle));
+    console.log(res);
+  };
+  const handelDeleteCart = async (cartId, title) => {
+    const isConfirm = window.confirm(`Delete This cart ${title}?`);
+    if (!isConfirm) return;
+    const res = await dispatch(DeleteCart(cartId));
     console.log(res);
   };
   const toggleEditSkill = (categoryIndex, skillIndex) => {
@@ -251,6 +266,12 @@ function SkillsChart() {
         {/* Skills List */}
         {skillData.map((category, catIndex) => (
           <div key={category._id} className="bg-[#2a2a2a] p-6 rounded-lg mb-6">
+            <button
+              onClick={() => handelDeleteCart(category._id, category.title)}
+              className="bg-red-400 px-2 py-2 rounded-lg "
+            >
+              <Trash2 className="h-4 w-4 max-[530px]:w-3" />
+            </button>
             {/* ✅ Editable Category Title */}
             <div className="flex justify-between items-center mb-4">
               {category.edit ? (
@@ -331,19 +352,22 @@ function SkillsChart() {
                     <span className="max-[530px]:text-sm max-[530px]:pr-1">
                       {skill.level}%
                     </span>
-                    <button
-                      onClick={() => (
-                        toggleEditSkill(catIndex, skillIndex),
-                        setEditSkillCart({
-                          ...editSkillCart,
-                          cartId: category._id,
-                          skillId: skill._id,
-                        })
-                      )}
-                      className="bg-cyan-600 px-4 py-2 rounded-lg "
-                    >
-                      <Edit2 className="h-4 w-4 max-[530px]:w-3" />
-                    </button>
+                    <div className="flex  gap-2">
+                      {" "}
+                      <button
+                        onClick={() => (
+                          toggleEditSkill(catIndex, skillIndex),
+                          setEditSkillCart({
+                            ...editSkillCart,
+                            cartId: category._id,
+                            skillId: skill._id,
+                          })
+                        )}
+                        className="bg-cyan-600 px-4 py-2 rounded-lg "
+                      >
+                        <Edit2 className="h-4 w-4 max-[530px]:w-3" />
+                      </button>
+                    </div>
                   </>
                 )}
               </div>
