@@ -5,14 +5,5 @@ import {
   newSkillAddToCart,
 } from "../Controllers/SkillsController.js";
 const SkillRouter = Router();
-SkillRouter.post(
-  "/create/cart/skills",
-
-  CreateNewSkillsCart
-);
-SkillRouter.put(
-  "/add/cart/skill:id",
-
-  newSkillAddToCart
-);
+SkillRouter.route("/").post(CreateNewSkillsCart).put(newSkillAddToCart);
 export default SkillRouter;

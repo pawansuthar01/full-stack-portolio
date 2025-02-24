@@ -59,7 +59,15 @@ export const NewUploadProject = createAsyncThunk("/new/project", async () => {
     return error?.response?.data || error?.message || "Something went wrong...";
   }
 });
-export const eductionAdd = createAsyncThunk("/new/eduction", async () => {
+export const SkillAddCart = createAsyncThunk("/new/skill", async (data) => {
+  try {
+    const response = await axiosInstance.post("/app/admin/v3/skill/", data);
+    return response?.data;
+  } catch (error) {
+    return error?.response?.data || error?.message || "Something went wrong...";
+  }
+});
+export const AddSkillInCart = createAsyncThunk("/new/skill/skill", async () => {
   try {
     const response = await axiosInstance.get("/");
     return response?.data;
@@ -67,8 +75,8 @@ export const eductionAdd = createAsyncThunk("/new/eduction", async () => {
     return error?.response?.data || error?.message || "Something went wrong...";
   }
 });
-export const editEductionCart = createAsyncThunk(
-  "/update/eductionCart",
+export const editSkillCartTitle = createAsyncThunk(
+  "/update/SkillCart",
   async () => {
     try {
       const response = await axiosInstance.get("/");
@@ -80,8 +88,8 @@ export const editEductionCart = createAsyncThunk(
     }
   }
 );
-export const DeleteEductionNiSkill = createAsyncThunk(
-  "/update/banner",
+export const DeleteSkillInCart = createAsyncThunk(
+  "/delete/skillCart",
   async () => {
     try {
       const response = await axiosInstance.get("/");
@@ -93,8 +101,8 @@ export const DeleteEductionNiSkill = createAsyncThunk(
     }
   }
 );
-export const UpdateEductionNiSkill = createAsyncThunk(
-  "/update/banner",
+export const UpdateSkillInCart = createAsyncThunk(
+  "/update/skillInCart",
   async () => {
     try {
       const response = await axiosInstance.get("/");
@@ -107,7 +115,7 @@ export const UpdateEductionNiSkill = createAsyncThunk(
   }
 );
 export const DeleteEductionCart = createAsyncThunk(
-  "/update/banner",
+  "/delete/SkillInEducationCart",
   async () => {
     try {
       const response = await axiosInstance.get("/");

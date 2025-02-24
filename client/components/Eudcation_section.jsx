@@ -1,24 +1,6 @@
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 
-// const educationData = [
-//   {
-//     id: 1,
-//     course: "Bachelor of Computer Applications",
-//     institute: "XYZ University",
-//     year: "2021 - 2024",
-//     description:
-//       "Focused on web development, programming languages, and software engineering.",
-//   },
-//   {
-//     id: 2,
-//     course: "Full Stack Web Development",
-//     institute: "CCBP 4.0",
-//     year: "2024 - Present",
-//     description:
-//       "Learning modern web technologies including React, Node.js, and MongoDB.",
-//   },
-// ];
 
 const cardVariants = {
   hidden: { opacity: 0, y: 50 },

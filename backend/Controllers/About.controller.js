@@ -5,6 +5,7 @@ import About_section from "../Modules/AboutModule.js";
 
 //* uploadAboutSectionDetails//*
 export const AboutSectionCreate = async (req, res, next) => {
+    
   const { title, description } = req.body;
   if (!title || !description || !req.file) {
     return next(new AppError("please give All Data  ", 400));

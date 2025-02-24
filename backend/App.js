@@ -43,7 +43,7 @@ app.use((req, res, next) => {
 app.use("/app/admin/v3/mainSection", MainSectionRouter);
 app.use("/app/admin/v3/About", AboutRouter);
 app.use("/app/user/v3/Data", UserRouter);
-app.use("/app/admin/v3/skillCart", SkillRouter);
+app.use("/app/admin/v3/skill", SkillRouter);
 app.use("/app/admin/v3/projectCart", ProjectRouter);
 app.use("/app/admin/v3/Education", EducationRouter);
 app.use("/app/user/v3/Message", MessageRouter);
