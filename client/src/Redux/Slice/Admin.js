@@ -35,17 +35,38 @@ export const AboutUpdate = createAsyncThunk("/update/About", async (data) => {
     return error?.response?.data || error?.message || "Something went wrong...";
   }
 });
-export const updateProject = createAsyncThunk("/update/project", async () => {
-  try {
-    const response = await axiosInstance.get("/");
-    return response?.data;
-  } catch (error) {
-    return error?.response?.data || error?.message || "Something went wrong...";
+export const updateProject = createAsyncThunk(
+  "/update/project",
+  async (data) => {
+    try {
+      const response = await axiosInstance.put(
+        `/app/admin/v3/project/${data._id}`,
+        data
+      );
+      return response?.data;
+    } catch (error) {
+      return (
+        error?.response?.data || error?.message || "Something went wrong..."
+      );
+    }
   }
-});
-export const DeleteProject = createAsyncThunk("/delete/project", async () => {
+);
+export const UploadProject = createAsyncThunk(
+  "/upload/project",
+  async (data) => {
+    try {
+      const response = await axiosInstance.post(`/app/admin/v3/project/`, data);
+      return response?.data;
+    } catch (error) {
+      return (
+        error?.response?.data || error?.message || "Something went wrong..."
+      );
+    }
+  }
+);
+export const DeleteProject = createAsyncThunk("/delete/project", async (id) => {
   try {
-    const response = await axiosInstance.get("/");
+    const response = await axiosInstance.delete(`/app/admin/v3/project/${id}`);
     return response?.data;
   } catch (error) {
     return error?.response?.data || error?.message || "Something went wrong...";
@@ -100,11 +121,12 @@ export const editSkillCartTitle = createAsyncThunk(
   }
 );
 export const DeleteSkillInCart = createAsyncThunk(
-  "/delete/skillCart",
-  async (data) => {
+  "/delete/skillInCart",
+  async ({ cartId, skillId }) => {
+    console.log(cartId, skillId);
     try {
-      const response = await axiosInstance.put(
-        `/app/admin/v3/skill/${data.cartId}/${data.skillId}`
+      const response = await axiosInstance.delete(
+        `/app/admin/v3/skill/${cartId}/${skillId}`
       );
       return response?.data;
     } catch (error) {

@@ -12,7 +12,7 @@ import {
   updateProjectFeedback,
 } from "../Controllers/ProjectController.js";
 const ProjectRouter = Router();
-ProjectRouter.route("/project:id")
+ProjectRouter.route("/:id")
   .get(GetProjectById)
   .put(updateProjectById)
   .delete(ProjectDeleteById);
@@ -23,7 +23,7 @@ ProjectRouter.route("/project:projectId/feedback:feedbackId")
   .put(updateProjectFeedback)
   .delete(DeleteFeedbackById);
 
-ProjectRouter.route("/project")
+ProjectRouter.route("/")
   .post(Upload.single("image"), NewProjectAdd)
   .get(AllGetProject);
 ProjectRouter.route("/feedback").get(getAllFeedback);

@@ -9,6 +9,7 @@ const ProjectSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   Date: { type: Date, default: Date.now },
+  link: { type: String, required: true },
 
   feedbackList: [
     {

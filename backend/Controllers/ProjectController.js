@@ -5,27 +5,29 @@ import Project from "../Modules/ProjectModule.js";
 
 //*new project add//*
 export const NewProjectAdd = async (req, res, next) => {
-  const { title, description, tags } = req.body;
+  const { title, description, tags, link } = req.body;
 
-  if (!title || !description || !tags || !req.file) {
+  if (!title || !description || !tags || !req.file || !link) {
     return next(
       new AppError("please give All filed to Add new project...", 400)
     );
   }
-
-  let image = "few time valid..";
+  let image = "default-image-url";
   let tagsArray;
   try {
-    const parsedTags = JSON.parse(tags);
-    if (!Array.isArray(parsedTags)) {
-      return next(new AppError("Tags must be an array.", 400));
+    tagsArray = JSON.parse(tags);
+    if (
+      !Array.isArray(tagsArray) ||
+      !tagsArray.every((tag) => tag && typeof tag.name === "string")
+    ) {
+      throw new Error();
     }
-
-    // Convert array of strings to array of objects with name field
-    tagsArray = parsedTags.map((tag) => ({ name: tag }));
   } catch (error) {
     return next(
-      new AppError("Invalid tags format. Must be an array of strings.", 400)
+      new AppError(
+        "Invalid tags format. Must be an array of objects with a 'name' field.",
+        400
+      )
     );
   }
   try {
@@ -41,6 +43,7 @@ export const NewProjectAdd = async (req, res, next) => {
     const newProject = new Project({
       title,
       tags: tagsArray,
+      link,
       image,
       description,
     });
@@ -68,22 +71,8 @@ export const NewProjectAdd = async (req, res, next) => {
 export const updateProjectById = async (req, res, next) => {
   const { id } = req.params;
 
-  const { title, description, tags } = req.body;
-  let tagsArray;
-  if (tags) {
-    try {
-      const parsedTags = JSON.parse(tags);
-      if (!Array.isArray(parsedTags)) {
-        return next(new AppError("Tags must be an array.", 400));
-      }
+  const { title, description, tags, link } = req.body;
 
-      tagsArray = parsedTags.map((tag) => ({ name: tag }));
-    } catch (error) {
-      return next(
-        new AppError("Invalid tags format. Must be an array of strings.", 400)
-      );
-    }
-  }
   if (!id) {
     return next(new AppError("please give id to   update project...", 400));
   }
@@ -108,7 +97,8 @@ export const updateProjectById = async (req, res, next) => {
     }
     const newData = {
       ...(title && { title }),
-      ...(tags && { tags: tagsArray }),
+      ...(tags && { tags }),
+      ...(link && { link }),
       ...(req.file && { image }),
       ...(description && { description }),
     };
