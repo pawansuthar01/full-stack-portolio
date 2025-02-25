@@ -1,25 +1,17 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import {
+  DeleteEducation,
+  updateEducation,
+  UploadEducationCart,
+} from "../../src/Redux/Slice/Admin";
 
 const EducationManager = () => {
-  const [educations, setEducations] = useState([
-    {
-      id: 1,
-      course: "BCA",
-      institute: "XYZ University",
-      year: "2021 - 2024",
-      description: "Studied Computer Applications and Programming.",
-    },
-    {
-      id: 2,
-      course: "Full Stack Web Development",
-      institute: "CCBP 4.0",
-      year: "2024 - Present",
-      description:
-        "Learning modern web technologies including React, Node.js, and MongoDB.",
-    },
-  ]);
-
+  const { educationData } = useSelector((state) => state?.DataStore);
+  const [educations, setEducations] = useState(educationData);
+  const dispatch = useDispatch();
   const [newEducation, setNewEducation] = useState({
     course: "",
     institute: "",
@@ -29,30 +21,67 @@ const EducationManager = () => {
 
   const [editIndex, setEditIndex] = useState(null);
 
-  const handleAddEducation = () => {
-    if (!newEducation.course || !newEducation.institute) return;
+  const handleAddEducation = async () => {
+    if (
+      !newEducation.course ||
+      !newEducation.institute ||
+      !newEducation.description
+    ) {
+      toast.error("Give All filed to upload Education Cart...");
+      return;
+    }
+    const res = await dispatch(UploadEducationCart(newEducation));
+    console.log(res);
+    if (res?.payload?.success) {
+      toast.success(res?.payload?.message);
+      setEducations((prev) => [...prev, res?.payload?.data]);
+    } else {
+      toast.error(res?.payload?.message);
+    }
     setEducations([...educations, { id: Date.now(), ...newEducation }]);
     setNewEducation({ course: "", institute: "", year: "", description: "" });
   };
 
-  const handleEditEducation = (index) => {
-    setEditIndex(index);
+  const handleEditEducation = (index, id) => {
+    setEditIndex(id);
     setNewEducation(educations[index]);
   };
 
-  const handleUpdateEducation = () => {
-    const updatedEducation = [...educations];
-    updatedEducation[editIndex] = {
-      id: updatedEducation[editIndex].id,
-      ...newEducation,
-    };
-    setEducations(updatedEducation);
+  const handleUpdateEducation = async () => {
+    if (editIndex == (null || undefined)) {
+      toast.error("someThing wont wrong...");
+      return;
+    }
+    const res = await dispatch(
+      updateEducation({ id: editIndex, data: newEducation })
+    );
+    if (res?.payload?.success) {
+      toast.success(res?.payload?.message);
+      setEducations((prev) =>
+        prev.map((edu) =>
+          edu._id === res?.payload?.data?._id ? res?.payload?.data : edu
+        )
+      );
+    } else {
+      toast.error(res?.payload?.message);
+    }
+
     setNewEducation({ course: "", institute: "", year: "", description: "" });
     setEditIndex(null);
   };
 
-  const handleDeleteEducation = (id) => {
-    setEducations(educations.filter((edu) => edu.id !== id));
+  const handleDeleteEducation = async (id) => {
+    if (!id) {
+      toast.error("something wont wrong...");
+      return;
+    }
+    const isConfirm = window.confirm("Delete this education...");
+    if (!isConfirm) return;
+    setEducations(educations.filter((edu) => edu._id !== id));
+    const res = await dispatch(DeleteEducation(id));
+    res?.payload?.success
+      ? toast.success(res?.payload?.message)
+      : toast.error(res?.payload?.message);
   };
 
   return (
@@ -77,7 +106,7 @@ const EducationManager = () => {
       >
         {educations.map((edu, index) => (
           <motion.div
-            key={edu.id}
+            key={edu._id}
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -95,13 +124,13 @@ const EducationManager = () => {
             <div className="mt-2 flex gap-2">
               <button
                 className="px-3 py-1 bg-blue-500 rounded"
-                onClick={() => handleEditEducation(index)}
+                onClick={() => handleEditEducation(index, edu._id)}
               >
                 Edit
               </button>
               <button
                 className="px-3 py-1 bg-red-500 rounded"
-                onClick={() => handleDeleteEducation(edu.id)}
+                onClick={() => handleDeleteEducation(edu._id)}
               >
                 Delete
               </button>

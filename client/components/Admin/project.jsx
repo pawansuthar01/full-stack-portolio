@@ -51,7 +51,7 @@ export default function ProjectManager() {
     );
     setEditProject(null);
     const res = await dispatch(updateProject(editProject));
-    console.log(res);
+
     if (res?.payload?.success) {
       toast.success(res?.payload?.message);
       setProjectsData((prev) =>
@@ -72,7 +72,7 @@ export default function ProjectManager() {
 
     setProjectsData(projectsData.filter((project) => project._id !== id));
     const res = await dispatch(DeleteProject(id));
-    console.log(res);
+
     res?.payload?.success
       ? toast.success(res?.payload?.message)
       : toast.error(res?.payload?.message);

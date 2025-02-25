@@ -7,8 +7,8 @@ import {
   updatedEductionCartById,
 } from "../Controllers/EducationController.js";
 const EducationRouter = Router();
-EducationRouter.route("/education").post(AddEductionCart).get(AllEductionCart);
-EducationRouter.route("/education:id")
+EducationRouter.route("/").post(AddEductionCart).get(AllEductionCart);
+EducationRouter.route("/:id")
   .put(updatedEductionCartById)
   .delete(DeleteEducationCartById);
 

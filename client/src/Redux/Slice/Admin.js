@@ -51,11 +51,58 @@ export const updateProject = createAsyncThunk(
     }
   }
 );
+export const updateEducation = createAsyncThunk(
+  "/update/Education",
+  async ({ id, data }) => {
+    try {
+      const response = await axiosInstance.put(
+        `/app/admin/v3/education/${id}`,
+        data
+      );
+      return response?.data;
+    } catch (error) {
+      return (
+        error?.response?.data || error?.message || "Something went wrong..."
+      );
+    }
+  }
+);
+export const UploadEducationCart = createAsyncThunk(
+  "/upload/education",
+  async (data) => {
+    try {
+      const response = await axiosInstance.post(
+        `/app/admin/v3/education/`,
+        data
+      );
+      return response?.data;
+    } catch (error) {
+      return (
+        error?.response?.data || error?.message || "Something went wrong..."
+      );
+    }
+  }
+);
 export const UploadProject = createAsyncThunk(
   "/upload/project",
   async (data) => {
     try {
       const response = await axiosInstance.post(`/app/admin/v3/project/`, data);
+      return response?.data;
+    } catch (error) {
+      return (
+        error?.response?.data || error?.message || "Something went wrong..."
+      );
+    }
+  }
+);
+export const DeleteEducation = createAsyncThunk(
+  "/delete/education",
+  async (id) => {
+    try {
+      const response = await axiosInstance.delete(
+        `/app/admin/v3/education/${id}`
+      );
       return response?.data;
     } catch (error) {
       return (

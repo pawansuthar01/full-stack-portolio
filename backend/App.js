@@ -45,7 +45,7 @@ app.use("/app/admin/v3/About", AboutRouter);
 app.use("/app/user/v3/Data", UserRouter);
 app.use("/app/admin/v3/skill", SkillRouter);
 app.use("/app/admin/v3/project", ProjectRouter);
-app.use("/app/admin/v3/Education", EducationRouter);
+app.use("/app/admin/v3/education", EducationRouter);
 app.use("/app/user/v3/Message", MessageRouter);
 app.use("/app/admin/v3/Detail", SociolRouter);
 app.use("/app/user/v3/Feedback", feedbackRouter);
