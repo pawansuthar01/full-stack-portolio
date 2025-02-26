@@ -35,7 +35,6 @@ const itemVariants = {
 
 export default function Project() {
   const { projectData } = useSelector((state) => state?.DataStore);
-  console.log(projectData);
   return (
     <section className="mx-auto p-6 max-sm:p-0 text-white ">
       <div className="flex justify-center">
