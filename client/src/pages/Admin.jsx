@@ -4,7 +4,7 @@ import BannerUpdater from "../../components/Admin/banner";
 import ContactList from "../../components/Admin/ContactList";
 import EducationManager from "../../components/Admin/eduction";
 import ProjectManager from "../../components/Admin/project";
-import { Layout, XCircleIcon } from "lucide-react";
+import { Layout, User, XCircleIcon } from "lucide-react";
 import { MdMenu, MdPassword, MdSettings } from "react-icons/md";
 import SkillsChart from "../../components/Admin/skills";
 import { FaBoxOpen } from "react-icons/fa6";
@@ -20,6 +20,7 @@ import { getAllData } from "../Redux/Slice/getData";
 import { useDispatch } from "react-redux";
 import SocialUpdate from "../../components/Admin/SociolLink";
 import ChangePassword from "../../components/Admin/Password/changePassword";
+import SubscribersList from "../../components/Admin/SubsrcibeUser";
 const navigation = [
   {
     id: 1,
@@ -67,6 +68,12 @@ const navigation = [
     id: 8,
     label: "Password Update",
     icon: MdPassword,
+    colors: "from-green-500 to-indigo-500",
+  },
+  {
+    id: 9,
+    label: "Subscribe users",
+    icon: User,
     colors: "from-green-500 to-indigo-500",
   },
 ];
@@ -174,6 +181,7 @@ export const Admin = () => {
       {activeSection == 6 && <ContactList />}
       {activeSection == 7 && <SocialUpdate />}
       {activeSection == 8 && <ChangePassword />}
+      {activeSection == 8 && <SubscribersList />}
     </div>
   );
 };

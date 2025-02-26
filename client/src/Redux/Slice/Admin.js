@@ -321,6 +321,14 @@ export const UpdatePassword = createAsyncThunk(
     }
   }
 );
+export const subscribers = createAsyncThunk("/put/admin/password", async () => {
+  try {
+    const response = await axiosInstance.get(`/app/admin/v3/subscribe/`);
+    return response?.data;
+  } catch (error) {
+    return error?.response?.data || error?.message || "Something went wrong...";
+  }
+});
 
 const AdminRedux = createSlice({
   name: "AdminStore",

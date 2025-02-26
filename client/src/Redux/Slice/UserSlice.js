@@ -3,6 +3,17 @@ import axiosInstance from "../../../Helper/axiosInstance";
 const initialState = {
   message: [],
 };
+export const Subscribe = createAsyncThunk("/post/Subscribe", async (email) => {
+  try {
+    const response = await axiosInstance.post(
+      `/app/user/v3/Data/subscribe/${email}`
+    );
+
+    return response?.data;
+  } catch (error) {
+    return error?.response?.data || error?.message || "Something went wrong...";
+  }
+});
 export const submitMessage = createAsyncThunk(
   "/submit/Message",
   async (data) => {
