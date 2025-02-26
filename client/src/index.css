@@ -7,3 +7,6 @@
 body {
   position: relative;
 }
+.custom-grid {
+  grid-auto-rows: 1fr;
+}

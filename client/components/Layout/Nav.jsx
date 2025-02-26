@@ -28,7 +28,6 @@ export default function Navbar() {
       {/* Navbar Items */}
       <ul className="flex gap-10 max-lg:hidden">
         <motion.li
-          href="#Home_section"
           onClick={() => scrollToSection("home_section")}
           initial={{ y: 50, opacity: 0, color: "#242424" }}
           whileInView={{ y: 0, opacity: 1, color: "#fff" }}
@@ -57,7 +56,7 @@ export default function Navbar() {
           Skills
         </motion.li>
         <motion.li
-          onClick={() => scrollToSection("projects_section")}
+          onClick={() => scrollToSection("project_section")}
           initial={{ y: 50, opacity: 0, color: "#242424" }}
           animate={{ y: 0, opacity: 1, color: "#fff" }}
           transition={{ duration: 1, ease: "easeOut", delay: 0.8 }}
@@ -66,7 +65,7 @@ export default function Navbar() {
           Projects
         </motion.li>
         <motion.li
-          onClick={() => scrollToSection("projects_section")}
+          onClick={() => scrollToSection("education_section")}
           initial={{ y: 50, opacity: 0, color: "#242424" }}
           animate={{ y: 0, opacity: 1, color: "#fff" }}
           transition={{ duration: 1, ease: "easeOut", delay: 1 }}

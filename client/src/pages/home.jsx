@@ -39,13 +39,27 @@ export default function Home() {
   return (
     <Layout>
       <div className="overflow-hidden">
-        <Banner_section />
-        <About />
-        <SkillsChart />
-        <Project />
-        <EducationCard />
-        <Contact />
-        <Feedback />
+        <div id="home_section">
+          <Banner_section />
+        </div>
+        <div id="about_section">
+          <About />
+        </div>
+        <div id="skills_section">
+          <SkillsChart />
+        </div>
+        <div id="project_section">
+          <Project />
+        </div>
+        <div id="education_section">
+          <EducationCard />
+        </div>
+        <div id="contact_section">
+          <Contact />
+        </div>
+        <div id="feedback_section">
+          <Feedback />
+        </div>
       </div>
     </Layout>
   );

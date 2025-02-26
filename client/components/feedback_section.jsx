@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { FaStar } from "react-icons/fa";
+import { motion, useAnimation } from "framer-motion";
+import { FaStar, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { isEmail } from "../Helper/Regex";
 import { submitFeedback } from "../src/Redux/Slice/UserSlice";
 
 export default function FeedbackCarousel() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const controls = useAnimation();
   const { feedbackData } = useSelector((state) => state?.DataStore);
   const [message, setMessage] = useState(false);
   const dispatch = useDispatch();
@@ -65,7 +68,39 @@ export default function FeedbackCarousel() {
     setMessage(res?.payload?.message);
     setFormData({ name: "", email: "", rating: 0, message: "" });
   };
+  useEffect(() => {
+    const startAnimation = async () => {
+      while (true) {
+        await controls.start({ x: "-100%" });
 
+        controls.set({ x: "0%" });
+      }
+    };
+    startAnimation();
+  }, [controls]);
+
+  useEffect(() => {
+    if (isHovered) return;
+    const interval = setInterval(() => {
+      goToNext();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [currentIndex]);
+
+  const goToNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % feedbacks.length);
+  };
+
+  const goToPrevious = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? feedbacks.length - 1 : prevIndex - 1
+    );
+  };
+
+  useEffect(() => {
+    controls.start({ x: `-${currentIndex * 100}%` });
+  }, [currentIndex, controls]);
   return (
     <section className="min-h-screen flex flex-col items-center justify-center  text-white px-6 md:py-12">
       <div className="flex justify-center">
@@ -150,45 +185,68 @@ export default function FeedbackCarousel() {
           {message ? message : "Submit Feedback"}
         </button>
       </motion.form>
+      <motion.div
+        initial={{ opacity: 0, x: -100 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.2, ease: "easeIn" }}
+        className=" mt-10 max-[530px]:w-[90%] w-[600px] items-center  flex justify-center relative"
+      >
+        <div className=" max-[530px]:w-[80%] w-[500px] overflow-hidden ">
+          {/* Previous Button */}
+          <button
+            onClick={goToPrevious}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-cyan-400 cursor-pointer bg-opacity-50 p-2 rounded-full text-white hover:bg-opacity-75 transition-all"
+          >
+            <FaChevronLeft size={24} />
+          </button>
 
-      <div className="mt-10 w-full overflow-hidden relative">
-        <motion.div
-          className="flex space-x-6"
-          animate={{ x: ["0%", "-100%"] }}
-          transition={{
-            ease: "linear",
-            duration: 20,
-            repeat: Infinity,
-          }}
-        >
-          {feedbacks?.length > 0 &&
-            [...feedbacks, ...feedbacks].map((feedback, index) => (
-              <div
-                key={index}
-                className="min-w-[300px] bg-opacity-40  p-4 items-stretch h-full border-cyan-400 backdrop-blur-lg border-1   rounded-lg shadow-lg"
-              >
-                <h3 className="text-lg font-bold text-cyan-400">
-                  {feedback.name}
-                </h3>
-                <p className="text-sm text-gray-400">{feedback.email}</p>
-                <div className="flex gap-1 mt-2">
-                  {[...Array(5)].map((_, i) => (
-                    <FaStar
-                      key={i}
-                      size={20}
-                      className={
-                        i < feedback.rating
-                          ? "text-yellow-400"
-                          : "text-gray-500"
-                      }
-                    />
-                  ))}
+          {/* Carousel Content */}
+          <motion.div
+            className="flex"
+            animate={controls}
+            transition={{ ease: "easeInOut", duration: 0.5 }}
+          >
+            {feedbacks?.length > 0 ? (
+              feedbacks.map((feedback, index) => (
+                <div
+                  key={index}
+                  className="max-[530px]:w-[90%] w-[500px] flex-shrink-0 bg-opacity-40 p-6 border-cyan-400 backdrop-blur-lg border rounded-lg shadow-lg mx-auto"
+                >
+                  <h3 className="text-lg font-bold text-cyan-400">
+                    {feedback.name}
+                  </h3>
+                  <p className="text-sm text-gray-400 mt-1">{feedback.email}</p>
+                  <div className="flex gap-1 mt-3">
+                    {[...Array(5)].map((_, i) => (
+                      <FaStar
+                        key={i}
+                        size={20}
+                        className={
+                          i < feedback.rating
+                            ? "text-yellow-400"
+                            : "text-gray-500"
+                        }
+                      />
+                    ))}
+                  </div>
+                  <p className="mt-4 text-gray-300">{feedback.message}</p>
                 </div>
-                <p className="mt-3">{feedback.message}</p>
-              </div>
-            ))}
-        </motion.div>
-      </div>
+              ))
+            ) : (
+              <p className="text-gray-400">No feedback available</p>
+            )}
+          </motion.div>
+
+          {/* Next Button */}
+          <button
+            onClick={goToNext}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-cyan-400 cursor-pointer bg-opacity-50 p-2 rounded-full text-white hover:bg-opacity-75 transition-all"
+          >
+            <FaChevronRight size={24} />
+          </button>
+        </div>
+      </motion.div>
     </section>
   );
 }
