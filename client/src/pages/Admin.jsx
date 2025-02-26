@@ -119,9 +119,9 @@ export const Admin = () => {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? (
-                <XCircleIcon className="h-8 w-8" />
+                <XCircleIcon className="h-8 w-8 cursor-pointer" />
               ) : (
-                <MdMenu className="h-8 w-8" />
+                <MdMenu className="h-8 w-8 cursor-pointer" />
               )}
             </button>
 
@@ -136,11 +136,11 @@ export const Admin = () => {
                   )}
                   className={`px-3 py-2 rounded-md text-sm font-bold  transition-colors duration-150 ease-in-out flex items-center ${
                     activeSection === items.id
-                      ? "bg-cyan-500  text-white "
-                      : "text-cyan-400 bg-gray-700"
+                      ? "bg-cyan-500  text-white  cursor-pointer"
+                      : "text-cyan-400 bg-gray-700 cursor-pointer"
                   }`}
                 >
-                  <items.icon className="w-4 h-4 mr-2" />
+                  <items.icon className="w-4 h-4 mr-2 cursor-pointer" />
 
                   {items.label}
                 </button>
@@ -161,11 +161,11 @@ export const Admin = () => {
                 )}
                 className={`w-full px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150 ease-in-out flex items-center ${
                   activeSection === items.id
-                    ? "bg-cyan-500  text-white "
-                    : "text-cyan-400 bg-gray-700"
+                    ? "bg-cyan-500  text-white cursor-pointer"
+                    : "text-cyan-400 bg-gray-700 cursor-pointer"
                 }`}
               >
-                <items.icon className="w-4 h-4 mr-2" />
+                <items.icon className="w-4 h-4 mr-2 cursor-pointer" />
 
                 {items.label}
               </button>

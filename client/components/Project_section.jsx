@@ -35,7 +35,7 @@ const itemVariants = {
 
 export default function Project() {
   const { projectData } = useSelector((state) => state?.DataStore);
-
+  console.log(projectData);
   return (
     <section className="mx-auto p-6 max-sm:p-0 text-white ">
       <div className="flex justify-center">
@@ -66,7 +66,7 @@ export default function Project() {
               className="bg-[#242424]/80 w-[300px] overflow-hidden p-4 h-full rounded-xl border border-[#00f7ff]/50 shadow-lg transition-transform"
             >
               <motion.img
-                className="w-full cursor-pointer  hover:scale-101 h-40 object-cover object-center rounded-md"
+                className="w-full cursor-pointer  hover:scale-102 h-40 object-cover object-center rounded-md"
                 src={project.image}
                 alt={project.title}
               />
@@ -94,7 +94,11 @@ export default function Project() {
                 <FaCalendarAlt className="text-[#00f7ff]" />{" "}
                 {formatMongoDateToIndian(project?.Date)}
               </p>
-              <button className="border-1 w-full border-[#00f7ff] hover:bg-[#00f7ff] hover:text-white hover:shadow-[0_0_2px_0_#00f7ff] hover:-rotate-z-1 cursor-pointer rounded py-1 mt-2">
+              <button
+                className="border border-[#00f7ff] w-full hover:bg-[#00f7ff] hover:text-white 
+             hover:shadow-[0_0_2px_0_#00f7ff] cursor-pointer rounded py-1 mt-2 transition-all"
+                onClick={() => window.open(project?.link, "_blank")}
+              >
                 View
               </button>
             </motion.div>

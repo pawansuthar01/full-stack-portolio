@@ -3,7 +3,6 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { Outlet, Navigate, useParams } from "react-router-dom";
 import { AdminLogin } from "../../src/Redux/Slice/Admin";
-// import { Admin } from "../redux/actions/authActions"; // Import your action correctly
 
 function Required() {
   const [loading, setLoading] = useState(true);
@@ -21,7 +20,6 @@ function Required() {
 
     const res = await dispatch(AdminLogin({ email, password }));
 
-    console.log(res);
     if (res?.payload?.success) {
       setLoading(false);
       toast.success(res?.payload?.message);

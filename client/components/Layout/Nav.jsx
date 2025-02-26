@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
+  const { SocialLinkData } = useSelector((state) => state?.DataStore);
   const scrollToSection = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
@@ -85,7 +87,7 @@ export default function Navbar() {
 
       {/* GitHub Button with Neon Glow */}
       <motion.a
-        href="https://github.com/pawansuthar01"
+        href={SocialLinkData[0]?.git}
         target="_blank"
         rel="noopener noreferrer"
         initial={{ scale: 0.9, opacity: 0 }}

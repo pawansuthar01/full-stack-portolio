@@ -162,7 +162,11 @@ export default function ProjectManager() {
                 <FaCalendarAlt className="text-[#00f7ff]" />{" "}
                 {formatMongoDateToIndian(project?.Date)}
               </p>
-              <button className="border-1 w-full border-[#00f7ff] hover:bg-[#00f7ff] hover:text-white hover:shadow-[0_0_2px_0_#00f7ff] hover:-rotate-z-1 cursor-pointer rounded py-1 mt-2">
+              <button
+                className="border border-[#00f7ff] w-full hover:bg-[#00f7ff] hover:text-white 
+             hover:shadow-[0_0_2px_0_#00f7ff] cursor-pointer rounded py-1 mt-2 transition-all"
+                onClick={() => window.open(project?.link, "_blank")}
+              >
                 View
               </button>
               <div className="flex justify-end gap-2 mt-3">

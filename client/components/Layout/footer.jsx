@@ -91,28 +91,28 @@ export default function Footer() {
       </div>
       <div className="flex justify-center gap-5 mt-6">
         <a
-          href={SocialLinkData?.facebook || "https://www.facebook.com"}
+          href={SocialLinkData[0]?.facebook || "https://www.facebook.com"}
           target="_blank"
           className="text-blue-600 dark:text-blue-400 hover:text-blue-800"
         >
           <FaFacebookF size={24} />
         </a>
         <a
-          href={SocialLinkData?.Instagram}
+          href={SocialLinkData[0]?.Instagram}
           target="_blank"
           className="text-red-500 dark:text-red-400 hover:text-red-700"
         >
           <FaInstagram size={24} />
         </a>
         <a
-          href={SocialLinkData?.x}
+          href={SocialLinkData[0]?.x}
           target="_blank"
           className="text-gray-800 dark:text-gray-300 hover:text-gray-600"
         >
           <FaXTwitter size={24} />
         </a>
         <a
-          href={SocialLinkData?.Linkedin}
+          href={SocialLinkData[0]?.linkedin}
           target="_blank"
           className="text-blue-500 dark:text-blue-300 hover:text-blue-700"
         >

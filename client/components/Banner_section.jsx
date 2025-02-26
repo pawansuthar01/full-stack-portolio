@@ -10,6 +10,7 @@ export default function Banner_section({
   title,
 }) {
   const { bannerData } = useSelector((state) => state?.DataStore);
+  const { SocialLinkData } = useSelector((state) => state?.DataStore);
 
   return (
     bannerData?.length > 0 &&
@@ -61,7 +62,7 @@ export default function Banner_section({
             initial={{ opacity: 0, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.8, ease: "easeInOut" }}
-            className="text-[15px] pt-2 max-[550px]:text-[14px]"
+            className="text-[15px] pt-2 max-[550px]:text-[14px] mb-5"
           >
             {description ||
               Data?.description ||
@@ -70,7 +71,9 @@ export default function Banner_section({
             delivering high-quality results.`}
           </motion.p>
 
-          <motion.button
+          <motion.a
+            href={SocialLinkData[0]?.cv}
+            target="_blank"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 1, ease: "easeInOut" }}
@@ -79,7 +82,7 @@ export default function Banner_section({
           border-[#00f7ff] text-[#00f7ff] hover:shadow-[0_0px_5px_#00f7ff]"
           >
             Check Resume
-          </motion.button>
+          </motion.a>
         </motion.div>
 
         {/* Right Content - Image */}
