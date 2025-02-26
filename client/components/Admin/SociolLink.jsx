@@ -77,7 +77,10 @@ const SocialUpdate = () => {
         Social Data Update
       </h2>
 
-      <form onSubmit={handleSubmit} className="bg-[#333] p-2">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-[#333] border-cyan-200 border-1 rounded-md shadow-[0_0_5px_0_cyan] p-2 m-2"
+      >
         {/* Address */}
 
         {/* Instagram */}

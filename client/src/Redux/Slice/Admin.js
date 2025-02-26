@@ -256,14 +256,71 @@ export const GetAllFeedback = createAsyncThunk("/get/feedback", async () => {
     return error?.response?.data || error?.message || "Something went wrong...";
   }
 });
-export const getPassword = createAsyncThunk("/get/password", async () => {
-  try {
-    const response = await axiosInstance.get("/");
-    return response?.data;
-  } catch (error) {
-    return error?.response?.data || error?.message || "Something went wrong...";
+export const AdminLogin = createAsyncThunk(
+  "/LoginAs/admin",
+  async ({ email, password }) => {
+    try {
+      const response = await axiosInstance.get(
+        `/app/admin/v3/Login/${email}/${password}`
+      );
+      return response?.data;
+    } catch (error) {
+      return (
+        error?.response?.data || error?.message || "Something went wrong..."
+      );
+    }
   }
-});
+);
+export const checkPasswordReset = createAsyncThunk(
+  "/check/Token",
+  async (resetToken) => {
+    try {
+      const response = await axiosInstance.get(
+        `/app/admin/v3/checkPasswordReset/${resetToken}`
+      );
+      return response?.data;
+    } catch (error) {
+      return (
+        error?.response?.data || error?.message || "Something went wrong..."
+      );
+    }
+  }
+);
+export const changePassword = createAsyncThunk(
+  "/put/admin/password",
+  async ({ resetToken, newPassword }) => {
+    try {
+      const response = await axiosInstance.put(
+        `/app/admin/v3/change/Password/${resetToken}`,
+
+        {
+          newPassword: newPassword,
+        }
+      );
+      return response?.data;
+    } catch (error) {
+      return (
+        error?.response?.data || error?.message || "Something went wrong..."
+      );
+    }
+  }
+);
+export const UpdatePassword = createAsyncThunk(
+  "/put/admin/password",
+  async (data) => {
+    try {
+      const response = await axiosInstance.put(
+        `/app/admin/v3/update/password/`,
+        data
+      );
+      return response?.data;
+    } catch (error) {
+      return (
+        error?.response?.data || error?.message || "Something went wrong..."
+      );
+    }
+  }
+);
 
 const AdminRedux = createSlice({
   name: "AdminStore",
@@ -281,12 +338,6 @@ const AdminRedux = createSlice({
         if (action?.payload?.success) {
           localStorage.setItem("feedback", action?.payload?.data?.feedback);
           state.Feedback = action?.payload?.data?.Feedback;
-        }
-      })
-      .addCase(getPassword.fulfilled, (state, action) => {
-        if (action?.payload?.success) {
-          localStorage.setItem("password", action?.payload?.data?.password);
-          state.password = action?.payload?.data?.password;
         }
       });
   },

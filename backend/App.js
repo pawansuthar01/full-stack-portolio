@@ -13,6 +13,7 @@ import { connectDB } from "./Config/DbConfig.js";
 import UserRouter from "./Routers/UserRouter.js";
 import SociolRouter from "./Routers/SociolRouter.js";
 import AboutRouter from "./Routers/AboutRouter.js";
+import Admin from "./Routers/AdminRouter.js";
 const app = express();
 //Db connection Call//
 connectDB();
@@ -41,6 +42,7 @@ app.use((req, res, next) => {
 /// routed handel///
 
 app.use("/app/admin/v3/mainSection", MainSectionRouter);
+app.use("/app/admin/v3/", Admin);
 app.use("/app/admin/v3/About", AboutRouter);
 app.use("/app/user/v3/Data", UserRouter);
 app.use("/app/admin/v3/skill", SkillRouter);

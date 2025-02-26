@@ -5,7 +5,7 @@ import ContactList from "../../components/Admin/ContactList";
 import EducationManager from "../../components/Admin/eduction";
 import ProjectManager from "../../components/Admin/project";
 import { Layout, XCircleIcon } from "lucide-react";
-import { MdMenu, MdSettings } from "react-icons/md";
+import { MdMenu, MdPassword, MdSettings } from "react-icons/md";
 import SkillsChart from "../../components/Admin/skills";
 import { FaBoxOpen } from "react-icons/fa6";
 import {
@@ -19,6 +19,7 @@ import {
 import { getAllData } from "../Redux/Slice/getData";
 import { useDispatch } from "react-redux";
 import SocialUpdate from "../../components/Admin/SociolLink";
+import ChangePassword from "../../components/Admin/Password/changePassword";
 const navigation = [
   {
     id: 1,
@@ -62,6 +63,12 @@ const navigation = [
     icon: MdSettings,
     colors: "from-green-500 to-indigo-500",
   },
+  {
+    id: 8,
+    label: "Password Update",
+    icon: MdPassword,
+    colors: "from-green-500 to-indigo-500",
+  },
 ];
 export const Admin = () => {
   const [activeSection, setActiveSection] = useState(1);
@@ -93,6 +100,7 @@ export const Admin = () => {
   return (
     <div className="overflow-hidden bg-[#242424] text-white">
       {/* Button Section */}
+
       <header className="bg-[#2a2a2a]  shadow-sm  z-40  w-full fixed ">
         <div className="max-w-8xl mx-auto  sm:px-6 lg:px-8 ">
           <div className="flex items-center justify-between h-20 ">
@@ -165,6 +173,7 @@ export const Admin = () => {
       {activeSection == 4 && <ProjectManager />}
       {activeSection == 6 && <ContactList />}
       {activeSection == 7 && <SocialUpdate />}
+      {activeSection == 8 && <ChangePassword />}
     </div>
   );
 };
