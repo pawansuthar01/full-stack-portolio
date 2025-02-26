@@ -18,6 +18,7 @@ import {
 } from "react-icons/fa";
 import { getAllData } from "../Redux/Slice/getData";
 import { useDispatch } from "react-redux";
+import SocialUpdate from "../../components/Admin/SociolLink";
 const navigation = [
   {
     id: 1,
@@ -163,6 +164,7 @@ export const Admin = () => {
       {activeSection == 5 && <EducationManager />}
       {activeSection == 4 && <ProjectManager />}
       {activeSection == 6 && <ContactList />}
+      {activeSection == 7 && <SocialUpdate />}
     </div>
   );
 };

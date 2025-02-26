@@ -216,12 +216,38 @@ export const DeleteCart = createAsyncThunk(
 );
 export const GetAllMessage = createAsyncThunk("/get/message", async () => {
   try {
-    const response = await axiosInstance.get("/app/admin/v3/Message");
+    const response = await axiosInstance.get("/app/user/v3/Message");
     return response?.data;
   } catch (error) {
     return error?.response?.data || error?.message || "Something went wrong...";
   }
 });
+export const updateSocialData = createAsyncThunk(
+  "/put/SocialData",
+  async (data) => {
+    try {
+      const response = await axiosInstance.put("/app/admin/v3/social", data);
+      return response?.data;
+    } catch (error) {
+      return (
+        error?.response?.data || error?.message || "Something went wrong..."
+      );
+    }
+  }
+);
+export const messageMarkAsRead = createAsyncThunk(
+  "/put/message",
+  async (id) => {
+    try {
+      const response = await axiosInstance.put(`/app/user/v3/Message/${id}`);
+      return response?.data;
+    } catch (error) {
+      return (
+        error?.response?.data || error?.message || "Something went wrong..."
+      );
+    }
+  }
+);
 export const GetAllFeedback = createAsyncThunk("/get/feedback", async () => {
   try {
     const response = await axiosInstance.get("/");

@@ -47,7 +47,7 @@ export const updateSociolLink = async (req, res, next) => {
     await SociolLink.save();
     res.status(200).json({
       success: true,
-      message: "details update successfully",
+      message: "social Link update successfully",
       data: SociolLink,
     });
   } catch (error) {

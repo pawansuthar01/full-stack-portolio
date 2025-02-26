@@ -4,6 +4,6 @@ import {
   updateSociolLink,
 } from "../Controllers/SociolController.js";
 const SociolRouter = Router();
-SociolRouter.route("/details").post(SubmitSociolLink).put(updateSociolLink);
+SociolRouter.route("/").post(SubmitSociolLink).put(updateSociolLink);
 
 export default SociolRouter;

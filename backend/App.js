@@ -47,7 +47,7 @@ app.use("/app/admin/v3/skill", SkillRouter);
 app.use("/app/admin/v3/project", ProjectRouter);
 app.use("/app/admin/v3/education", EducationRouter);
 app.use("/app/user/v3/Message", MessageRouter);
-app.use("/app/admin/v3/Detail", SociolRouter);
+app.use("/app/admin/v3/social", SociolRouter);
 app.use("/app/user/v3/Feedback", feedbackRouter);
 
 //handel 404 not found page //
