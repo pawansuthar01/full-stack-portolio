@@ -21,6 +21,7 @@ firebase-service-account.json
 .idea
 .DS_Store
 *.suo
+#.env
 *.ntvs*
 *.njsproj
 *.sln
