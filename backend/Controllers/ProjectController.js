@@ -4,7 +4,8 @@ import fs from "fs/promises";
 import Project from "../Modules/ProjectModule.js";
 import sendEmail from "../Utils/EmailSender.js";
 import Subscribe from "../Modules/subscribeModule.js";
-
+import * as dotenv from "dotenv";
+dotenv.config();
 //*new project add//*
 export const NewProjectAdd = async (req, res, next) => {
   const { title, description, tags, link } = req.body;

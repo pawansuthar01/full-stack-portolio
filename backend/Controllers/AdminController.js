@@ -3,7 +3,8 @@ import AppError from "../Utils/AppErrors.js";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import sendEmail from "../Utils/EmailSender.js";
-
+import * as dotenv from "dotenv";
+dotenv.config();
 const failedAttempts = new Map();
 
 // 🔹 Send Reset Password Email

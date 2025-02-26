@@ -1,7 +1,8 @@
 import Subscribe from "../Modules/subscribeModule.js";
 import AppError from "../Utils/AppErrors.js";
 import sendEmail from "../Utils/EmailSender.js";
-
+import * as dotenv from "dotenv";
+dotenv.config();
 export const SubscribeUser = async (req, res, next) => {
   const { email } = req.params;
   if (!email) {
