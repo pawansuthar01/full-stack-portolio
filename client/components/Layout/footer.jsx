@@ -49,7 +49,7 @@ export default function Footer() {
   };
   const year = new Date().getFullYear();
   return (
-    <footer className="w-full bg-[#1b1b1b]/20   text-center   p-5">
+    <footer className="w-full bg-[#1b1b1b]/20   text-center   lg:p-5">
       <div className="mt-6">
         {message && (
           <p
@@ -62,10 +62,10 @@ export default function Footer() {
         )}
       </div>
 
-      <div className=" w-full justify-center flex md:justify-end">
+      <div className=" w-full  justify-center flex md:justify-end">
         <form
           onSubmit={handelSubscribe}
-          className="flex items-center space-x-3  p-3 rounded-lg"
+          className="flex items-center max-[320px]:flex-col  gap-2 space-x-3  p-3 rounded-lg"
         >
           <input
             type="email"

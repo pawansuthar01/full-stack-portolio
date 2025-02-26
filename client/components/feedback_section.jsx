@@ -102,7 +102,7 @@ export default function FeedbackCarousel() {
     controls.start({ x: `-${currentIndex * 100}%` });
   }, [currentIndex, controls]);
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center  text-white px-6 md:py-12">
+    <section className="min-h-screen flex flex-col items-center justify-center  text-white  lg:px-6 lg:py-12">
       <div className="flex justify-center">
         <motion.h1
           initial={{ opacity: 0, y: -50 }}
@@ -190,9 +190,9 @@ export default function FeedbackCarousel() {
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.2, ease: "easeIn" }}
-        className=" mt-10 max-[530px]:w-[90%] w-[600px] items-center  flex justify-center relative"
+        className=" mt-10 max-[530px]:w-[100%] w-[600px] items-center  flex justify-center relative"
       >
-        <div className=" max-[530px]:w-[80%] w-[500px] overflow-hidden ">
+        <div className=" max-[530px]:w-[90%] w-[500px] overflow-hidden ">
           {/* Previous Button */}
           <button
             onClick={goToPrevious}
@@ -211,7 +211,7 @@ export default function FeedbackCarousel() {
               feedbacks.map((feedback, index) => (
                 <div
                   key={index}
-                  className="max-[530px]:w-[90%] w-[500px] flex-shrink-0 bg-opacity-40 p-6 border-cyan-400 backdrop-blur-lg border rounded-lg shadow-lg mx-auto"
+                  className="w-[100%] flex-shrink-0 bg-opacity-40 p-6 border-cyan-400 backdrop-blur-lg border rounded-lg shadow-lg mx-auto"
                 >
                   <h3 className="text-lg font-bold text-cyan-400">
                     {feedback.name}

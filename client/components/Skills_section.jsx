@@ -42,12 +42,12 @@ const SkillsChart = () => {
         <samp className="bg-[#00f7ff] mt-2 w-6 h-[2px]  rounded"></samp>
       </motion.h1>
       {/* Grid System */}
-      <div className="grid grid-cols-2 gap-6 max-[800px]:grid-cols-1 items-stretch auto-rows-fr">
+      <div className="grid grid-cols-2 gap-6 max-[800px]:grid-cols-1 items-stretch">
         {skillsData?.length > 0 &&
           skillsData.map((group, index) => (
             <div
               key={index}
-              className="flex flex-col flex-1 min-h-[300px] rounded-2xl p-5 shadow-[0_0_5px_0px_#3C3D37] gap-2"
+              className="flex flex-col   rounded-2xl p-5 shadow-[0_0_5px_0px_#3C3D37] gap-2"
             >
               <h2 className="text-lg font-semibold mb-4">{group.title}</h2>
               {group.skills.map((skill, idx) => (
