@@ -9,40 +9,45 @@ const SubscribersList = () => {
   const handelLoadUser = async () => {
     setLoading(true);
     const res = await dispatch(subscribers());
-    setSubscribeData(res?.payload?.data);
+    console.log(res);
+    setSubscribeData(res?.payload?.data?.subscribers);
     setLoading(false);
   };
+
   useEffect(() => {
     handelLoadUser();
   }, []);
-  if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-[#242424] p-5">
-        <div className="text-cyan-400 border-2 border-b-0 border-l-0 bg-[#242424] animate-spin"></div>
-      </div>
-    );
-  }
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#242424] p-5">
-      <h2 className="text-2xl font-bold text-gray-700 mb-4">
-        📩 Subscribed Users
-      </h2>
+      {loading ? (
+        <div className="text-cyan-400 w-24 h-24 rounded-full border-2 border-b-0 border-l-0 bg-[#242424] animate-spin"></div>
+      ) : (
+        <>
+          <h2 className="text-2xl font-bold text-cyan-400 mb-4">
+            📩 Subscribed Users
+          </h2>
 
-      <div className="w-full max-w-md bg-cyan-400 text-white border border-gray-700 rounded-lg shadow-lg p-4">
-        {SubscribeData.length > 0 ? (
-          <ul className="space-y-3">
-            {SubscribeData.map((email, index) => (
-              <li key={index} className="border-b border-gray-700 py-2">
-                <a href={`mailto:${email}`} className="hover:underline">
-                  {email}
-                </a>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-center">No subscribers found.</p>
-        )}
-      </div>
+          <div className="w-full max-w-md bg-[#333] text-white border border-gray-700 rounded-lg shadow-lg p-4">
+            {SubscribeData.length > 0 ? (
+              <ul className="space-y-3">
+                {SubscribeData.map((user) => (
+                  <li key={user._id} className="border-b border-gray-700 py-2">
+                    <a
+                      href={`mailto:${user.email}`}
+                      className="hover:underline"
+                    >
+                      {user.email}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-center">No subscribers found.</p>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };

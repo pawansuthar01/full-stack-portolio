@@ -26,8 +26,7 @@ export default function BannerUpdater() {
   };
   const handelImageUpload = async (e) => {
     const image = e.target.files[0];
-    console.log(image);
-    setImage(image);
+    setBannerData({ ...BannerData, image: image });
     const fileReader = new FileReader();
     fileReader.readAsDataURL(image);
     fileReader.addEventListener("load", function () {

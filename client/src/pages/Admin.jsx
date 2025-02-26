@@ -181,7 +181,7 @@ export const Admin = () => {
       {activeSection == 6 && <ContactList />}
       {activeSection == 7 && <SocialUpdate />}
       {activeSection == 8 && <ChangePassword />}
-      {activeSection == 8 && <SubscribersList />}
+      {activeSection == 9 && <SubscribersList />}
     </div>
   );
 };

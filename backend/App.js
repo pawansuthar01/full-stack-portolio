@@ -31,6 +31,7 @@ app.use(
     credentials: true,
   })
 );
+console.log(process.env.FRONTEND_URL);
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", process.env.FRONTEND_URL);
   res.header("Access-Control-Allow-Credentials", "true");

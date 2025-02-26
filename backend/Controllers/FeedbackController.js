@@ -1,5 +1,6 @@
 import Feedback from "../Modules/feedbackModule.js";
 import AppError from "../Utils/AppErrors.js";
+import sendEmail from "../Utils/EmailSender.js";
 
 export const addFeedback = async (req, res, next) => {
   try {
@@ -22,6 +23,77 @@ export const addFeedback = async (req, res, next) => {
       message: "successfully submit feedback...",
       data: feedback,
     });
+    const subjectForAdmin = "📢 New Feedback Received";
+    const adminMessage = `
+  <div style="max-width: 600px; margin: auto; font-family: Arial, sans-serif; background-color: #ffffff; padding: 20px; border-radius: 10px; border: 1px solid #ddd; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+    
+    <h2 style="color: #007bff; text-align: center; margin-bottom: 20px;">📢 New Feedback Received</h2>
+
+    <p style="font-size: 16px; color: #333;">Dear Admin,</p>
+
+    <p style="font-size: 15px; color: #555;">
+      You have received new feedback from a user. Below are the details:
+    </p>
+
+    <div style="background-color: #f9f9f9; padding: 15px; border-radius: 8px; border-left: 4px solid #007bff; margin-top: 15px;">
+      <p><strong>👤 User Name:</strong> ${name}</p>
+      <p><strong>📧 Email:</strong> <a href="mailto:${email}" style="color: #007bff; text-decoration: none;">${email}</a></p>
+      <p><strong>⭐ rating:</strong> ${rating}</p>
+      <p><strong>💬 Feedback:</strong> ${message}</p>
+    </div>
+
+    <p style="margin-top: 20px; font-size: 15px; color: #555;">
+      Please review and respond accordingly.
+    </p>
+
+    <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+
+    <p style="font-size: 14px; color: #555;">Best regards,</p>
+    <p style="font-size: 16px; font-weight: bold; color: #007bff;">Your Website Team</p>
+
+  </div>
+`;
+
+    const userSubject = "✅ Feedback Submitted Successfully!";
+    const userMessage = `
+  <div style="max-width: 600px; margin: auto; font-family: Arial, sans-serif; background-color: #ffffff; padding: 20px; border-radius: 10px; border: 1px solid #ddd; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+    
+    <h2 style="color: #28a745; text-align: center; margin-bottom: 20px;">✅ Feedback Submitted Successfully!</h2>
+
+    <p style="font-size: 16px; color: #333;">Dear <strong>${name}</strong>,</p>
+
+    <p style="font-size: 15px; color: #555;">
+      Thank you for sharing your valuable feedback! We appreciate your time and effort in helping us improve.
+    </p>
+
+    <div style="background-color: #f9f9f9; padding: 15px; border-radius: 8px; border-left: 4px solid #28a745; margin-top: 15px;">
+      <p><strong>📌 Your Submitted Details:</strong></p>
+      <p><strong>⭐ Subject:</strong> ${rating}</p>
+     <p><strong>💬 Feedback:</strong> ${message}</p>
+    </div>
+
+    <p style="margin-top: 20px; font-size: 15px; color: #555;">
+      Our team will review your feedback and get back to you if necessary. Thank you for helping us improve!
+    </p>
+
+    <p>If you need further assistance, feel free to contact us at 
+      <a href="mailto:${process.env.EMAIL}" style="color: #007bff; text-decoration: none;">${process.env.EMAIL}</a>.
+    </p>
+
+    <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+
+    <p style="font-size: 14px; color: #555;">Best regards,</p>
+    <p style="font-size: 16px; font-weight: bold; color: #007bff;">Your Website Team</p>
+
+  </div>
+`;
+
+    try {
+      await sendEmail(process.env.EMAIL, subjectForAdmin, adminMessage);
+      await sendEmail(email, userSubject, userMessage);
+    } catch (error) {
+      return next(new AppError(error.message, 400));
+    }
   } catch (error) {
     return next(new AppError(error.message, 400));
   }
