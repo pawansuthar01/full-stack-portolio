@@ -42,8 +42,6 @@ export default function ProjectManager() {
   };
 
   const handleSaveEdit = async () => {
-    console.log(editProject);
-
     setProjectsData(
       projectsData.map((proj) =>
         proj._id === editProject._id ? editProject : proj
