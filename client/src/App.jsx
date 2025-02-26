@@ -5,6 +5,7 @@ import Required from "../components/Auth/required";
 import { Admin } from "./pages/Admin";
 import UpdatePassword from "../components/Admin/Password/ResetPassword";
 import ChangePassword from "../components/Admin/Password/changePassword";
+import NotFoundPage from "./pages/NotFound";
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
         <Route path="/:email/:password" element={<Required />}>
           <Route path="" element={<Admin />} />
         </Route>
-        <Route path="*" element={<Home />}></Route>
+        <Route path="*" element={<NotFoundPage />}></Route>
       </Routes>
     </div>
   );
