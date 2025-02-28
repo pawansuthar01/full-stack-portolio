@@ -43,7 +43,12 @@ app.use((req, res, next) => {
   next();
 });
 /// routed handel///
-
+app.get("/app/server/v3/ping", async (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Pong..",
+  });
+});
 app.use("/app/admin/v3/mainSection", MainSectionRouter);
 app.use("/app/admin/v3/", Admin);
 app.use("/app/admin/v3/About", AboutRouter);
