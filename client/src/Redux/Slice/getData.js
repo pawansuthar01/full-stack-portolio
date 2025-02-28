@@ -40,12 +40,6 @@ export const getAllData = createAsyncThunk(
   "/Get/All/Data",
   async (_, { getState }) => {
     const startTime = performance.now();
-    const state = getState().DataStore;
-
-    if (storageKeys.every((key) => state[key].length > 0)) {
-      console.warn("⚠ Data already in Redux store. Skipping API call.");
-      return { success: false };
-    }
 
     try {
       const responses = await Promise.all(
@@ -117,4 +111,4 @@ setInterval(() => {
   }
 
   healthCheck();
-}, 60000); //1mint
+}, 60000); //1mint.
