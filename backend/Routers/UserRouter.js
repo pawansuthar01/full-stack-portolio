@@ -7,6 +7,7 @@ import { AllGetProject } from "../Controllers/ProjectController.js";
 import { getAllFeedback } from "../Controllers/FeedbackController.js";
 import { GetEducation } from "../Controllers/EducationController.js";
 import { GetSkills } from "../Controllers/SkillsController.js";
+import { userDetails } from "../Controllers/UserData.js";
 
 const UserRouter = Router();
 UserRouter.route("/sociallink").get(GetSocial);
@@ -16,5 +17,6 @@ UserRouter.route("/project").get(AllGetProject);
 UserRouter.route("/feedback").get(getAllFeedback);
 UserRouter.route("/education").get(GetEducation);
 UserRouter.route("/skills").get(GetSkills);
+UserRouter.route("/data").post(userDetails);
 UserRouter.route("/subscribe/:email").post(SubscribeUser);
 export default UserRouter;

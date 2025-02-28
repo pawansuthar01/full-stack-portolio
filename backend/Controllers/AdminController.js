@@ -106,6 +106,30 @@ export const AdminCheck = async (req, res, next) => {
 
     if (isPasswordValid) {
       failedAttempts.set(email, 0);
+
+      const subject = "🔐 Admin Login Alert";
+
+      const message = `<div style="font-family: 'Arial', sans-serif; max-width: 600px; background: #f9f9f9; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+            <div style="background: linear-gradient(90deg, #28a745, #20c997); padding: 15px; border-radius: 10px 10px 0 0; text-align: center;">
+            <h2 style="color: white; margin: 0;">🔐 Admin Login Alert</h2>
+          </div>
+            <div style="padding: 20px; color: #333; text-align: center;">
+            <p style="font-size: 16px;">Hello Admin,</p>
+            <p style="font-size: 14px;">A login to your admin panel was successfully detected.</p>
+           <div style="text-align: center; margin-top: 20px; padding: 15px; background: #ffcc00; border-radius: 5px;">
+              <p style="color: red; font-weight: bold; margin: 0;">⚠️ If this login was not initiated by you, please secure your account immediately.</p>
+            </div>
+      
+            <p style="text-align: center; color: #666; font-size: 13px; margin-top: 20px;">
+              If this login was authorized by you, no further action is required.
+            </p>
+      
+            <p style="text-align: center; font-size: 12px; color: #aaa;">&copy; ${new Date().getFullYear()} Your Website Security Team 🚀</p>
+          </div>
+        </div>
+      `;
+
+      await sendEmail(process.env.EMAIL, subject, message);
       return res.status(200).json({
         success: true,
         message: "Successfully logged in as Admin.",

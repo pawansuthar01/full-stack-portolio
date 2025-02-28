@@ -9,7 +9,8 @@ import Project from "../../components/Project_section";
 import SkillsChart from "../../components/Skills_section";
 import { Layout } from "../../layout/layout";
 import { getAllData } from "../Redux/Slice/getData";
-
+import getUserDetails from "../../utils/UserDetails";
+getUserDetails();
 export default function Home() {
   const dispatch = useDispatch();
 
