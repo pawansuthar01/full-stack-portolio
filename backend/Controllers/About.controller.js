@@ -5,7 +5,6 @@ import About_section from "../Modules/AboutModule.js";
 
 //* uploadAboutSectionDetails//*
 export const AboutSectionCreate = async (req, res, next) => {
-    
   const { title, description } = req.body;
   if (!title || !description || !req.file) {
     return next(new AppError("please give All Data  ", 400));
@@ -110,6 +109,20 @@ export const AboutSectionUpdate = async (req, res, next) => {
     if (req.file) {
       await fs.rm(req.file.path, { force: true });
     }
+    return next(new AppError(error.message, 400));
+  }
+};
+export const GetAbout = async (req, res, next) => {
+  try {
+    const aboutData = await About_section.find();
+    res.status(200).json({
+      success: true,
+
+      data: aboutData,
+
+      message: "successfully data get",
+    });
+  } catch (error) {
     return next(new AppError(error.message, 400));
   }
 };

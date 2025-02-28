@@ -1,8 +1,20 @@
 import { Router } from "express";
-import { AllDataGet } from "../Controllers/AllDataController.js";
 import { SubscribeUser } from "../Controllers/SubscribeController.js";
+import { GetSocial } from "../Controllers/SociolController.js";
+import { GetBanner } from "../Controllers/mainController.js";
+import { GetAbout } from "../Controllers/About.controller.js";
+import { AllGetProject } from "../Controllers/ProjectController.js";
+import { getAllFeedback } from "../Controllers/FeedbackController.js";
+import { GetEducation } from "../Controllers/EducationController.js";
+import { GetSkills } from "../Controllers/SkillsController.js";
 
 const UserRouter = Router();
-UserRouter.route("/").get(AllDataGet);
+UserRouter.route("/sociallink").get(GetSocial);
+UserRouter.route("/banner").get(GetBanner);
+UserRouter.route("/about").get(GetAbout);
+UserRouter.route("/project").get(AllGetProject);
+UserRouter.route("/feedback").get(getAllFeedback);
+UserRouter.route("/education").get(GetEducation);
+UserRouter.route("/skills").get(GetSkills);
 UserRouter.route("/subscribe/:email").post(SubscribeUser);
 export default UserRouter;

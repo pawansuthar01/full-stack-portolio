@@ -69,7 +69,7 @@ export const addFeedback = async (req, res, next) => {
     <div style="background-color: #f9f9f9; padding: 15px; border-radius: 8px; border-left: 4px solid #28a745; margin-top: 15px;">
       <p><strong>📌 Your Submitted Details:</strong></p>
       <p><strong>⭐ Subject:</strong> ${rating}</p>
-     <p><strong>💬 Feedback:</strong> ${message}</p>
+      <p><strong>💬 Feedback:</strong> ${message}</p>
     </div>
 
     <p style="margin-top: 20px; font-size: 15px; color: #555;">
@@ -144,14 +144,14 @@ export const getAllFeedback = async (req, res, next) => {
   try {
     const { page = 1, limit = 20 } = req.query;
     const skip = (page - 1) * limit;
-    const findFeedback = await Feedback.find({})
+    const feedbackData = await Feedback.find({})
       .skip(skip)
       .limit(parseInt(limit));
     const countFeedback = await Feedback.countDocuments({});
     const happyCustomers = await Feedback.countDocuments({
       rating: { $gte: 3 },
     });
-    if (!findFeedback) {
+    if (!feedbackData) {
       return next(
         new AppError("something went wrong , please tyr Again  ", 400)
       );
@@ -159,7 +159,7 @@ export const getAllFeedback = async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: "successfully get feedback...",
-      data: findFeedback,
+      data: feedbackData,
       totalPage: Math.ceil(countFeedback / limit),
       countFeedback,
       happyCustomers,

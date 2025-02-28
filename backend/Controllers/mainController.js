@@ -114,3 +114,18 @@ export const UpdatedMainSectionData = async (req, res, next) => {
     return next(new AppError(error.message, 400));
   }
 };
+
+export const GetBanner = async (req, res, next) => {
+  try {
+    const bannerData = await Main.find();
+    res.status(200).json({
+      success: true,
+
+      data: bannerData,
+
+      message: "successfully bannerData get",
+    });
+  } catch (error) {
+    return next(new AppError(error.message, 400));
+  }
+};

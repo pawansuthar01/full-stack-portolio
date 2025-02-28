@@ -238,10 +238,10 @@ export const ProjectDeleteById = async (req, res, next) => {
 
 export const AllGetProject = async (req, res, next) => {
   try {
-    const AllProject = await Project.find({}, { feedbackList: 0 });
+    const projectData = await Project.find({}, { feedbackList: 0 });
 
     const CountTotalProject = await Project.countDocuments();
-    if (!AllProject) {
+    if (!projectData) {
       return next(
         new AppError("All project dote`s not found,try again...", 400)
       );
@@ -250,7 +250,7 @@ export const AllGetProject = async (req, res, next) => {
       Count: CountTotalProject,
       success: true,
       message: "successFully get All project",
-      data: AllProject,
+      data: projectData,
     });
   } catch (error) {
     return next(new AppError(error.message, 400));

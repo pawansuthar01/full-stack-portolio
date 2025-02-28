@@ -1,56 +1,73 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../../../Helper/axiosInstance";
-const initialState = {
-  SocialLinkData:
-    localStorage.getItem("SocialLinkData") == null
-      ? JSON.parse(localStorage.getItem("SocialLinkData"))
-      : {},
-  bannerData:
-    localStorage.getItem("bannerData") == undefined
-      ? JSON.parse(localStorage.getItem("bannerData"))
-      : {},
 
-  aboutData:
-    localStorage.getItem("aboutData") == undefined
-      ? JSON.parse(localStorage.getItem("aboutData"))
-      : {},
-  projectData:
-    localStorage.getItem("projectData") == undefined
-      ? JSON.parse(localStorage.getItem("projectData"))
-      : {},
-  educationData:
-    localStorage.getItem("educationData") == undefined
-      ? JSON.parse(localStorage.getItem("educationData"))
-      : {},
-  skillsData:
-    localStorage.getItem("skillsData") == undefined
-      ? JSON.parse(localStorage.getItem("skillsData"))
-      : {},
-  feedbackData:
-    localStorage.getItem("feedbackData") == undefined
-      ? JSON.parse(localStorage.getItem("feedbackData"))
-      : {},
+const storageKeys = [
+  "SocialLinkData",
+  "bannerData",
+  "aboutData",
+  "projectData",
+  "educationData",
+  "skillsData",
+  "feedbackData",
+];
+
+const getStoredData = (key) => {
+  try {
+    const startTime = performance.now();
+
+    const data = localStorage.getItem(key);
+    const endTime = performance.now();
+    console.log(
+      `${key} loaded from localStorage in ${(endTime - startTime).toFixed(2)}ms`
+    );
+    return data && data !== "undefined" ? JSON.parse(data) : null;
+  } catch (error) {
+    return null;
+  }
 };
 
-export const getAllData = createAsyncThunk("/Get/All/Data", async () => {
-  try {
-    const response = await axiosInstance.get("/app/user/v3/data");
+// Initial Redux State
+const initialState = Object.fromEntries(
+  storageKeys.map((key) => [key, getStoredData(key) || []])
+);
 
-    return {
-      SocialLinkData: response.data.data.SocialLinkData,
-      bannerData: response.data.data.bannerData,
-      aboutData: response.data.data.aboutData,
-      projectData: response.data.data.projectData,
-      eductionData: response.data.data.eductionData,
-      skillsData: response.data.data.skillsData,
-      feedbackData: response.data.data.feedbackData,
-      message: response.data.message,
-      success: response.data.success,
-    };
-  } catch (error) {
-    return error?.response?.data || error?.message || "Something went wrong...";
+export const getAllData = createAsyncThunk(
+  "/Get/All/Data",
+  async (_, { getState }) => {
+    const startTime = performance.now();
+    const state = getState().DataStore;
+
+    if (storageKeys.every((key) => state[key].length)) {
+      return { success: false };
+    }
+
+    try {
+      const responses = await Promise.all(
+        storageKeys.map((key) =>
+          axiosInstance.get(
+            `/app/user/v3/Data/${key.replace("Data", "").toLowerCase()}`
+          )
+        )
+      );
+      const endTime = performance.now();
+      console.log(`API Data fetched in ${(endTime - startTime).toFixed(2)}ms`);
+      const data = Object.fromEntries(
+        storageKeys.map((key, index) => {
+          const responseData = responses[index].data;
+          return [key, responseData.data || []];
+        })
+      );
+
+      return { success: true, ...data };
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      return {
+        success: false,
+        error: error?.message || "Something went wrong...",
+      };
+    }
   }
-});
+);
 
 const DataRedux = createSlice({
   name: "DataStore",
@@ -58,46 +75,18 @@ const DataRedux = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getAllData.fulfilled, (state, action) => {
-      if (action?.payload?.success) {
-        localStorage.setItem(
-          "SocialLinkData",
-          JSON.stringify(action?.payload?.SocialLinkData)
-        );
-        localStorage.setItem(
-          "bannerData",
-          JSON.stringify(action?.payload?.bannerData)
-        );
-        localStorage.setItem(
-          "educationData",
-          JSON.stringify(action?.payload?.educationData)
-        );
-        localStorage.setItem(
-          "projectData",
-          JSON.stringify(action?.payload?.projectData)
-        );
-        localStorage.setItem(
-          "feedbackData",
-          JSON.stringify(action?.payload?.feedbackData)
-        );
-        localStorage.setItem(
-          "skillsData",
-          JSON.stringify(action?.payload?.skillsData)
-        );
-        localStorage.setItem(
-          "aboutData",
-          JSON.stringify(action?.payload?.aboutData)
-        );
-        state.SocialLinkData = action?.payload?.SocialLinkData;
-        state.bannerData = action?.payload?.bannerData;
-        state.feedbackData = action?.payload?.feedbackData;
-        state.educationData = action?.payload?.eductionData;
-        state.skillsData = action?.payload?.skillsData;
-        state.aboutData = action?.payload?.aboutData;
-        state.projectData = action?.payload?.projectData;
+      if (action.payload.success) {
+        storageKeys.forEach((key) => {
+          if (Array.isArray(action.payload[key])) {
+            localStorage.setItem(key, JSON.stringify(action.payload[key]));
+            state[key] = action.payload[key];
+          }
+        });
+      } else {
+        console.warn("⚠ No new data fetched. Redux state unchanged.");
       }
     });
   },
 });
 
-export const {} = DataRedux.actions;
 export default DataRedux.reducer;

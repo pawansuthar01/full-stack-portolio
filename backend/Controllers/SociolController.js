@@ -54,3 +54,18 @@ export const updateSociolLink = async (req, res, next) => {
     return next(new AppError(error.message, 400));
   }
 };
+
+export const GetSocial = async (req, res, next) => {
+  try {
+    const SocialLinkData = await SocialLink.find();
+    res.status(200).json({
+      success: true,
+
+      data: SocialLinkData,
+
+      message: "successfully SocialLinkData get",
+    });
+  } catch (error) {
+    return next(new AppError(error.message, 400));
+  }
+};

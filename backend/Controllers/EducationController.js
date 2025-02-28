@@ -94,3 +94,17 @@ export const DeleteEducationCartById = async (req, res, next) => {
     return next(new AppError(error.message, 400));
   }
 };
+export const GetEducation = async (req, res, next) => {
+  try {
+    const eductionData = await Education.find();
+    res.status(200).json({
+      success: true,
+
+      data: eductionData,
+
+      message: "successfully eductionData get",
+    });
+  } catch (error) {
+    return next(new AppError(error.message, 400));
+  }
+};

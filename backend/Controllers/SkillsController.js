@@ -180,3 +180,18 @@ export const DeleteSkillCart = async (req, res, next) => {
     return next(new AppError(error.message, 400));
   }
 };
+
+export const GetSkills = async (req, res, next) => {
+  try {
+    const skillsData = await Skills.find();
+    res.status(200).json({
+      success: true,
+
+      skillsData,
+
+      message: "successfully skillsData get",
+    });
+  } catch (error) {
+    return next(new AppError(error.message, 400));
+  }
+};
