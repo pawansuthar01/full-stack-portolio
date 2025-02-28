@@ -32,19 +32,16 @@ const getStoredData = (key) => {
   }
 };
 
-// Initial Redux State
 const initialState = Object.fromEntries(
   storageKeys.map((key) => [key, getStoredData(key) || []])
 );
 
-// Async function to fetch all data
 export const getAllData = createAsyncThunk(
   "/Get/All/Data",
   async (_, { getState }) => {
     const startTime = performance.now();
     const state = getState().DataStore;
 
-    // ✅ Avoid API call if all data exists in Redux store
     if (storageKeys.every((key) => state[key].length > 0)) {
       console.warn("⚠ Data already in Redux store. Skipping API call.");
       return { success: false };
@@ -63,8 +60,7 @@ export const getAllData = createAsyncThunk(
       console.log(
         `✅ API Data fetched in ${(endTime - startTime).toFixed(2)}ms`
       );
-
-      // Process and return API data
+      console.log(responses);
       const data = Object.fromEntries(
         storageKeys.map((key, index) => [
           key,
@@ -121,4 +117,4 @@ setInterval(() => {
   }
 
   healthCheck();
-}, 300000); // 5 minutes
+}, 60000); //1mint

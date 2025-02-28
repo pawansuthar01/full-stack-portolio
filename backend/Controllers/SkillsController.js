@@ -187,7 +187,7 @@ export const GetSkills = async (req, res, next) => {
     res.status(200).json({
       success: true,
 
-      skillsData,
+      data: skillsData,
 
       message: "successfully skillsData get",
     });
