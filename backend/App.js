@@ -31,7 +31,6 @@ app.use(
     credentials: true,
   })
 );
-console.log(process.env.FRONTEND_URL);
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", process.env.FRONTEND_URL);
   res.header("Access-Control-Allow-Credentials", "true");
@@ -43,7 +42,7 @@ app.use((req, res, next) => {
   next();
 });
 /// routed handel///
-app.get("/app/server/v3/ping", async (req, res) => {
+app.get("/ping", async (req, res) => {
   res.status(200).json({
     success: true,
     message: "Pong..",

@@ -4,7 +4,6 @@ import cloudinaryPkg from "cloudinary";
 const { v2: cloudinary } = cloudinaryPkg;
 import app from "./App.js";
 const PORT = process.env.PORT;
-console.log(PORT);
 
 export const Cloudinary = cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,

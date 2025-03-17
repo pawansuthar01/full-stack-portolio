@@ -98,17 +98,3 @@ const DataRedux = createSlice({
 });
 
 export default DataRedux.reducer;
-
-//  Keep Render Backend Active Every 5 Minutes
-setInterval(() => {
-  async function healthCheck() {
-    try {
-      await axiosInstance.get("/app/server/v3/ping");
-      console.log("✅ Backend kept alive");
-    } catch (error) {
-      console.error("❌ Backend ping failed:", error?.message || error);
-    }
-  }
-
-  healthCheck();
-}, 60000); //1mint.
