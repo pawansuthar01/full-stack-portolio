@@ -54,7 +54,6 @@ export const getAllData = createAsyncThunk(
       console.log(
         `✅ API Data fetched in ${(endTime - startTime).toFixed(2)}ms`
       );
-      console.log(responses);
       const data = Object.fromEntries(
         storageKeys.map((key, index) => [
           key,
