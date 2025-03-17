@@ -57,8 +57,35 @@ export const SubscribeUser = async (req, res, next) => {
     </div>
   `;
 
+  const AdminEmail = `
+  <div style="font-family: Arial, sans-serif; line-height: 1.6; background-color: #f4f4f4; padding: 20px; border-radius: 8px; border: 1px solid #ddd;">
+   <h2 style="color: #007bff; text-align: center;">🚀 Welcome to My Portfolio!</h2>
+      
+      <p>Dear <strong>${" new Subscriber"}</strong>,</p>
+  
+      <p>Thank you for subscribing! You’re now part of a growing community that stays updated with my latest projects, insights, and creative work.</p>
+  
+      <p>Here's what you can expect:</p>
+      <ul>
+        <li>🔹 ${email}.</li>
+       
+      </ul>
+  
+      <p>Check out my latest work here:</p>
+  
+      <p style="text-align: center;">
+        <a href="${process.env.FRONTEND_URL}" 
+           style="color: #ffffff; background-color: #007bff; padding: 12px 25px; text-decoration: none; border-radius: 5px; display: inline-block;">
+           🌟 Visit My Portfolio
+        </a>
+      </p>
+  
+     
+  </div>
+  `;
   try {
     await sendEmail(email, subject, message);
+    await sendEmail(process.env.EMAIL, "new Subscriber", AdminEmail);
   } catch (error) {
     return next(new AppError("Failed to send email: " + error.message, 500));
   }
