@@ -43,12 +43,13 @@ app.use((req, res, next) => {
   next();
 });
 // handel server ping to 30s to up//
-setInterval(() => {
-  async function handelUpServer() {
+setInterval(async () => {
+  try {
     await axios.get(`${process.env.Backend_URL}/ping`);
+  } catch (error) {
+    console.error("Error pinging server:", error.message);
   }
-  handelUpServer();
-}, 10000);
+}, 15000);
 
 /// routed handel///
 
