@@ -16,6 +16,7 @@ import UserRouter from "./Routers/UserRouter.js";
 import SociolRouter from "./Routers/SociolRouter.js";
 import AboutRouter from "./Routers/AboutRouter.js";
 import Admin from "./Routers/AdminRouter.js";
+import axios from "axios";
 const app = express();
 //Db connection Call//
 connectDB();
@@ -41,7 +42,16 @@ app.use((req, res, next) => {
   );
   next();
 });
+// handel server ping to 30s to up//
+setInterval(() => {
+  async function handelUpServer() {
+    await axios.get(`${process.env.Backend_URL}/ping`);
+  }
+  handelUpServer();
+}, 10000);
+
 /// routed handel///
+
 app.get("/ping", async (req, res) => {
   res.status(200).json({
     success: true,
@@ -64,4 +74,5 @@ app.use("*", (req, res, next) => {
   res.status(404).send("oops ! Page Not Found ");
 });
 app.use(ErrorMiddleware);
+
 export default app;
