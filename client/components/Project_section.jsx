@@ -54,7 +54,7 @@ export default function Project() {
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={{ once: true, amount: 0.0 }}
         className="flex flex-wrap justify-center gap-6 items-stretch"
       >
         {projectData?.length > 0 &&
