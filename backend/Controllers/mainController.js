@@ -117,7 +117,7 @@ export const UpdatedMainSectionData = async (req, res, next) => {
 
 export const GetBanner = async (req, res, next) => {
   try {
-    const bannerData = await Main.find();
+    const bannerData = await Main.findOne({ Key_id: "INFO_MAIN" });
     res.status(200).json({
       success: true,
 
