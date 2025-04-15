@@ -1,13 +1,12 @@
 import AppError from "../Utils/AppErrors.js";
 import cloudinary from "cloudinary";
 import fs from "fs/promises";
-import path from "path";
 import Main from "../Modules/mainModule.js";
 
 //* uploadMainSectionDetails//*
 export const MainDetailsCreate = async (req, res, next) => {
   const { title, smallDescription, description, name } = req.body;
-  if ((!title || !smallDescription || !description, name || !req.file)) {
+  if (!title || !smallDescription || !description || !name || !req.file) {
     return next(new AppError("please give All Data  ", 400));
   }
   let photo =
@@ -49,8 +48,8 @@ export const MainDetailsCreate = async (req, res, next) => {
       data: CreateMain,
     });
   } catch (error) {
-    if (req.file) {
-      await fs.rm(req.file, { force: true });
+    if (req.file?.path) {
+      await fs.rm(req.file.path, { force: true });
     }
     return next(new AppError(error.message, 400));
   }
@@ -121,7 +120,7 @@ export const GetBanner = async (req, res, next) => {
     res.status(200).json({
       success: true,
 
-      data: bannerData,
+      data: [bannerData],
 
       message: "successfully bannerData get",
     });
