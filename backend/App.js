@@ -58,7 +58,7 @@ app.use((req, res, next) => {
 // handel server ping to 30s to up//
 setInterval(async () => {
   try {
-    // await axios.get(`${process.env.Backend_URL}/ping`);
+    await axios.get(`${process.env.Backend_URL}/ping`);
   } catch (error) {
     console.error("Error pinging server:", error.message);
   }
