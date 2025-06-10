@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap");
+@import "tailwindcss";
+:root {
+  --bg-icon-color: white;
+  --text-Primary-color: white;
+  --text-Secondary-color: #a8a2a2;
+  --bg-skills-section-color: #434141;
+  --span-gradient-from-color: #1c1cbf;
+  --span-gradient-to-color: #9d169d;
+  font-family: "Playfair Display", serif;
+  letter-spacing: 1px;
+}
+
+body {
+  position: relative;
+}
+.custom-grid {
+  grid-auto-rows: 1fr;
+}
