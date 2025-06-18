@@ -66,7 +66,7 @@ export const NewProjectAdd = async (req, res, next) => {
         
         <p style="text-align: center;">
           <a href="${
-            process.env.FRONTEND_URL
+            process.env.FRONTEND_CLIENT_URL
           }" style="background-color: #00796b; color: #ffffff; padding: 12px 25px; text-decoration: none; border-radius: 5px;">
             🔗 View Project
           </a>
@@ -92,9 +92,9 @@ export const NewProjectAdd = async (req, res, next) => {
     try {
       const subscribers = await Subscribe.find({}).select("email");
 
-      // await Promise.all(
-      //   subscribers.map((user) => sendEmail(user.email, Subject, Message))
-      // );
+      await Promise.all(
+        subscribers.map((user) => sendEmail(user.email, Subject, Message))
+      );
     } catch (error) {
       return next(new AppError(error.message, 400));
     }
@@ -175,7 +175,7 @@ export const updateProjectById = async (req, res, next) => {
         
         <p style="text-align: center;">
           <a href="${
-            process.env.FRONTEND_URL
+            process.env.FRONTEND_CLIENT_URL
           }" style="background-color: #00796b; color: #ffffff; padding: 12px 25px; text-decoration: none; border-radius: 5px;">
             🔗 View Updated Project
           </a>
@@ -201,9 +201,9 @@ export const updateProjectById = async (req, res, next) => {
     try {
       const subscribers = await Subscribe.find({}).select("email");
 
-      // await Promise.all(
-      //   subscribers.map((user) => sendEmail(user.email, Subject, Message))
-      // );
+      await Promise.all(
+        subscribers.map((user) => sendEmail(user.email, Subject, Message))
+      );
     } catch (error) {
       return next(new AppError(error.message, 400));
     }

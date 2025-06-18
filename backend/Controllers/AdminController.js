@@ -16,7 +16,7 @@ const generateAndSendResetEmail = async (admin, email, next) => {
   const resetToken = admin.generatePasswordResetToken();
   await admin.save();
 
-  const resetURL = `${process.env.FRONTEND_URL}/changePassword/${resetToken}`;
+  const resetURL = `${process.env.FRONTEND_CLIENT_URL}/changePassword/${resetToken}`;
   const subject = "Reset Password";
   const message = `
     <div style="font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; border-radius: 8px;">
@@ -210,7 +210,7 @@ export const updatePassword = async (req, res, next) => {
     const resetToken = admin.generatePasswordResetToken();
     await admin.save();
 
-    const resetURL = `${process.env.FRONTEND_URL}/changePassword/${resetToken}`;
+    const resetURL = `${process.env.FRONTEND_CLIENT_URL}/changePassword/${resetToken}`;
 
     await sendEmail(
       admin.email,

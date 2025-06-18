@@ -38,7 +38,7 @@ export const SubscribeUser = async (req, res, next) => {
       <p>Check out my latest work here:</p>
   
       <p style="text-align: center;">
-        <a href="${process.env.FRONTEND_URL}" 
+        <a href="${process.env.FRONTEND_CLIENT_URL}" 
            style="color: #ffffff; background-color: #007bff; padding: 12px 25px; text-decoration: none; border-radius: 5px; display: inline-block;">
            🌟 Visit My Portfolio
         </a>
@@ -74,7 +74,7 @@ export const SubscribeUser = async (req, res, next) => {
       <p>Check out my latest work here:</p>
   
       <p style="text-align: center;">
-        <a href="${process.env.FRONTEND_URL}" 
+        <a href="${process.env.FRONTEND_CLIENT_URL}" 
            style="color: #ffffff; background-color: #007bff; padding: 12px 25px; text-decoration: none; border-radius: 5px; display: inline-block;">
            🌟 Visit My Portfolio
         </a>
