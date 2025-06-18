@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 
 export const ProjectCart = ({ project, index }) => {
   const [selectedProject, setSelectedProject] = useState({});
+
   return (
     <>
       <div>
@@ -46,9 +47,9 @@ export const ProjectCart = ({ project, index }) => {
 
             {/* Enhanced Action Buttons */}
             <div className="absolute top-4 right-4 flex flex-col space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              {project.link && (
+              {project.liveUrl && (
                 <a
-                  href={project.demoUrl}
+                  href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
@@ -121,13 +122,16 @@ export const ProjectCart = ({ project, index }) => {
 
             <div className="flex flex-wrap gap-2 mb-4">
               {project?.tags
-                ?.slice(0, selectedProject === project?._id ? undefined : 3)
+                ?.slice(
+                  0,
+                  selectedProject === project?._id ? project?.tags.length : 3
+                )
                 ?.map((tech) => (
                   <span
-                    key={tech._id || index}
-                    className="text-xs px-2 py-1 bg-dark-700 text-gray-300 rounded-md hover:bg-dark-600 transition-colors duration-200"
+                    key={tech}
+                    className="text-xs px-2 py-1 bg-dark-700 text-gray-300 rounded-md hover:bg-dark-600 bg-gray-700 transition-colors duration-200"
                   >
-                    {tech.name}
+                    #{tech}
                   </span>
                 ))}
               {selectedProject !== project?._id &&

@@ -3,7 +3,6 @@ import axios from "axios";
 import axiosInstance from "../Helper/axiosInstance";
 
 async function getUserDetails() {
-  return;
   try {
     const deviceInfo = {
       userAgent: navigator.userAgent,

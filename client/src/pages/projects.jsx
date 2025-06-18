@@ -6,60 +6,6 @@ import { ProjectCart } from "../../components/ui/projectCart";
 import ProjectsPageSkeleton from "../../components/skeleton/projectPageSkeleton";
 import { useSelector } from "react-redux";
 
-export const project = [
-  {
-    _id: 1,
-    title: "E-Commerce Platform",
-    description:
-      "Full-stack e-commerce solution with React, Node.js, and PostgreSQL. Features include user authentication, payment processing, and admin dashboard.",
-    image:
-      "https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=800",
-    tags: ["React", "Node.js", "PostgreSQL", "Stripe", "Tailwind CSS"],
-    category: "E-Commerce",
-    demoUrl: "https://example.com",
-    githubUrl: "https://github.com",
-    featured: true,
-  },
-  {
-    _id: 2,
-    title: "AI Content Generator",
-    description:
-      "AI-powered content generation tool using OpenAI API. Built with Next.js and integrated with modern UI components.",
-    image:
-      "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800",
-    technologies: ["Next.js", "OpenAI API", "TypeScript", "Prisma"],
-    category: "AI Tool",
-    demoUrl: "https://example.com",
-    githubUrl: "https://github.com",
-    featured: true,
-  },
-  {
-    _id: 3,
-    title: "Task Management App",
-    description:
-      "Collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.",
-    image:
-      "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800",
-    technologies: ["React", "Firebase", "Material-UI", "Socket.io"],
-    category: "Web App",
-    demoUrl: "https://example.com",
-    githubUrl: "https://github.com",
-    featured: false,
-  },
-  {
-    _id: 4,
-    title: "Mobile Banking App",
-    description:
-      "Secure mobile banking application with biometric authentication, transaction history, and real-time notifications.",
-    image:
-      "https://images.pexels.com/photos/4386431/pexels-photo-4386431.jpeg?auto=compress&cs=tinysrgb&w=800",
-    technologies: ["React Native", "Firebase", "Redux", "Biometric Auth"],
-    category: "Mobile App",
-    githubUrl: "https://github.com",
-    featured: true,
-  },
-];
-
 const Projects = () => {
   const { projectData } = useSelector((state) => state?.DataStore);
   const [projects, setProjects] = useState(projectData || []);
@@ -156,7 +102,11 @@ const Projects = () => {
           {/* Projects Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProjects.map((project, index) => (
-              <ProjectCart key={index} project={project} index={index} />
+              <ProjectCart
+                key={project._id || index}
+                project={project}
+                index={index}
+              />
             ))}
           </div>
 

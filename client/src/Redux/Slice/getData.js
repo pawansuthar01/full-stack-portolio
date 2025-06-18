@@ -14,7 +14,7 @@ const storageKeys = [
 
 // Define cache control
 const LAST_FETCH_KEY = "lastDataFetchTime";
-const FETCH_INTERVAL = 15 * 60 * 1000; // 15 mit.
+const FETCH_INTERVAL = 5 * 60 * 1000; // 5 mit.
 
 // Function to get stored data from localStorage
 const getStoredData = (key) => {

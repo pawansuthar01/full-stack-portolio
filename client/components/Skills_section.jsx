@@ -15,60 +15,6 @@ const SkillsChart = () => {
     threshold: 0.2,
     triggerOnce: true,
   });
-  // const skills = [
-  //   {
-  //     title: "Frontend",
-  //     icon: Code,
-  //     color: "from-blue-500 to-cyan-500",
-  //     skills: [
-  //       { name: "React", level: 95 },
-  //       { name: "TypeScript", level: 90 },
-  //       { name: "Next.js", level: 88 },
-  //       { name: "Tailwind CSS", level: 92 },
-  //       { name: "Vue.js", level: 75 },
-  //       { name: "JavaScript", level: 95 },
-  //     ],
-  //   },
-  //   {
-  //     title: "Backend",
-  //     icon: Database,
-  //     color: "from-emerald-500 to-teal-500",
-  //     skills: [
-  //       { name: "Node.js", level: 90 },
-  //       { name: "Express.js", level: 88 },
-  //       { name: "MongoDB", level: 92 },
-  //       { name: "MySQL", level: 85 },
-  //       { name: "REST APIs", level: 95 },
-  //       { name: "JWT/Auth", level: 90 },
-  //     ],
-  //   },
-  //   {
-  //     title: "Cloud & DevOps",
-  //     icon: Cloud,
-  //     color: "from-purple-500 to-pink-500",
-  //     skills: [
-  //       { name: "Firebase", level: 85 },
-  //       { name: "Vercel", level: 92 },
-  //       { name: "Netlify", level: 90 },
-  //       { name: "Render", level: 85 },
-  //       { name: "Linux CLI", level: 75 },
-  //       { name: "CI/CD Basics", level: 70 },
-  //     ],
-  //   },
-  //   {
-  //     title: "Tools & Others",
-  //     icon: Wrench,
-  //     color: "from-orange-500 to-red-500",
-  //     skills: [
-  //       { name: "Git & GitHub", level: 95 },
-  //       { name: "VS Code", level: 98 },
-  //       { name: "Figma", level: 85 },
-  //       { name: "Postman", level: 88 },
-  //       { name: "Jest", level: 75 },
-  //       { name: "Webpack", level: 72 },
-  //     ],
-  //   },
-  // ];
 
   const activeSkill =
     skillsData.find((cat) => cat.title == activeCategories)?.skills || [];
