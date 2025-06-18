@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 
 // Create axios instance
 const api = axios.create({
-  baseURL: "http://localhost:5000/",
+  baseURL: "https://full-stack-portolio-b4nm.onrender.com",
 });
 
 // Response interceptor for error handling

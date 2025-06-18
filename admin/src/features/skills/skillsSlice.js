@@ -20,7 +20,7 @@ export const createSkillModule = createAsyncThunk(
   "skills/createSkillModule",
   async (moduleData, { rejectWithValue }) => {
     try {
-      const response = await api.post("/skills", moduleData);
+      const response = await api.post("/app/admin/v3/skill", moduleData);
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -34,7 +34,7 @@ export const updateSkillModule = createAsyncThunk(
   "skills/updateSkillModule",
   async ({ id, moduleData }, { rejectWithValue }) => {
     try {
-      const response = await api.put(`/skills/${id}`, moduleData);
+      const response = await api.put(`/app/admin/v3/skill/${id}`, moduleData);
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -48,7 +48,7 @@ export const deleteSkillModule = createAsyncThunk(
   "skills/deleteSkillModule",
   async (id, { rejectWithValue }) => {
     try {
-      await api.delete(`/skills/${id}`);
+      await api.delete(`/app/admin/v3/skill/${id}`);
       return id;
     } catch (error) {
       return rejectWithValue(
@@ -81,11 +81,11 @@ const skillsSlice = createSlice({
       })
       .addCase(fetchSkills.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.skillModules = action.payload;
+        state.skillModules = action.payload?.data;
       })
       .addCase(fetchSkills.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload;
+        state.error = action.payload?.message;
       })
       // Create skill module
       .addCase(createSkillModule.pending, (state) => {
@@ -94,11 +94,11 @@ const skillsSlice = createSlice({
       })
       .addCase(createSkillModule.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.skillModules.push(action.payload);
+        state.skillModules.push(action.payload?.data);
       })
       .addCase(createSkillModule.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload;
+        state.error = action.payload?.message;
       })
       // Update skill module
       .addCase(updateSkillModule.pending, (state) => {
@@ -106,17 +106,18 @@ const skillsSlice = createSlice({
         state.error = null;
       })
       .addCase(updateSkillModule.fulfilled, (state, action) => {
+   
         state.isLoading = false;
         const index = state.skillModules.findIndex(
-          (module) => module._id === action.payload._id
+          (module) => module._id === action.payload?.data._id
         );
         if (index !== -1) {
-          state.skillModules[index] = action.payload;
+          state.skillModules[index] = action.payload?.data;
         }
       })
       .addCase(updateSkillModule.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload;
+        state.error = action.payload?.message;
       })
       // Delete skill module
       .addCase(deleteSkillModule.pending, (state) => {

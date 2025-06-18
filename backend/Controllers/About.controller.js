@@ -158,7 +158,7 @@ export const AboutSectionUpdate = async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: "Successfully updated About data",
-      aboutData,
+      data: aboutData,
     });
   } catch (error) {
     return next(new AppError(error.message, 400));
@@ -166,11 +166,11 @@ export const AboutSectionUpdate = async (req, res, next) => {
 };
 export const GetAbout = async (req, res, next) => {
   try {
-    const aboutData = await About_section.findOne({ Key_id: "INFO_ABOUT" });
+    const aboutData = await About_section.find({ Key_id: "INFO_ABOUT" });
     res.status(200).json({
       success: true,
 
-      aboutData,
+      data: aboutData,
 
       message: "successfully data get",
     });
@@ -213,13 +213,21 @@ export const updateJourneyItem = async (req, res, next) => {
 
 export const deleteJourneyItem = async (req, res, next) => {
   try {
-    const { index } = req.params;
-    const about = await About_section.findOne({ Key_id: "INFO_ABOUT" });
+    const { id } = req.params;
 
-    about.myJourney.splice(index, 1);
-    await about.save();
+    const updatedAbout = await About_section.findOneAndUpdate(
+      { Key_id: "INFO_ABOUT" },
+      { $pull: { myJourney: { _id: id } } },
+      { new: true }
+    );
 
-    res.status(200).json({ success: true, data: about.myJourney });
+    if (!updatedAbout) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Data not found" });
+    }
+
+    res.status(200).json({ success: true, data: updatedAbout?.myJourney });
   } catch (err) {
     return next(new AppError(err.message, 400));
   }
@@ -228,11 +236,8 @@ export const deleteJourneyItem = async (req, res, next) => {
 // === Fun Fact ===
 export const addFunFact = async (req, res, next) => {
   try {
-    const {
-      Icon: icon,
-      title: factCount,
-      description: factDescription,
-    } = req.body;
+    const { icon, title: factCount, description: factDescription } = req.body;
+
     const about = await About_section.findOne({ Key_id: "INFO_ABOUT" });
     about.funFact.push({ icon, factCount, factDescription });
     await about.save();
@@ -260,13 +265,21 @@ export const updateFunFact = async (req, res, next) => {
 
 export const deleteFunFact = async (req, res, next) => {
   try {
-    const { index } = req.params;
-    const about = await About_section.findOne({ Key_id: "INFO_ABOUT" });
+    const { id } = req.params;
 
-    about.funFact.splice(index, 1);
-    await about.save();
+    const updatedAbout = await About_section.findOneAndUpdate(
+      { Key_id: "INFO_ABOUT" },
+      { $pull: { funFact: { _id: id } } },
+      { new: true }
+    );
 
-    res.status(200).json({ success: true, data: about.funFact });
+    if (!updatedAbout) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Data not found" });
+    }
+
+    res.status(200).json({ success: true, data: updatedAbout?.funFact });
   } catch (err) {
     return next(new AppError(err.message, 400));
   }

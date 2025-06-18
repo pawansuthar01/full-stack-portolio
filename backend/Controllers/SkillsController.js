@@ -5,9 +5,9 @@ import fs from "fs/promises";
 
 //*create new skills cart//*
 export const CreateNewSkillsCart = async (req, res, next) => {
-  let { title, skills } = req.body;
+  let { title, skills, icon, color } = req.body;
 
-  if (!title || !skills.length) {
+  if (!title || !skills.length || !icon || !color) {
     return next(new AppError("All fields are required for skill cart", 400));
   }
   try {
@@ -19,15 +19,11 @@ export const CreateNewSkillsCart = async (req, res, next) => {
       return next(new AppError("Skills should be an array", 400));
     }
 
-    if (!title || !skills) {
-      return next(
-        new AppError(" please give All filed is required for skill cart", 400)
-      );
-    }
-
     const newSkillsCart = new Skills({
       title,
       skills,
+      icon,
+      color,
     });
     if (!newSkillsCart) {
       return next(
@@ -47,7 +43,7 @@ export const CreateNewSkillsCart = async (req, res, next) => {
 
 export const newSkillAddToCart = async (req, res, next) => {
   const { id } = req.params;
-  const { skills } = req.body;
+  const { skills, title, icon, color } = req.body;
 
   try {
     if (!skills || !Array.isArray(skills) || skills.length === 0) {
@@ -66,7 +62,10 @@ export const newSkillAddToCart = async (req, res, next) => {
       return next(new AppError("Skills cart not found.", 404));
     }
 
-    FindSkillsCart.skills.push(...skills);
+    FindSkillsCart.title = title || FindSkillsCart?.title;
+    FindSkillsCart.color = color || FindSkillsCart?.color;
+    FindSkillsCart.icon = icon || FindSkillsCart?.icon;
+    FindSkillsCart.skills = skills;
 
     await FindSkillsCart.save();
 
@@ -115,8 +114,8 @@ export const newSkillUpdateToCart = async (req, res, next) => {
       { _id: cartId, "skills._id": skillId },
       {
         $set: {
-          "skills.$.name": name, // ✅ Correctly update name
-          "skills.$.level": level, // ✅ Correctly update level
+          "skills.$.name": name,
+          "skills.$.level": level,
         },
       },
       {

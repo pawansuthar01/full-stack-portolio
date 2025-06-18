@@ -5,8 +5,8 @@ import Main from "../Modules/mainModule.js";
 
 //* uploadMainSectionDetails//*
 export const MainDetailsCreate = async (req, res, next) => {
-  const { title, smallDescription, description, name } = req.body;
-  if (!title || !smallDescription || !description || !name || !req.file) {
+  const { title, titles, description, name } = req.body;
+  if (!title || !Array.isArray(titles) || !description || !name || !req.file) {
     return next(new AppError("please give All Data  ", 400));
   }
   let photo =
@@ -35,7 +35,7 @@ export const MainDetailsCreate = async (req, res, next) => {
       title,
       name,
       description,
-      smallDescription,
+      titles,
       photo,
     });
     if (!CreateMain) {
@@ -57,7 +57,7 @@ export const MainDetailsCreate = async (req, res, next) => {
 
 //*updated main section data//*
 export const UpdatedMainSectionData = async (req, res, next) => {
-  const { title, smallDescription, name, description } = req.body;
+  const { title, titles, name, description } = req.body;
 
   try {
     // *cloudinary setup //*
@@ -81,10 +81,11 @@ export const UpdatedMainSectionData = async (req, res, next) => {
         return next(new AppError(error.message, 400));
       }
     }
+
     const updatedData = {
       ...(name && { name }),
       ...(title && { title }),
-      ...(smallDescription && { smallDescription }),
+      ...(titles && Array.isArray(titles) && { titles }),
       ...(description && { description }),
       ...(req.file && { photo }),
     };

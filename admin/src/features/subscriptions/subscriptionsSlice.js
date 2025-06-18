@@ -53,7 +53,7 @@ const subscriptionsSlice = createSlice({
       })
       .addCase(fetchSubscriptions.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.subscriptions = action.payload;
+        state.subscriptions = action.payload?.data;
       })
       .addCase(fetchSubscriptions.rejected, (state, action) => {
         state.isLoading = false;

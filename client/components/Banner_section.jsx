@@ -6,9 +6,11 @@ import { ChevronDown, Download, Github, Linkedin, Mail } from "lucide-react";
 
 export default function Banner_section() {
   const { bannerData } = useSelector((state) => state?.DataStore);
+  const { SocialLinkData } = useSelector((state) => state?.DataStore);
+
   const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
-  const titles = [
+  const titles = bannerData[0]?.titles || [
     "Full-Stack Developer",
     "UI/UX Designer",
     "Problem Solver",
@@ -73,9 +75,9 @@ export default function Banner_section() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
           >
-            Hi, I'm{" "}
+            {bannerData[0]?.title || "HI, i`am"}{" "}
             <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-              Pawan Kumar
+              {bannerData[0]?.name || "pawan kumar"}
             </span>
           </motion.h1>
 
@@ -103,9 +105,10 @@ export default function Banner_section() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
           >
-            I craft digital experiences that combine beautiful design with
+            {bannerData[0]?.description ||
+              ` I craft digital experiences that combine beautiful design with
             powerful functionality. Specializing in modern web technologies and
-            creating solutions that make a difference.
+            creating solutions that make a difference.`}
           </motion.p>
 
           <motion.div
@@ -135,27 +138,34 @@ export default function Banner_section() {
             transition={{ delay: 1, duration: 0.8 }}
           >
             <a
-              href="#"
+              href={SocialLinkData[0]?.GitHub}
+              target="_blank"
               className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
             >
               <Github size={24} />
             </a>
             <a
-              href="#"
+              href={SocialLinkData[0]?.LinkedIn}
+              target="_blank"
               className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
             >
               <Linkedin size={24} />
             </a>
             <a
-              href="#"
+              href="mailto:mail@pawansuthar.in"
+              target="_blank"
               className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
             >
               <Mail size={24} />
             </a>
-            <button className="flex items-center text-gray-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full">
+            <a
+              href={SocialLinkData[0]?.CV}
+              target="_blank"
+              className="flex items-center text-gray-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
+            >
               <Download size={20} className="mr-2" />
               Resume
-            </button>
+            </a>
           </motion.div>
         </motion.div>
 

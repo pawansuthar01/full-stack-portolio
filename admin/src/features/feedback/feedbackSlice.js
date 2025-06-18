@@ -67,7 +67,7 @@ const feedbackSlice = createSlice({
       })
       .addCase(fetchFeedback.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.feedbackList = action.payload;
+        state.feedbackList = action.payload?.data;
       })
       .addCase(fetchFeedback.rejected, (state, action) => {
         state.isLoading = false;
@@ -76,7 +76,7 @@ const feedbackSlice = createSlice({
       // Delete feedback
       .addCase(deleteFeedback.fulfilled, (state, action) => {
         state.feedbackList = state.feedbackList.filter(
-          (item) => item._id !== action.payload
+          (item) => item._id !== action.payload?.data
         );
       })
       // Update feedback status
@@ -85,8 +85,9 @@ const feedbackSlice = createSlice({
           (item) => item._id === action.payload._id
         );
         if (index !== -1) {
-          state.feedbackList[index] = action.payload;
+          state.feedbackList[index] = action.payload?.data;
         }
+        x;
       });
   },
 });

@@ -1,21 +1,18 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   fetchSubscriptions,
   deleteSubscription,
-  clearError
-} from '../features/subscriptions/subscriptionsSlice';
-import {
-  Mail,
-  Trash2,
-  Download,
-  Calendar
-} from 'lucide-react';
-import toast from 'react-hot-toast';
+  clearError,
+} from "../features/subscriptions/subscriptionsSlice";
+import { Mail, Trash2, Download, Calendar } from "lucide-react";
+import toast from "react-hot-toast";
 
 const Subscriptions = () => {
   const dispatch = useDispatch();
-  const { subscriptions, isLoading, error } = useSelector((state) => state.subscriptions);
+  const { subscriptions, isLoading, error } = useSelector(
+    (state) => state.subscriptions
+  );
 
   useEffect(() => {
     dispatch(fetchSubscriptions());
@@ -29,30 +26,30 @@ const Subscriptions = () => {
   }, [error, dispatch]);
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this subscription?')) {
+    if (window.confirm("Are you sure you want to delete this subscription?")) {
       try {
         const result = await dispatch(deleteSubscription(id));
-        if (result.type === 'subscriptions/deleteSubscription/fulfilled') {
-          toast.success('Subscription deleted successfully!');
+        if (result.type === "subscriptions/deleteSubscription/fulfilled") {
+          toast.success("Subscription deleted successfully!");
         }
       } catch (err) {
-        toast.error('Failed to delete subscription');
+        toast.error("Failed to delete subscription");
       }
     }
   };
 
   const handleExportEmails = () => {
-    const emails = subscriptions.map(sub => sub.email).join('\n');
-    const blob = new Blob([emails], { type: 'text/plain' });
+    const emails = subscriptions.map((sub) => sub.email).join("\n");
+    const blob = new Blob([emails], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = 'subscriber-emails.txt';
+    a.download = "subscriber-emails.txt";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    toast.success('Emails exported successfully!');
+    toast.success("Emails exported successfully!");
   };
 
   const isValidEmail = (email) => {
@@ -72,7 +69,9 @@ const Subscriptions = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Email Subscriptions</h1>
+          <h1 className="text-2xl font-bold text-gray-900">
+            Email Subscriptions
+          </h1>
           <p className="mt-1 text-sm text-gray-600">
             Manage newsletter subscribers and email list
           </p>
@@ -102,7 +101,7 @@ const Subscriptions = () => {
                     Total Subscribers
                   </dt>
                   <dd className="text-2xl font-semibold text-gray-900">
-                    {subscriptions.length}
+                    {subscriptions?.subscribers?.length}
                   </dd>
                 </dl>
               </div>
@@ -122,7 +121,11 @@ const Subscriptions = () => {
                     Valid Emails
                   </dt>
                   <dd className="text-2xl font-semibold text-gray-900">
-                    {subscriptions.filter(sub => isValidEmail(sub.email)).length}
+                    {
+                      subscriptions?.subscribers?.filter((sub) =>
+                        isValidEmail(sub.email)
+                      ).length
+                    }
                   </dd>
                 </dl>
               </div>
@@ -142,7 +145,11 @@ const Subscriptions = () => {
                     Invalid Emails
                   </dt>
                   <dd className="text-2xl font-semibold text-gray-900">
-                    {subscriptions.filter(sub => !isValidEmail(sub.email)).length}
+                    {
+                      subscriptions?.subscribers?.filter(
+                        (sub) => !isValidEmail(sub.email)
+                      ).length
+                    }
                   </dd>
                 </dl>
               </div>
@@ -153,7 +160,7 @@ const Subscriptions = () => {
 
       {/* Subscriptions List */}
       <div className="bg-white shadow-sm rounded-lg overflow-hidden">
-        {subscriptions.length > 0 ? (
+        {subscriptions?.subscribers?.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
@@ -173,7 +180,7 @@ const Subscriptions = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {subscriptions.map((subscription) => (
+                {subscriptions?.subscribers?.map((subscription) => (
                   <tr key={subscription._id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
@@ -184,22 +191,27 @@ const Subscriptions = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        isValidEmail(subscription.email)
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-red-100 text-red-800'
-                      }`}>
-                        {isValidEmail(subscription.email) ? 'Valid' : 'Invalid'}
+                      <span
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          isValidEmail(subscription.email)
+                            ? "bg-green-100 text-green-800"
+                            : "bg-red-100 text-red-800"
+                        }`}
+                      >
+                        {isValidEmail(subscription.email) ? "Valid" : "Invalid"}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {new Date(subscription.createdAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })}
+                      {new Date(subscription.createdAt).toLocaleDateString(
+                        "en-US",
+                        {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        }
+                      )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <button
@@ -217,9 +229,12 @@ const Subscriptions = () => {
         ) : (
           <div className="text-center py-12">
             <Mail className="mx-auto h-12 w-12 text-gray-400" />
-            <h3 className="mt-2 text-sm font-medium text-gray-900">No subscribers yet</h3>
+            <h3 className="mt-2 text-sm font-medium text-gray-900">
+              No subscribers yet
+            </h3>
             <p className="mt-1 text-sm text-gray-500">
-              Email subscriptions will appear here when visitors subscribe to your newsletter.
+              Email subscriptions will appear here when visitors subscribe to
+              your newsletter.
             </p>
           </div>
         )}

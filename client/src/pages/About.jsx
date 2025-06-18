@@ -4,9 +4,12 @@ import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { Layout } from "../../layout/layout";
 import AboutPageSkeleton from "../../components/skeleton/AboutPageSkeleton";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import DynamicIcon from "../../components/ui/DynamicIcon";
+import { getAllData } from "../Redux/Slice/getData";
 const AboutPage = () => {
   const { aboutData } = useSelector((state) => state?.DataStore);
+  const dispatch = useDispatch();
   const { ref, inView } = useInView({
     threshold: 0.2,
     triggerOnce: true,
@@ -23,37 +26,42 @@ const AboutPage = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const timeline = [
-    {
-      year: "2020",
-      title: "Started Web Development Journey",
-      description: "Began learning HTML, CSS, and JavaScript",
-    },
-    {
-      year: "2021",
-      title: "First Freelance Project",
-      description:
-        "Completed my first client project - a local business website",
-    },
-    {
-      year: "2022",
-      title: "Full-Stack Development",
-      description: "Expanded skills to include Node.js, React, and databases",
-    },
-    {
-      year: "2023",
-      title: "Professional Developer",
-      description: "Working with startups and established companies",
-    },
-  ];
+  useEffect(() => {
+    if (!aboutData[0]) {
+      dispatch(getAllData());
+    }
+  }, []);
+  // const timeline = [
+  //   {
+  //     year: "2020",
+  //     title: "Started Web Development Journey",
+  //     description: "Began learning HTML, CSS, and JavaScript",
+  //   },
+  //   {
+  //     year: "2021",
+  //     title: "First Freelance Project",
+  //     description:
+  //       "Completed my first client project - a local business website",
+  //   },
+  //   {
+  //     year: "2022",
+  //     title: "Full-Stack Development",
+  //     description: "Expanded skills to include Node.js, React, and databases",
+  //   },
+  //   {
+  //     year: "2023",
+  //     title: "Professional Developer",
+  //     description: "Working with startups and established companies",
+  //   },
+  // ];
 
-  const facts = [
-    { icon: Coffee, label: "Cups of Coffee", value: "500+" },
-    { icon: Award, label: "Projects Completed", value: "50+" },
-    { icon: Heart, label: "Happy Clients", value: "25+" },
-    { icon: Calendar, label: "Years Experience", value: "3+" },
-  ];
-  if (!aboutData) {
+  // const facts = [
+  //   { icon: Coffee, label: "Cups of Coffee", value: "500+" },
+  //   { icon: Award, label: "Projects Completed", value: "50+" },
+  //   { icon: Heart, label: "Happy Clients", value: "25+" },
+  //   { icon: Calendar, label: "Years Experience", value: "3+" },
+  // ];
+  if (!aboutData[0]) {
     return <AboutPageSkeleton />;
   }
   return (
@@ -94,7 +102,8 @@ const AboutPage = () => {
             >
               <h2 className="text-3xl font-bold mb-6 text-white">My Story</h2>
               <div className="space-y-4 text-gray-400 leading-relaxed">
-                <p>
+                {aboutData[0]?.description ||
+                  ` <p>
                   Hi! I'm Pawan Kumar, a passionate full-stack developer based
                   in San Francisco. My journey into the world of programming
                   began during college when I discovered the power of code to
@@ -112,7 +121,7 @@ const AboutPage = () => {
                   technologies, contributing to open-source projects, or sharing
                   knowledge with the developer community. I believe in the power
                   of collaboration and continuous learning.
-                </p>
+                </p>`}
               </div>
             </motion.div>
 
@@ -125,8 +134,8 @@ const AboutPage = () => {
             >
               <div className="aspect-square absolute rotate-3  w-full h-full bg-gradient-to-br from-[Var(--span-gradient-from-color)] to-[Var(--span-gradient-to-color)] rounded-3xl backdrop-blur-sm border border-white/10 flex items-center justify-center">
                 <img
-                  src={aboutData[0]?.photo}
-                  className="w-[90%] h-[90%] object-cover rounded-2xl absolute -rotate-3"
+                  src={aboutData[0]?.AboutPageImage}
+                  className="w-[95%] h-[95%] object-cover rounded-2xl absolute -rotate-3"
                 />
               </div>
             </motion.div>
@@ -153,9 +162,9 @@ const AboutPage = () => {
               />
 
               <div ref={ref} className="space-y-12">
-                {timeline.map((item, index) => (
+                {aboutData[0]?.myJourney.map((item, index) => (
                   <motion.div
-                    key={index}
+                    key={index || item._id}
                     initial={{ opacity: 0, y: 30 }}
                     animate={inView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.2, delay: 0.1 + index * 0.2 }}
@@ -178,12 +187,14 @@ const AboutPage = () => {
                     >
                       <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
                         <div className="text-blue-400 font-bold text-lg mb-2">
-                          {item.year}
+                          {item.date}
                         </div>
                         <h3 className="text-white font-semibold mb-2">
-                          {item.title}
+                          {item.educationTitle}
                         </h3>
-                        <p className="text-gray-400">{item.description}</p>
+                        <p className="text-gray-400">
+                          {item.educationDescription}
+                        </p>
                       </div>
                     </div>
 
@@ -209,7 +220,7 @@ const AboutPage = () => {
               Fun Facts
             </h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {facts.map((fact, index) => {
+              {aboutData[0]?.funFact?.map((fact, index) => {
                 const Icon = fact.icon;
                 return (
                   <motion.div
@@ -229,12 +240,16 @@ const AboutPage = () => {
                     className="text-center p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:border-white/20 transition-all duration-300 hover:transform hover:scale-105"
                   >
                     <div className="w-16 h-16 bg-gradient-to-br from-[Var(--span-gradient-from-color)] to-[Var(--span-gradient-to-color)] rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Icon size={32} className="text-white" />
+                      <DynamicIcon
+                        iconName={fact.icon}
+                        size={32}
+                        className="text-white"
+                      />
                     </div>
                     <div className="text-2xl font-bold text-white mb-2">
-                      {fact.value}
+                      {fact.factCount}
                     </div>
-                    <div className="text-gray-400">{fact.label}</div>
+                    <div className="text-gray-400">{fact.factDescription}</div>
                   </motion.div>
                 );
               })}

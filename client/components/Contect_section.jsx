@@ -36,7 +36,7 @@ const Contact = () => {
     setIsSubmitting(true);
     // Simulate form submission
     const res = await dispatch(submitMessage(formData));
-    console.log(res);
+
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     setSubmitted(true);

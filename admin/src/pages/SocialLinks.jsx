@@ -1,24 +1,26 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useForm } from 'react-hook-form';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
 import {
   fetchSocials,
   updateSocials,
-  clearError
-} from '../features/socials/socialsSlice';
+  clearError,
+} from "../features/socials/socialsSlice";
 import {
   Save,
   Instagram,
   Linkedin,
   Github,
   FileText,
-  ExternalLink
-} from 'lucide-react';
-import toast from 'react-hot-toast';
+  ExternalLink,
+} from "lucide-react";
+import toast from "react-hot-toast";
 
 const SocialLinks = () => {
   const dispatch = useDispatch();
-  const { socialLinks, isLoading, error } = useSelector((state) => state.socials);
+  const { socialLinks, isLoading, error } = useSelector(
+    (state) => state.socials
+  );
 
   const {
     register,
@@ -28,16 +30,19 @@ const SocialLinks = () => {
   } = useForm();
 
   useEffect(() => {
-    dispatch(fetchSocials());
+    async function fetchSocialsData() {
+      await dispatch(fetchSocials());
+    }
+    fetchSocialsData();
   }, [dispatch]);
 
   useEffect(() => {
     if (socialLinks) {
-      setValue('Instagram', socialLinks.Instagram || '');
-      setValue('LinkedIn', socialLinks.LinkedIn || '');
-      setValue('GitHub', socialLinks.GitHub || '');
-      setValue('X', socialLinks.X || '');
-      setValue('CV', socialLinks.CV || '');
+      setValue("Instagram", socialLinks.Instagram || "");
+      setValue("LinkedIn", socialLinks.LinkedIn || "");
+      setValue("GitHub", socialLinks.GitHub || "");
+      setValue("X", socialLinks.X || "");
+      setValue("CV", socialLinks.CV || "");
     }
   }, [socialLinks, setValue]);
 
@@ -48,47 +53,55 @@ const SocialLinks = () => {
     }
   }, [error, dispatch]);
 
+  const isValid = (data) => {
+    if (!data?.CV) {
+      errors.cv = "cv link is required";
+      return;
+    }
+  };
   const onSubmit = async (data) => {
     try {
+      isValid();
       const result = await dispatch(updateSocials(data));
-      if (result.type === 'socials/updateSocials/fulfilled') {
-        toast.success('Social links updated successfully!');
+      console.log(result);
+      if (result.type === "socials/updateSocials/fulfilled") {
+        toast.success("Social links updated successfully!");
       }
     } catch (err) {
-      toast.error('Failed to update social links');
+      toast.error("Failed to update social links");
     }
   };
 
   const socialPlatforms = [
     {
-      name: 'Instagram',
+      name: "Instagram",
       icon: Instagram,
-      placeholder: 'https://instagram.com/username',
-      color: 'text-pink-500',
+      placeholder: "https://instagram.com/username",
+      color: "text-pink-500",
     },
     {
-      name: 'LinkedIn',
+      name: "LinkedIn",
       icon: Linkedin,
-      placeholder: 'https://linkedin.com/in/username',
-      color: 'text-blue-600',
+      placeholder: "https://linkedin.com/in/username",
+      color: "text-blue-600",
     },
     {
-      name: 'GitHub',
+      name: "GitHub",
       icon: Github,
-      placeholder: 'https://github.com/username',
-      color: 'text-gray-800',
+      placeholder: "https://github.com/username",
+      color: "text-gray-800",
     },
     {
-      name: 'X',
+      name: "X",
       icon: ExternalLink,
-      placeholder: 'https://x.com/username',
-      color: 'text-black',
+      placeholder: "https://x.com/username",
+      color: "text-black",
     },
     {
-      name: 'CV',
+      name: "CV",
       icon: FileText,
-      placeholder: 'https://example.com/cv.pdf',
-      color: 'text-red-500',
+      placeholder: "https://example.com/cv.pdf",
+      color: "text-red-500",
     },
   ];
 
@@ -111,7 +124,9 @@ const SocialLinks = () => {
 
       <div className="bg-white shadow-sm rounded-lg">
         <div className="px-6 py-4 border-b border-gray-200">
-          <h3 className="text-lg font-medium text-gray-900">Social Media Links</h3>
+          <h3 className="text-lg font-medium text-gray-900">
+            Social Media Links
+          </h3>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-6">
@@ -128,9 +143,12 @@ const SocialLinks = () => {
                 <div className="relative">
                   <input
                     {...register(platform.name, {
+                      required: `${platform.name} is required`,
                       pattern: {
                         value: /^https?:\/\/.+/,
-                        message: 'Please enter a valid URL starting with http:// or https://',
+
+                        message:
+                          "Please enter a valid URL starting with http:// or https://",
                       },
                     })}
                     type="url"
@@ -151,7 +169,9 @@ const SocialLinks = () => {
                   )}
                 </div>
                 {errors[platform.name] && (
-                  <p className="mt-1 text-sm text-red-600">{errors[platform.name].message}</p>
+                  <p className="mt-1 text-sm text-red-600">
+                    {errors[platform.name].message}
+                  </p>
                 )}
               </div>
             );
@@ -203,9 +223,10 @@ const SocialLinks = () => {
               );
             })}
           </div>
-          {Object.values(socialLinks).every(link => !link) && (
+          {Object.values(socialLinks).every((link) => !link) && (
             <p className="text-gray-500 text-center py-4">
-              No social links configured yet. Add your links above to see the preview.
+              No social links configured yet. Add your links above to see the
+              preview.
             </p>
           )}
         </div>

@@ -7,7 +7,6 @@ export const fetchAbout = createAsyncThunk("about/fetchAbout", async () => {
     const response = await api.get("/app/user/v3/Data/about");
     return response.data;
   } catch (error) {
-    console.log(error);
     return error.response?.data?.message || "Failed to fetch about data";
   }
 });
@@ -34,7 +33,7 @@ export const addJourneyItem = createAsyncThunk(
         "/app/admin/v3/About/journey",
         journeyItem
       );
-      response.data;
+      return response.data;
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || "Failed to add journey item"
@@ -51,7 +50,7 @@ export const updateJourneyItem = createAsyncThunk(
         `/app/admin/v3/About/journey/${id}`,
         journeyItem
       );
-      response.data;
+      return response.data;
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || "Failed to update journey item"
@@ -65,6 +64,7 @@ export const deleteJourneyItem = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       await api.delete(`/app/admin/v3/About/journey/${id}`);
+
       return id;
     } catch (error) {
       return rejectWithValue(
@@ -149,7 +149,7 @@ const aboutSlice = createSlice({
       })
       .addCase(fetchAbout.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.aboutData = action.payload?.aboutData;
+        state.aboutData = action.payload?.data[0];
       })
       .addCase(fetchAbout.rejected, (state, action) => {
         state.isLoading = false;
@@ -163,7 +163,7 @@ const aboutSlice = createSlice({
       .addCase(updateAbout.fulfilled, (state, action) => {
         state.isLoading = false;
 
-        state.aboutData = action.payload?.aboutData;
+        state.aboutData = action.payload?.data;
       })
       .addCase(updateAbout.rejected, (state, action) => {
         state.isLoading = false;
@@ -171,7 +171,9 @@ const aboutSlice = createSlice({
       })
       // Journey items
       .addCase(addJourneyItem.fulfilled, (state, action) => {
-        state.aboutData.myJourney.push(action.payload?.myJourney);
+        if (action?.payload?.success) {
+          state.aboutData.myJourney = action.payload?.myJourney;
+        }
       })
       .addCase(updateJourneyItem.fulfilled, (state, action) => {
         const index = state.aboutData.myJourney.findIndex(
@@ -188,7 +190,7 @@ const aboutSlice = createSlice({
       })
       // Fun facts
       .addCase(addFunFact.fulfilled, (state, action) => {
-        state.aboutData.funFact.push(action.payload);
+        state.aboutData.funFact = action.payload?.data;
       })
       .addCase(updateFunFact.fulfilled, (state, action) => {
         const index = state.aboutData.funFact.findIndex(

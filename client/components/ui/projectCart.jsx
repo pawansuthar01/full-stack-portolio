@@ -124,7 +124,7 @@ export const ProjectCart = ({ project, index }) => {
                 ?.slice(0, selectedProject === project?._id ? undefined : 3)
                 ?.map((tech) => (
                   <span
-                    key={tech._id}
+                    key={tech._id || index}
                     className="text-xs px-2 py-1 bg-dark-700 text-gray-300 rounded-md hover:bg-dark-600 transition-colors duration-200"
                   >
                     {tech.name}

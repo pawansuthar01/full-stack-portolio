@@ -15,6 +15,7 @@ import {
 import { Save, Plus, Edit, Trash2, X } from "lucide-react";
 import toast from "react-hot-toast";
 import ImageUpload from "../components/ImageUI";
+import DynamicIcon from "../components/DynamicIcon";
 
 const About = () => {
   const [showJourneyModal, setShowJourneyModal] = useState(false);
@@ -50,7 +51,10 @@ const About = () => {
   } = useForm();
 
   useEffect(() => {
-    dispatch(fetchAbout());
+    async function fetchAboutData() {
+      await dispatch(fetchAbout());
+    }
+    fetchAboutData();
   }, [dispatch]);
 
   useEffect(() => {
@@ -73,7 +77,6 @@ const About = () => {
 
   const onSubmitAbout = async (data) => {
     try {
-      console.log(data);
       const fromData = new FormData();
       fromData.append("title", data.title);
       fromData.append("description", data.description);
@@ -85,6 +88,7 @@ const About = () => {
       }
 
       const result = await dispatch(updateAbout(fromData));
+
       if (result.type === "about/updateAbout/fulfilled") {
         toast.success("About section updated successfully!");
       }
@@ -140,6 +144,7 @@ const About = () => {
     if (window.confirm("Are you sure you want to delete this journey item?")) {
       try {
         const result = await dispatch(deleteJourneyItem(id));
+        console.log(result);
         if (result.type === "about/deleteJourneyItem/fulfilled") {
           toast.success("Journey item deleted successfully!");
         }
@@ -175,6 +180,7 @@ const About = () => {
             funFact: data,
           })
         );
+
         if (result.type === "about/updateFunFact/fulfilled") {
           toast.success("Fun fact updated successfully!");
           closeFunFactModal();
@@ -384,14 +390,19 @@ const About = () => {
                 >
                   <div className="flex justify-between items-start">
                     <div className="flex-1">
-                      <h4 className="text-lg font-medium text-gray-900">
-                        {fact?.icon}
-                      </h4>
-                      {fact.factCount && (
-                        <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
-                          {fact.factCount}
-                        </span>
-                      )}
+                      <span className="flex">
+                        <DynamicIcon
+                          iconName={fact?.icon}
+                          size={20}
+                          className="text-lg font-medium text-gray-900"
+                        />
+
+                        {fact.factCount && (
+                          <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
+                            {fact.factCount}
+                          </span>
+                        )}
+                      </span>
 
                       {fact.factDescription && (
                         <p className="mt-2 text-gray-600">
@@ -537,18 +548,24 @@ const About = () => {
                 >
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
-                      Icon
+                      Icon ( Name of Icon)
                     </label>
+
                     <input
-                      {...registerFunFact("Icon", {
-                        required: "Icon is required",
+                      {...registerFunFact("icon", {
+                        required: "Icon name is required",
+                        pattern: {
+                          value: /^[A-Z][a-zA-Z0-9]+$/,
+                          message: "Enter a valid icon name like FaBeer",
+                        },
                       })}
                       type="text"
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500"
+                      placeholder="FaBeer"
+                      className="mt-1 block w-full p-2 border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500"
                     />
-                    {errorsFunFact.Icon && (
-                      <p className="mt-1 text-sm text-red-600">
-                        {errorsFunFact.Icon.message}
+                    {errorsFunFact.icon && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errorsFunFact.icon.message}
                       </p>
                     )}
                   </div>

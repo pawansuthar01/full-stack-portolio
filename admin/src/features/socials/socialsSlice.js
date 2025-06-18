@@ -6,7 +6,7 @@ export const fetchSocials = createAsyncThunk(
   "socials/fetchSocials",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await api.get("/app/user/v3/Data/socials");
+      const response = await api.get("/app/user/v3/Data/sociallink");
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -20,7 +20,7 @@ export const updateSocials = createAsyncThunk(
   "socials/updateSocials",
   async (socialsData, { rejectWithValue }) => {
     try {
-      const response = await api.put("/socials", socialsData);
+      const response = await api.put("/app/admin/v3/social", socialsData);
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -59,7 +59,11 @@ const socialsSlice = createSlice({
       })
       .addCase(fetchSocials.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.socialLinks = action.payload;
+        state.socialLinks.CV = action.payload?.data[0]?.CV;
+        state.socialLinks.Instagram = action.payload?.data[0]?.Instagram;
+        state.socialLinks.X = action.payload?.data[0]?.X;
+        state.socialLinks.GitHub = action.payload?.data[0]?.GitHub;
+        state.socialLinks.LinkedIn = action.payload?.data[0]?.LinkedIn;
       })
       .addCase(fetchSocials.rejected, (state, action) => {
         state.isLoading = false;
@@ -72,7 +76,12 @@ const socialsSlice = createSlice({
       })
       .addCase(updateSocials.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.socialLinks = action.payload;
+
+        state.socialLinks.CV = action.payload?.data?.CV;
+        state.socialLinks.Instagram = action.payload?.data?.Instagram;
+        state.socialLinks.X = action.payload?.data?.X;
+        state.socialLinks.GitHub = action.payload?.data?.GitHub;
+        state.socialLinks.LinkedIn = action.payload?.data?.LinkedIn;
       })
       .addCase(updateSocials.rejected, (state, action) => {
         state.isLoading = false;

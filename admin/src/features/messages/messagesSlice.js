@@ -46,6 +46,7 @@ export const deleteMessage = createAsyncThunk(
 
 const initialState = {
   messages: [],
+
   isLoading: false,
   error: null,
 };
@@ -67,11 +68,11 @@ const messagesSlice = createSlice({
       })
       .addCase(fetchMessages.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.messages = action.payload;
+        state.messages = action.payload?.data;
       })
       .addCase(fetchMessages.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload;
+        state.error = action.payload?.message;
       })
       // Toggle message read
       .addCase(toggleMessageRead.fulfilled, (state, action) => {

@@ -16,6 +16,7 @@ import Skills from "./pages/Skills";
 import SocialLinks from "./pages/SocialLinks";
 import Subscriptions from "./pages/Subscriptions";
 import NotFound from "./pages/NotFound";
+import BannerPage from "./pages/Banner";
 
 export default function App() {
   return (
@@ -35,6 +36,7 @@ export default function App() {
       >
         <Route index element={<Navigate to="/dashboard" replace />} />
         <Route path="dashboard" element={<Dashboard />} />
+        <Route path="banner" element={<BannerPage />} />
         <Route path="projects" element={<Projects />} />
         <Route path="about" element={<About />} />
         <Route path="feedback" element={<Feedback />} />

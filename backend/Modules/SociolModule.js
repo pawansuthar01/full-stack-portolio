@@ -4,12 +4,12 @@ const SociolModules = new Schema(
   {
     key_id: { type: String, default: "SociolLink_KEY", unique: true },
 
-    instagram: { type: String },
-    linkedin: { type: String },
-   
-    git: { type: String },
-    x: { type: String },
-    cv: { type: String },
+    Instagram: { type: String },
+    LinkedIn: { type: String },
+
+    GitHub: { type: String },
+    X: { type: String },
+    CV: { type: String },
   },
   {
     timestamps: true,

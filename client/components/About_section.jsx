@@ -1,8 +1,8 @@
-import Image from "../src/assets/298.kb.jpg";
 import { motion } from "framer-motion";
 
 import { useSelector } from "react-redux";
 import { LinkButton } from "./LinkButton";
+import { useNavigate } from "react-router-dom";
 
 const textVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -18,9 +18,9 @@ const letterVariant = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
 };
-function About({ image, description, Title }) {
+function About() {
+  const navigate = useNavigate();
   const { aboutData } = useSelector((state) => state?.DataStore);
-
   return (
     aboutData?.length > 0 &&
     aboutData?.map((data) => {
@@ -49,7 +49,7 @@ function About({ image, description, Title }) {
 
                 <div className="relative bg-white p-1">
                   <img
-                    src={image || data.photo || Image}
+                    src={data.BannerAboutImage}
                     alt="Profile"
                     className="w-72  h-auto object-cover"
                   />
@@ -77,16 +77,19 @@ function About({ image, description, Title }) {
               className="text-4xl py-2 max-sm:text-2xl max-[400px]:text-lg"
               variants={textVariants}
             >
-              {!Title &&
+              {title &&
                 title.map((letter, index) => (
                   <motion.span key={index} variants={letterVariant}>
                     {letter}
                   </motion.span>
                 ))}
-              {Title && <motion.span>{Title}</motion.span>}
             </motion.h3>
-            <motion.p className=" tracking-[1px]" variants={textVariants}>
-              {description || data.description}
+            <motion.p
+              onClick={() => navigate("/about")}
+              className=" tracking-[1px] line-clamp-4"
+              variants={textVariants}
+            >
+              {data.description}
             </motion.p>
             <LinkButton />
           </motion.div>

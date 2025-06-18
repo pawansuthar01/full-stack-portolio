@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { Outlet, NavLink, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { logout } from '../features/auth/authSlice';
+import { useState } from "react";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../features/auth/authSlice";
 import {
   LayoutDashboard,
   FolderOpen,
@@ -13,8 +13,9 @@ import {
   Users,
   Menu,
   X,
-  LogOut
-} from 'lucide-react';
+  LogOut,
+  ImageIcon,
+} from "lucide-react";
 
 const Layout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -23,18 +24,19 @@ const Layout = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate('/login');
+    navigate("/login");
   };
 
   const menuItems = [
-    { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
-    { name: 'Projects', path: '/projects', icon: FolderOpen },
-    { name: 'About', path: '/about', icon: User },
-    { name: 'Feedback', path: '/feedback', icon: MessageSquare },
-    { name: 'Messages', path: '/messages', icon: Mail },
-    { name: 'Skills', path: '/skills', icon: Code },
-    { name: 'Social Links', path: '/social-links', icon: Share2 },
-    { name: 'Subscriptions', path: '/subscriptions', icon: Users },
+    { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
+    { name: "Projects", path: "/projects", icon: FolderOpen },
+    { name: "Banner", path: "/banner", icon: ImageIcon },
+    { name: "About", path: "/about", icon: User },
+    { name: "Feedback", path: "/feedback", icon: MessageSquare },
+    { name: "Messages", path: "/messages", icon: Mail },
+    { name: "Skills", path: "/skills", icon: Code },
+    { name: "Social Links", path: "/social-links", icon: Share2 },
+    { name: "Subscriptions", path: "/subscriptions", icon: Users },
   ];
 
   return (
@@ -48,10 +50,12 @@ const Layout = () => {
       )}
 
       {/* Sidebar */}
-      <div className={`
+      <div
+        className={`
         fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out
-        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0
-      `}>
+        ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0
+      `}
+      >
         <div className="flex items-center justify-between p-6 border-b">
           <h2 className="text-xl font-semibold text-gray-800">Admin Panel</h2>
           <button
@@ -72,8 +76,8 @@ const Layout = () => {
                 className={({ isActive }) =>
                   `flex items-center px-6 py-3 text-sm font-medium transition-colors duration-200 ${
                     isActive
-                      ? 'bg-primary-50 text-primary-600 border-r-2 border-primary-600'
-                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                      ? "bg-primary-50 text-primary-600 border-r-2 border-primary-600"
+                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                   }`
                 }
                 onClick={() => setSidebarOpen(false)}

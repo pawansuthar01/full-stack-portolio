@@ -58,7 +58,7 @@ app.use((req, res, next) => {
 // handel server ping to 30s to up//
 setInterval(async () => {
   try {
-    await axios.get(`${process.env.Backend_URL}/ping`);
+    // await axios.get(`${process.env.Backend_URL}/ping`);
   } catch (error) {
     console.error("Error pinging server:", error.message);
   }
@@ -72,7 +72,7 @@ app.get("/ping", async (req, res) => {
     message: "Pong..",
   });
 });
-app.use("/app/admin/v3/mainSection", MainSectionRouter);
+app.use("/app/admin/v3/banner", MainSectionRouter);
 app.use("/app/admin/v3", Admin);
 app.use("/app/admin/v3/About", AboutRouter);
 app.use("/app/user/v3/Data", UserRouter);

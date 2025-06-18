@@ -43,7 +43,7 @@ const Login = () => {
     setIsSubmitting(true);
     try {
       const result = await dispatch(loginAdmin(data));
-      console.log(result);
+ 
       if (result.type === "auth/loginAdmin/fulfilled") {
         toast.success("OTP sent to your email!");
       }

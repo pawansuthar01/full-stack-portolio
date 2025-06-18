@@ -2,71 +2,78 @@ import { motion, time } from "framer-motion";
 import { Cloud, Code, Database, Wrench } from "lucide-react";
 import { useInView } from "react-intersection-observer";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import DynamicIcon from "./ui/DynamicIcon";
 
 const SkillsChart = () => {
-  const [activeCategories, setActiveCategories] = useState("Frontend");
+  const { skillsData } = useSelector((state) => state?.DataStore);
+  const [activeCategories, setActiveCategories] = useState(
+    skillsData[0]?.title || "Frontend"
+  );
+
   const { ref, inView } = useInView({
     threshold: 0.2,
     triggerOnce: true,
   });
-  const skills = [
-    {
-      title: "Frontend",
-      icon: Code,
-      color: "from-blue-500 to-cyan-500",
-      skills: [
-        { name: "React", level: 95 },
-        { name: "TypeScript", level: 90 },
-        { name: "Next.js", level: 88 },
-        { name: "Tailwind CSS", level: 92 },
-        { name: "Vue.js", level: 75 },
-        { name: "JavaScript", level: 95 },
-      ],
-    },
-    {
-      title: "Backend",
-      icon: Database,
-      color: "from-emerald-500 to-teal-500",
-      skills: [
-        { name: "React", level: 95 },
-        { name: "TypeScript", level: 90 },
-        { name: "Next.js", level: 88 },
-        { name: "Tailwind CSS", level: 92 },
-        { name: "Vue.js", level: 75 },
-        { name: "JavaScript", level: 95 },
-      ],
-    },
-    {
-      title: "Cloud & DevOps",
-      color: "from-purple-500 to-pink-500",
-      icon: Cloud,
-      skills: [
-        { name: "React", level: 95 },
-        { name: "TypeScript", level: 90 },
-        { name: "Next.js", level: 88 },
-        { name: "Tailwind CSS", level: 92 },
-        { name: "Vue.js", level: 75 },
-        { name: "JavaScript", level: 95 },
-      ],
-    },
-    {
-      title: "Tools & Others",
-      color: "from-orange-500 to-red-500",
-      icon: Wrench,
-      skills: [
-        { name: "Git & GitHub", level: 95 },
-        { name: "VS Code", level: 98 },
-        { name: "Figma", level: 85 },
-        { name: "Postman", level: 88 },
-        { name: "Jest", level: 75 },
-        { name: "Webpack", level: 72 },
-      ],
-    },
-  ];
+  // const skills = [
+  //   {
+  //     title: "Frontend",
+  //     icon: Code,
+  //     color: "from-blue-500 to-cyan-500",
+  //     skills: [
+  //       { name: "React", level: 95 },
+  //       { name: "TypeScript", level: 90 },
+  //       { name: "Next.js", level: 88 },
+  //       { name: "Tailwind CSS", level: 92 },
+  //       { name: "Vue.js", level: 75 },
+  //       { name: "JavaScript", level: 95 },
+  //     ],
+  //   },
+  //   {
+  //     title: "Backend",
+  //     icon: Database,
+  //     color: "from-emerald-500 to-teal-500",
+  //     skills: [
+  //       { name: "Node.js", level: 90 },
+  //       { name: "Express.js", level: 88 },
+  //       { name: "MongoDB", level: 92 },
+  //       { name: "MySQL", level: 85 },
+  //       { name: "REST APIs", level: 95 },
+  //       { name: "JWT/Auth", level: 90 },
+  //     ],
+  //   },
+  //   {
+  //     title: "Cloud & DevOps",
+  //     icon: Cloud,
+  //     color: "from-purple-500 to-pink-500",
+  //     skills: [
+  //       { name: "Firebase", level: 85 },
+  //       { name: "Vercel", level: 92 },
+  //       { name: "Netlify", level: 90 },
+  //       { name: "Render", level: 85 },
+  //       { name: "Linux CLI", level: 75 },
+  //       { name: "CI/CD Basics", level: 70 },
+  //     ],
+  //   },
+  //   {
+  //     title: "Tools & Others",
+  //     icon: Wrench,
+  //     color: "from-orange-500 to-red-500",
+  //     skills: [
+  //       { name: "Git & GitHub", level: 95 },
+  //       { name: "VS Code", level: 98 },
+  //       { name: "Figma", level: 85 },
+  //       { name: "Postman", level: 88 },
+  //       { name: "Jest", level: 75 },
+  //       { name: "Webpack", level: 72 },
+  //     ],
+  //   },
+  // ];
+
   const activeSkill =
-    skills.find((cat) => cat.title == activeCategories)?.skills || [];
+    skillsData.find((cat) => cat.title == activeCategories)?.skills || [];
   const activeColor =
-    skills.find((cat) => cat.title == activeCategories)?.color || "";
+    skillsData.find((cat) => cat.title == activeCategories)?.color || "";
 
   return (
     <section className=" flex justify-center relative  overflow-hidden py-20">
@@ -102,7 +109,7 @@ const SkillsChart = () => {
                 Skill Categories
               </h3>
               <div className="space-y-3">
-                {skills.map((cat) => {
+                {skillsData?.map((cat) => {
                   const Icon = cat.icon;
 
                   return (
@@ -119,10 +126,12 @@ const SkillsChart = () => {
                           : " bg-gary-500/20 text-[Var(--text-Secondary-color)]hover:bg-gray-700/50 border border-gray-600/30"
                       } `}
                     >
-                      <Icon
+                      <DynamicIcon
                         size={24}
+                        iconName={Icon}
                         className=" text-[var(--bg-icon-color)]"
                       />
+
                       <span className=" font-medium">{cat.title}</span>
                     </motion.button>
                   );
@@ -142,11 +151,14 @@ const SkillsChart = () => {
                 <div
                   className={`p-2 rounded-lg bg-gradient-to-r ${activeColor}`}
                 >
-                  {React.createElement(
-                    skills.find((cat) => cat.title == activeCategories)?.icon ||
-                      Code,
-                    { size: 24, className: "text-[Var(--text-primary-color)]" }
-                  )}
+                  <DynamicIcon
+                    size={24}
+                    className="text-[Var(--text-primary-color)]"
+                    iconName={
+                      skillsData.find((cat) => cat.title == activeCategories)
+                        ?.icon || Code
+                    }
+                  />
                 </div>
                 {activeCategories} Skills
               </h3>
@@ -253,7 +265,7 @@ const SkillsChart = () => {
             <div className="grid grid-cols-2 gap-6">
               {[
                 { label: "Years Experience", value: "3+" },
-                { label: "Technologies", value: `${skills.length}+` },
+                { label: "Technologies", value: `${skillsData.length}+` },
                 { label: "Projects Built", value: "50+" },
                 { label: "Happy Clients", value: "25+" },
               ].map((stat, index) => (

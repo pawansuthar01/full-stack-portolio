@@ -6,6 +6,8 @@ import {
   AboutSectionUpdate,
   addFunFact,
   addJourneyItem,
+  deleteFunFact,
+  deleteJourneyItem,
 } from "../Controllers/About.controller.js";
 
 const AboutRouter = express.Router();
@@ -26,5 +28,7 @@ AboutRouter.route("/")
     AboutSectionUpdate
   );
 AboutRouter.post("/journey", addJourneyItem);
+AboutRouter.delete("/journey/:id", deleteJourneyItem);
 AboutRouter.post("/funfact", addFunFact);
+AboutRouter.delete("/funfact/:id", deleteFunFact);
 export default AboutRouter;
