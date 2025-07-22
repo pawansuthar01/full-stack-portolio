@@ -31,36 +31,7 @@ const AboutPage = () => {
       dispatch(getAllData());
     }
   }, []);
-  // const timeline = [
-  //   {
-  //     year: "2020",
-  //     title: "Started Web Development Journey",
-  //     description: "Began learning HTML, CSS, and JavaScript",
-  //   },
-  //   {
-  //     year: "2021",
-  //     title: "First Freelance Project",
-  //     description:
-  //       "Completed my first client project - a local business website",
-  //   },
-  //   {
-  //     year: "2022",
-  //     title: "Full-Stack Development",
-  //     description: "Expanded skills to include Node.js, React, and databases",
-  //   },
-  //   {
-  //     year: "2023",
-  //     title: "Professional Developer",
-  //     description: "Working with startups and established companies",
-  //   },
-  // ];
-
-  // const facts = [
-  //   { icon: Coffee, label: "Cups of Coffee", value: "500+" },
-  //   { icon: Award, label: "Projects Completed", value: "50+" },
-  //   { icon: Heart, label: "Happy Clients", value: "25+" },
-  //   { icon: Calendar, label: "Years Experience", value: "3+" },
-  // ];
+  
   if (!aboutData[0]) {
     return <AboutPageSkeleton />;
   }
